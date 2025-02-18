@@ -159,29 +159,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="last_name" class="form-label">Last Name</label>
-                        <input type="text" class="input-field" id="last_name" name="last_name" value="<?php echo $last_name; ?>" required>
+                        <input type="text" placeholder="Last Name" class="input-field" id="last_name" name="last_name" value="<?php echo $last_name; ?>" required>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="input-field" id="email" name="email" value="<?php echo $email; ?>" required>
+                        <input type="email" placeholder="Email" class="input-field" id="email" name="email" value="<?php echo $email; ?>" required>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="phone" class="form-label">Phone (optional)</label>
-                        <input type="tel" class="input-field" id="phone" name="phone" value="<?php echo $phone; ?>">
+                        <input type="tel" placeholder="Phone Number" class="input-field" id="phone" name="phone" value="<?php echo $phone; ?>">
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password" class="input-field" id="password" name="password" required>
+                        <input type="password" placeholder="Password" class="input-field" id="password" name="password" required>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="confirm_password" class="form-label">Confirm Password</label>
-                        <input type="password" class="input-field" id="confirm_password" name="confirm_password" required>
+                        <input type="password" placeholder="Confirm Password" class="input-field" id="confirm_password" name="confirm_password" required>
                     </div>
                 </div>
 
