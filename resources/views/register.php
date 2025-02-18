@@ -155,7 +155,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="first_name" class="form-label">First Name</label>
-                        <input type="text" class="input-field" id="first_name" name="first_name" value="<?php echo $first_name; ?>" required>
+                        <input type="text" placeholder="First Name" class="input-field" id="first_name" name="first_name" value="<?php echo $first_name; ?>" required>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="last_name" class="form-label">Last Name</label>
@@ -218,7 +218,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <div class="col-md-6 mb-3 d-flex align-items-end">
-                    <button type="submit" class="btn sumbit-btn w-100">Register</button>
+                    <button type="submit" class="btn submit-btn w-100">Register</button>
                 </div>
             </form>
         </div>
