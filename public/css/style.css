@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Sora';
+}
+
+
+.form-container {
+    padding: 30px;
+    border-radius: 5px;
+    box-shadow: 20px 20px 60px #bebebe,
+        -20px -20px 60px #ffffff;
+}
+
+/* General Button Styling */
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 8px;
+    background-color: #3498db;
+    color: #fff;
+    transition: background-color 0.3s, transform 0.2s ease-in-out;
+}
+
+.button:hover {
+    background-color: #2980b9;
+    transform: scale(1.05);
+}
+
+.button:active {
+    background-color: #1d6fa5;
+}
+
+/* Submit Button Styling */
+.submit-btn {
+    display: inline-block;
+    padding: 12px 25px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #2ecc71;
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.2s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.submit-btn:hover {
+    background-color: #27ae60;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+.submit-btn:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(41, 128, 185, 0.7);
+}
+
+/* Input Field Styling */
+.input-field {
+    width: 100%;
+    padding: 12px 18px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease;
+}
+
+.input-field:focus {
+    border-color: #3498db;
+    outline: none;
+    background-color: #fff;
+}
+
+/* Input Field Error Styling */
+.input-field.error {
+    border-color: #e74c3c;
+    background-color: #fce4e4;
+}
+
+.input-field.error:focus {
+    border-color: #e74c3c;
+    background-color: #fff;
+}
+
+/* Label for Input Field */
+.input-field-label {
+    font-size: 14px;
+    font-weight: normal;
+    color: #555;
+    margin-bottom: 5px;
+    display: block;
+}
