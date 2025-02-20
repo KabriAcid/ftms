@@ -130,7 +130,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Family Tree User Registration</title>
     <!-- Bootstrap CSS -->
-    
+
     <link rel="stylesheet" href="../../public/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../public/css/style.css">
 </head>
@@ -138,8 +138,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 
     <main class="form-container">
-        <div class="container mt-5">
-            <h2 class="text-center">Family Tree User Registration</h2>
+        <div class="container">
+            <h2 class="text-center my-5">Family Tree User Registration</h2>
 
             <?php if (!empty($errors)): ?>
                 <div class="alert alert-danger">
@@ -188,7 +188,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="gender" class="form-label">Gender</label>
-                        <select class="form-select" id="gender" name="gender" required>
+                        <select class="input-field" id="gender" name="gender" required>
                             <option value="Male" <?php echo ($gender == 'Male') ? 'selected' : ''; ?>>Male</option>
                             <option value="Female" <?php echo ($gender == 'Female') ? 'selected' : ''; ?>>Female</option>
                             <option value="Other" <?php echo ($gender == 'Other') ? 'selected' : ''; ?>>Other</option>
@@ -204,16 +204,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="col-md-12 mb-3">
                         <label for="address" class="form-label">Address (optional)</label>
                         <textarea class="input-field" id="address" name="address" rows="3"><?php echo $address; ?></textarea>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="role" class="form-label">Role</label>
-                        <select class="form-select" id="role" name="role">
-                            <option value="User" <?php echo ($role == 'User') ? 'selected' : ''; ?>>User</option>
-                            <option value="Admin" <?php echo ($role == 'Admin') ? 'selected' : ''; ?>>Admin</option>
-                        </select>
                     </div>
                 </div>
 

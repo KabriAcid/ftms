@@ -16,6 +16,8 @@ body {
 
 
 .form-container {
+    width: 80%;
+    margin: 20px auto;
     padding: 30px;
     border-radius: 5px;
     box-shadow: 20px 20px 60px #bebebe,
@@ -54,8 +56,8 @@ body {
     background-color: #2ecc71;
     color: #fff;
     border: none;
-    border-radius: 50px;
-    text-transform: uppercase;
+    margin: auto;
+    border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s, box-shadow 0.2s;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
