@@ -13,5 +13,3 @@ This will install:
 - **spatie/laravel-backup** (for backups)  
 - **ramsey/uuid** (for unique identifiers)  
 - **nesbot/carbon** (for advanced date handling)  
-
-Let me know if you need more packages! 🚀

@@ -2,57 +2,22 @@
 session_start();
 require __DIR__ . '/../partials/header.php';
 ?>
+
 <body>
     <?php #require __DIR__ . '/../partials/sidebar.php'; 
     ?>
     <main>
         <div class="container">
             <div class="row mb-3">
-                <div class="col-md-6 col-xl-6 mb-3 mb-md-0">
+                <div class="col-3 col-md-4 col-xl-3 mb-3 mb-md-0">
                     <div class="card" onclick="loadContent('total-children.php')">
-                        <div class="card-header">
-                            <h3>Total children</h3>
-                        </div>
-                        <div class="card-body">
-                            <p><i class="fa fa-child fa-2x"></i></p>
-                            <h2>31</h2>
+                        <div class="card-body" style="padding:0;margin: 0;">
+                            <img src="../img/avatar.jpg" alt="avatar" class="avatar">
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-xl-6">
-                    <div class="card" onclick="loadContent('late-children.php')">
-                        <div class="card-header">
-                            <h3>Late children</h3>
-                        </div>
-                        <div class="card-body">
-                            <p><i class="fa fa-clock-o fa-2x"></i></p>
-                            <h2>4</h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-6 col-xl-6 mb-3 mb-md-0">
-                    <div class="card" onclick="loadContent('males.php')">
-                        <div class="card-header">
-                            <h3>Males</h3>
-                        </div>
-                        <div class="card-body">
-                            <p><i class="fa fa-male fa-2x"></i></p>
-                            <h2>25</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-xl-6">
-                    <div class="card" onclick="loadContent('females.php')">
-                        <div class="card-header">
-                            <h3>Females</h3>
-                        </div>
-                        <div class="card-body">
-                            <p><i class="fa fa-female fa-2x"></i></p>
-                            <h2>6</h2>
-                        </div>
-                    </div>
+                <div class="col-9 col-md-8 col-xl-3">
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Non error amet dicta accusamus est vero obcaecati, distinctio fugiat deserunt recusandae quas quod sapiente! Beatae possimus exercitationem culpa amet libero accusantium.</p>
                 </div>
             </div>
         </div>

@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $prefix = strtoupper(substr(preg_replace("/[^a-zA-Z]/", "", $familyName), 0, 4)); // Remove non-letters
 
         while (strlen($prefix) < 4) {
-            $prefix .= chr(rand(65, 90)); // Fill missing letters with uppercase letters
+            $prefix .= chr(rand(65, 90));
         }
 
         $randomCode = strtoupper(substr(bin2hex(random_bytes(2)), 0, 4)); // Generate 4 random alphanumeric characters

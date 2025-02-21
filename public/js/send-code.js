@@ -17,6 +17,14 @@ function sendAjaxRequest(url, data, callback) {
     xhr.send(data);
 }
 
+function spin(data) {
+    return data.classList.remove('d-none');
+}
+
+function unSpin(data) {
+    return data.classList.add('d-none');
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     const sendCodeBtn = document.getElementById("sendCode");
     const emailInput = document.getElementById("email");
@@ -25,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const spinner = document.getElementById('spinner');
 
     sendCodeBtn.addEventListener("click", function () {
-        
+
         let email = emailInput.value.trim();
         let family = familyName.value.trim();
 
@@ -43,6 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
         xhr.onreadystatechange = function () {
             spinner.classList.remove('d-none');
             if (xhr.readyState === 4) {
+                spin(spinner);
                 try {
                     let response = JSON.parse(xhr.responseText);
                     if (response.success) {
