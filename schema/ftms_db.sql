@@ -16,7 +16,7 @@ CREATE TABLE users (
 );
 
 -- Family Members Table
-CREATE TABLE family_members (
+CREATE TABLE family (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT DEFAULT NULL,
     first_name VARCHAR(100) NOT NULL,
@@ -35,8 +35,8 @@ CREATE TABLE relationships (
     member2_id INT NOT NULL,
     relation_type ENUM('Parent', 'Child', 'Sibling', 'Spouse', 'Cousin', 'Grandparent', 'Grandchild') NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (member1_id) REFERENCES family_members(id) ON DELETE CASCADE,
-    FOREIGN KEY (member2_id) REFERENCES family_members(id) ON DELETE CASCADE
+    FOREIGN KEY (member1_id) REFERENCES family(id) ON DELETE CASCADE,
+    FOREIGN KEY (member2_id) REFERENCES family(id) ON DELETE CASCADE
 );
 
 -- Events Table
@@ -47,7 +47,7 @@ CREATE TABLE events (
     event_date DATE NOT NULL,
     description TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (member_id) REFERENCES family_members(id) ON DELETE CASCADE
+    FOREIGN KEY (member_id) REFERENCES family(id) ON DELETE CASCADE
 );
 
 -- Media Table
@@ -57,5 +57,5 @@ CREATE TABLE media (
     file_path VARCHAR(255) NOT NULL,
     file_type ENUM('Image', 'Document', 'Other') NOT NULL,
     uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (member_id) REFERENCES family_members(id) ON DELETE CASCADE
+    FOREIGN KEY (member_id) REFERENCES family(id) ON DELETE CASCADE
 );

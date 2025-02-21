@@ -1,6 +1,12 @@
 <?php
 // Include the database connection
-require_once __DIR__ . '/../../config/database.php'; // Adjust path as necessary
+require_once __DIR__ . '/../../config/database.php';
+
+// Start session for CSRF protection
+session_start();
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 
 // Initialize variables
 $errors = [];
@@ -10,7 +16,12 @@ $profile_picture = NULL;
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    // Collect form data and validate each field
+    // // CSRF Protection
+    // if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    //     $errors[] = "Invalid CSRF token.";
+    // }
+
+    // Collect form data
     $first_name = trim($_POST['first_name']);
     $last_name = trim($_POST['last_name']);
     $email = trim($_POST['email']);
@@ -47,8 +58,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Validate Phone (optional)
-    if (!empty($phone) && !preg_match("/^[0-9]{10}$/", $phone)) {
-        $errors[] = "Invalid phone number. It should be 10 digits.";
+    if (!empty($phone) && !preg_match("/^[0-9]{11}$/", $phone)) {
+        $errors[] = "Invalid phone number. It should be 11 digits.";
     }
 
     // Validate Password
@@ -75,21 +86,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors[] = "Invalid birth date format.";
     }
 
-    // Profile Picture Upload
+    // Profile Picture Upload Handling
     if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == 0) {
-        $profile_picture = 'uploads/' . basename($_FILES['profile_picture']['name']);
-        // Validate image size and type (optional)
-        if ($_FILES['profile_picture']['size'] > 2000000) {
-            $errors[] = "Profile picture size should not exceed 2MB.";
+        $upload_dir = __DIR__ . '/../../uploads/';
+        if (!is_dir($upload_dir)) {
+            mkdir($upload_dir, 0777, true);
         }
-        if (!in_array(strtolower(pathinfo($profile_picture, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'gif'])) {
+
+        $file_ext = strtolower(pathinfo($_FILES['profile_picture']['name'], PATHINFO_EXTENSION));
+        if (!in_array($file_ext, ['jpg', 'jpeg', 'png', 'gif', 'heic'])) {
             $errors[] = "Invalid file type for profile picture. Only JPG, PNG, and GIF are allowed.";
+        } elseif ($_FILES['profile_picture']['size'] > 2000000) {
+            $errors[] = "Profile picture size should not exceed 2MB.";
+        } else {
+            $profile_picture = $upload_dir . basename($_FILES['profile_picture']['name']);
+            if (!move_uploaded_file($_FILES['profile_picture']['tmp_name'], $profile_picture)) {
+                $errors[] = "Error uploading profile picture.";
+            }
         }
-    } elseif ($_FILES['profile_picture']['error'] != 0) {
-        $errors[] = "Error uploading profile picture.";
     }
 
-    // If there are no errors, proceed with registration
+    // If no errors, proceed with registration
     if (empty($errors)) {
         // Hash password securely
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
@@ -113,14 +130,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $role
             ]);
 
-            echo "<h3>Registration successful! You can now log in.</h3>";
+            // Redirect to login page
+            header("Location: login.php");
+            exit();
         } catch (PDOException $e) {
-            $errors[] = "Database error: " . $e->getMessage();
+            error_log("Database error: " . $e->getMessage());
+            $errors[] = "An internal error occurred. Please try again.";
         }
     }
 }
-
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -187,6 +208,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
+                        <label for="">Profile picture</label>
+                        <input type="file" name="profile_picture" class="input-field">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
                         <label for="gender" class="form-label">Gender</label>
                         <select class="input-field" id="gender" name="gender" required>
                             <option value="Male" <?php echo ($gender == 'Male') ? 'selected' : ''; ?>>Male</option>
@@ -207,8 +235,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                 </div>
 
-                <div class="col-md-6 mb-3 d-flex align-items-end">
-                    <button type="submit" class="btn submit-btn w-100">Register</button>
+                <div class="my-3 d-flex justify-content-center">
+                    <button type="submit" class="button w-100">Register</button>
+                </div>
+
+                <div class="text-center">
+                    <p>Already have an account? <a href="login.php" class="link">Login</a></p>
                 </div>
             </form>
         </div>

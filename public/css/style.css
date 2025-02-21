@@ -1,5 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600&display=swap');
 
+:root {
+    --primary: #138e00;
+    --primary-dark: #0c5a00;
+
+    --danger: #e50000;
+    --danger-dark: #570000;
+
+    --gray-1: #eee;
+    --gray-2: #ccc;
+    --gray-3: #515450;
+    --gray-4: #0c1500;
+    --gray-5: #021400;
+
+    --shadow: 20px 20px 60px #dcdcdc,
+        -20px -20px 60px #ffffff;
+}
 * {
     padding: 0;
     margin: 0;
@@ -13,99 +29,142 @@ html {
 body {
     font-family: 'Sora';
 }
-
-
-.form-container {
+main {
     width: 80%;
+    margin: auto;
+}
+
+label::after {
+    content: " *";
+    color: var(--danger);
+}
+.container {
+    max-width: 800px;
     margin: 20px auto;
     padding: 30px;
     border-radius: 5px;
-    box-shadow: 20px 20px 60px #bebebe,
-        -20px -20px 60px #ffffff;
+    box-shadow: var(--shadow);
+}
+
+form {
+    margin: 20px 0;
+    width: 100%;
+}
+.container-header>* {
+    margin: 10px 0;
+    text-align: center;
+}
+
+.container-header p {
+    color: var(--gray-3);
+    font-size: 14px;
 }
 
 /* General Button Styling */
-.button {
-    display: inline-block;
+.button, .btn-secondary {
+    display: block;
     padding: 10px 20px;
     font-size: 16px;
-    font-weight: bold;
-    text-align: center;
-    text-decoration: none;
-    border-radius: 8px;
-    background-color: #3498db;
+    text-transform: capitalize;
+    background-color: var(--primary);
+    border: none;
+    font-family: 'Sora';
+    border-radius: 4px;
+    margin: 10px 0;
+    cursor: pointer;
     color: #fff;
     transition: background-color 0.3s, transform 0.2s ease-in-out;
 }
 
+.btn-secondary {
+    color: var(--gray-4);
+    background-color: transparent;
+    transition: 500ms;
+    border: 1px solid var(--primary);
+    text-decoration: none;
+}
+.btn-secondary:hover {
+    background-color: var(--primary);
+    color: white;
+}
+
 .button:hover {
-    background-color: #2980b9;
-    transform: scale(1.05);
-}
-
-.button:active {
-    background-color: #1d6fa5;
-}
-
-/* Submit Button Styling */
-.submit-btn {
-    display: inline-block;
-    padding: 12px 25px;
-    font-size: 18px;
-    font-weight: bold;
-    background-color: #2ecc71;
-    color: #fff;
-    border: none;
-    margin: auto;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s, box-shadow 0.2s;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.submit-btn:hover {
-    background-color: #27ae60;
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
-}
-
-.submit-btn:focus {
-    outline: none;
-    box-shadow: 0 0 10px rgba(41, 128, 185, 0.7);
+    transform: scale(1.01);
+    background-color: var(--primary-dark);
 }
 
 /* Input Field Styling */
 .input-field {
     width: 100%;
+    margin: 8px 0;
     padding: 12px 18px;
     font-size: 16px;
-    border: 2px solid #ccc;
+    border: 1px solid #ccc;
     border-radius: 8px;
+    font-family: 'Sora';
     background-color: #f9f9f9;
     transition: border-color 0.3s ease;
+    box-shadow: 0 0 20px rgba(245, 255, 249, 0.7);
 }
 
 .input-field:focus {
-    border-color: #3498db;
+    border-color: var(--primary-dark);
     outline: none;
-    background-color: #fff;
 }
 
 /* Input Field Error Styling */
 .input-field.error {
-    border-color: #e74c3c;
+    border-color: var(--danger);
     background-color: #fce4e4;
 }
 
 .input-field.error:focus {
-    border-color: #e74c3c;
+    border-color: var(--danger);
     background-color: #fff;
 }
 
 /* Label for Input Field */
 .input-field-label {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: normal;
-    color: #555;
-    margin-bottom: 5px;
+    color: var(--gray-3);
     display: block;
+}
+
+.form-row {
+    margin: 15px 0;
+}
+.link {
+    text-decoration: none;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+#error-message {
+    color: var(--danger);
+    margin: 12px 0;
+    font-weight: 500;
+}
+
+.err {
+    border: 1px solid var(--danger);
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+}
+
+.between {
+    display: flex;
+    justify-content: space-between;
+}
+
+.end {
+    display: flex;
+    justify-content: end;
+}
+
+i.d-none {
+    display: none;
 }
