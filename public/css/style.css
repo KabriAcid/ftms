@@ -92,6 +92,7 @@ form {
 .button:hover {
     transform: scale(1.01);
     background-color: var(--primary-dark);
+    color: white;
 }
 
 /* Input Field Styling */
@@ -177,25 +178,30 @@ i.d-none {
     box-shadow: var(--shadow);
     text-align: center;
     cursor: pointer;
+    border: none;
     border-radius: 8px;
 }
 .card-header {
     border-radius: 8px 8px 0 0;
     background-color: rgba(30, 228, 0, 0.4);
-    padding: 10px;
     font-size: 12px;
     color: var(--gray-3);
 }
 
-.card-body {
-    padding: 10px;
+.avatar-container {
+    width: 100%;
+    padding: 0;
 }
-.card-body > * {
-    margin: 25px 0;
-}
-
 .avatar {
     width: 100%;
-    height: 100%;
+    height: 100;
     aspect-ratio: 1/1;
+}
+.number {
+    color: var(--primary);
+    font-size: 2em;
+    font-weight: 700;
+}
+.title {
+    margin-bottom: 6px;
 }

@@ -8,20 +8,58 @@ require __DIR__ . '/../partials/header.php';
     ?>
     <main>
         <div class="container">
-            <div class="row mb-3">
-                <div class="col-3 col-md-4 col-xl-3 mb-3 mb-md-0">
+            <div class="row">
+                <div class="col-4 col-md-4 col-xl-3">
                     <div class="card" onclick="loadContent('total-children.php')">
-                        <div class="card-body" style="padding:0;margin: 0;">
+                        <div class="avatar-container">
                             <img src="../img/avatar.jpg" alt="avatar" class="avatar">
                         </div>
                     </div>
+                    <p class="text-center mt-3 fs-4 bold">Engr. Ahmad Checko</pc>
                 </div>
-                <div class="col-9 col-md-8 col-xl-3">
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Non error amet dicta accusamus est vero obcaecati, distinctio fugiat deserunt recusandae quas quod sapiente! Beatae possimus exercitationem culpa amet libero accusantium.</p>
+                <div class="col-8 col-md-8 col-xl-9">
+                    <div class="row mb-3">
+                        <div class="col-6 col-lg-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <p class="title">Children</p>
+                                    <h2 class="number">3</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-lg-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <p class="title">Children</p>
+                                    <h2 class="number">3</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 col-lg-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <p class="title">Children</p>
+                                    <h2 class="number">3</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-lg-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <p class="title">Children</p>
+                                    <h2 class="number">3</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <div class="d-flex justify-content-center mt-3">
+                <a href="" class="btn button">View Details</a>
+            </div>
         </div>
-        <div id="content"></div>
     </main>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -32,7 +70,7 @@ require __DIR__ . '/../partials/header.php';
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     window.location.href = page
-                    document.getElementById('content').innerHTML = xhr.responseText;
+                    console.log(xhr.responseText);
                 }
             };
             xhr.send();

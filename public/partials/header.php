@@ -8,6 +8,7 @@
     <!-- <link rel="shortcut icon" href="" type="image/x-icon"> -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap-grid.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap-utilities.min.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/sidebar.css">
     <link rel="stylesheet" href="../css/style.css">
     <!-- Add font awesome icons to buttons (note that the fa-spin class rotates the icon) -->
