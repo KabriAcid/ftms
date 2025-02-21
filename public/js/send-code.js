@@ -25,6 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const spinner = document.getElementById('spinner');
 
     sendCodeBtn.addEventListener("click", function () {
+        
         let email = emailInput.value.trim();
         let family = familyName.value.trim();
 
@@ -40,15 +41,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Handle response
         xhr.onreadystatechange = function () {
+            spinner.classList.remove('d-none');
             if (xhr.readyState === 4) {
                 try {
                     let response = JSON.parse(xhr.responseText);
-                    console.log(response)
                     if (response.success) {
-                        spinner.classList.remove('d-none');
                         setTimeout(() => {
-                            window.location.href = "../scripts/verify-code.php";
-                        }, 200);
+                            window.location.href = "../pages/verify-code.php";
+                        }, 2200);
                     } else {
                         errorMessage.textContent = response.message;
                     }

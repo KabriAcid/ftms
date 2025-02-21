@@ -20,7 +20,7 @@
                 <p id="error-message"></p>
                 <div class="between">
                     <a href="public/pages/generate-code.php" class="btn-secondary" id="generateCode">Generate</a>
-                    <button type="submit" class="button">Proceed</button>
+                    <button type="button" class="button" id="submit">Proceed</button>
                 </div>
             </form>
         </div>

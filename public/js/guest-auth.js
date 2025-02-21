@@ -21,9 +21,10 @@ function sendAjaxRequest(url, data, callback) {
     xhr.send(data);
 }
 
+
 document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById("guestAuthForm").addEventListener("submit", function (e) {
-        e.preventDefault();
+    const submit = document.getElementById('submit');
+    submit.addEventListener("click", function () {
 
         let familyCode = document.getElementById("family_code").value;
         let errorMessage = document.getElementById("error-message");
@@ -37,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         sendAjaxRequest("public/scripts/guest_auth.php", formData, function (response) {
             if (response.success) {
-                window.location.href = "public/scripts/register.php";
+                window.location.href = "public/pages/register.php";
             } else {
                 errorMessage.textContent = response.message;
                 document.getElementById('family_code').classList.add('err')
