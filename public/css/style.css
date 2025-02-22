@@ -136,6 +136,9 @@ form {
 .form-row {
     margin: 15px 0;
 }
+.form-label {
+    margin: 0px!important;
+}
 .link {
     text-decoration: none;
     font-weight: 600;

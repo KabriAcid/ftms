@@ -1,6 +1,9 @@
 <?php
 session_start();
+require __DIR__ . '/../../config/database.php';
 require __DIR__ . '/../partials/header.php';
+
+
 ?>
 
 <body>
@@ -61,6 +64,9 @@ require __DIR__ . '/../partials/header.php';
             </div>
         </div>
     </main>
+    <footer>
+        <a href="../../index.php" class="text-center mt-4">Home</a>
+    </footer>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>

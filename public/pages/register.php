@@ -4,14 +4,17 @@ require_once __DIR__ . '/../../config/database.php';
 
 // Start session for CSRF protection
 session_start();
-if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+if (isset($_SESSION['family_code'])) {
+    $_SESSION['family_code'] = 'CHE330';
+    $family_code = $_SESSION['family_code'];
+} else {
+    $family_code = 00000;
 }
 
 // Initialize variables
 $errors = [];
 $first_name = $last_name = $email = $phone = $password = $confirm_password = $gender = $birth_date = $address = $role = '';
-$profile_picture = NULL;
+$profile_picture = 'avatar.png';
 
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -88,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Profile Picture Upload Handling
     if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == 0) {
-        $upload_dir = __DIR__ . '/../../uploads/';
+        $upload_dir = 'uploads/';
         if (!is_dir($upload_dir)) {
             mkdir($upload_dir, 0777, true);
         }
@@ -99,7 +102,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } elseif ($_FILES['profile_picture']['size'] > 2000000) {
             $errors[] = "Profile picture size should not exceed 2MB.";
         } else {
-            $profile_picture = $upload_dir . basename($_FILES['profile_picture']['name']);
+            $unique_id = uniqid();
+            $profile_picture = $upload_dir . $unique_id;
             if (!move_uploaded_file($_FILES['profile_picture']['tmp_name'], $profile_picture)) {
                 $errors[] = "Error uploading profile picture.";
             }
@@ -113,13 +117,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Insert user data into the database
         try {
-            $stmt = $pdo->prepare("INSERT INTO users (first_name, last_name, email, phone, password, profile_picture, gender, birth_date, address, role)
-                                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt = $pdo->prepare("INSERT INTO users (first_name, last_name, family_code, email, phone, password, profile_picture, gender, birth_date, address, role)
+                                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
             // Execute the query
             $stmt->execute([
                 $first_name,
                 $last_name,
+                $family_code,
                 $email,
                 $phone,
                 $hashed_password,
@@ -149,7 +154,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Family Tree User Registration</title>
+    <title>Family Tree</title>
     <!-- Bootstrap CSS -->
 
     <link rel="stylesheet" href="../../public/css/bootstrap.min.css">
@@ -160,7 +165,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <main class="form-container">
         <div class="container">
-            <h2 class="text-center my-5">Family Tree User Registration</h2>
+            <h2 class="text-center my-5">Family Registration Form</h2>
 
             <?php if (!empty($errors)): ?>
                 <div class="alert alert-danger">
@@ -219,7 +224,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <select class="input-field" id="gender" name="gender" required>
                             <option value="Male" <?php echo ($gender == 'Male') ? 'selected' : ''; ?>>Male</option>
                             <option value="Female" <?php echo ($gender == 'Female') ? 'selected' : ''; ?>>Female</option>
-                            <option value="Other" <?php echo ($gender == 'Other') ? 'selected' : ''; ?>>Other</option>
                         </select>
                     </div>
                     <div class="col-md-6 mb-3">

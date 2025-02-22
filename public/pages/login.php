@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($user && password_verify($password, $user['password'])) {
         $_SESSION['user'] = $user;
-        header("refresh:2;url=dashboard.php");
+        header("Location: dashboard.php");
         exit;
     } else {
         $error = "Invalid email or password.";
@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                 </div>
                 <div class="my-3 d-flex justify-content-center">
-                    <button type="submit" class="button w-100">Register</button>
+                    <button type="submit" class="button w-100">Sign in</button>
                 </div>
                 <div class="text-center">
                     <p>Don't have an account? <a href="../../index.php" class="link">Register</a></p>
