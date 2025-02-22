@@ -1,3 +1,7 @@
+<?php
+session_start();
+var_dump($_SESSION['family_code']);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,13 +24,12 @@
             </div>
             <form>
                 <div class="form-row">
-                    <label for="" class="input-field-label">Family Code</label>
                     <input type="text" id="family_code" name="family_code" placeholder="Verify your family code" class="input-field" required>
                 </div>
                 <p id="error-message"></p>
                 <div class="center">
                     <button type="button" class="button" id="verifyCode">
-                        <i class="fa fa-circle-o-notch fa-spin d-none" id="spinner"></i> Send Code
+                        <i class="fa fa-circle-o-notch fa-spin d-none" id="spinner"></i> Verfy Code
                     </button>
                 </div>
             </form>
