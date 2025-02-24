@@ -1,26 +1,27 @@
-document.getElementById('sendCode').addEventListener('click', function () {
-    var email = document.getElementById('email').value;
-    var familyName = document.getElementById('family_name').value;
-    var errorMessage = document.getElementById('error-message');
-    var spinner = document.getElementById('spinner');
+document.getElementById('addChildForm').addEventListener('submit', function (event) {
+    event.preventDefault();
 
-    if (!email || !familyName) {
+    var name = document.getElementById('name').value;
+    var birthDate = document.getElementById('birth_date').value;
+    var gender = document.getElementById('gender').value;
+    var bloodType = document.getElementById('blood_type').value;
+    var errorMessage = document.getElementById('error-message');
+
+    if (!name || !birthDate || !gender || !bloodType) {
         errorMessage.textContent = 'Please fill in all fields.';
         return;
     }
 
-    spinner.classList.remove('d-none');
-
     var data = {
-        email: email,
-        family_name: familyName
+        name: name,
+        birth_date: birthDate,
+        gender: gender,
+        blood_type: bloodType
     };
 
-    sendAjaxRequest('process_registration.php', data, function (response) {
-        spinner.classList.add('d-none');
+    sendAjaxRequest('process_add_child.php', data, function (response) {
         if (response.success) {
-            alert('Family code sent to your email!');
-            window.location.href = response.redirect;
+            window.location.href = 'dashboard.php';
         } else {
             errorMessage.textContent = response.message;
         }

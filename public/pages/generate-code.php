@@ -30,7 +30,7 @@
                 <p id="error-message"></p>
                 <div class="end">
                     <button type="button" class="button" id="sendCode">
-                        <i class="fa fa-circle-o-notch fa-spin d-none" id="spinner"></i> Send Code
+                        <i class="fa fa-circle-o-notch fa-spin d-none text-white" id="spinner"></i> Send Code
                     </button>
                 </div>
             </form>

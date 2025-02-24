@@ -1,112 +1,81 @@
 <?php
+require __DIR__ . '/../../config/database.php';
+
 session_start();
-require __DIR__ . '/../partials/header.php';
+$familyId = $_SESSION['family_id']; // Assuming family_id is stored in session
+
+// Fetch family members
+try {
+    $stmt = $pdo->prepare("SELECT * FROM members WHERE family_id = :family_id");
+    $stmt->execute([':family_id' => $familyId]);
+    $members = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    error_log("Database error: " . $e->getMessage());
+    $members = [];
+}
 ?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Management System Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
 <body>
-    <?php #require __DIR__ . '/../partials/sidebar.php'; 
-    ?>
-    <main>
-        <div class="container">
-            <div class="row mb-3">
-                <div class="col-md-6 col-xl-6 mb-3 mb-md-0">
-                    <div class="card" onclick="loadContent('total-children.php')">
-                        <div class="card-header">
-                            <h3>Total children</h3>
-                        </div>
-                        <div class="card-body">
-                            <p><i class="fa fa-child fa-2x"></i></p>
-                            <h2>31</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-xl-6">
-                    <div class="card" onclick="loadContent('late-children.php')">
-                        <div class="card-header">
-                            <h3>Late children</h3>
-                        </div>
-                        <div class="card-body">
-                            <p><i class="fa fa-clock-o fa-2x"></i></p>
-                            <h2>4</h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-6 col-xl-6 mb-3 mb-md-0">
-                    <div class="card" onclick="loadContent('males.php')">
-                        <div class="card-header">
-                            <h3>Males</h3>
-                        </div>
-                        <div class="card-body">
-                            <p><i class="fa fa-male fa-2x"></i></p>
-                            <h2>25</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-xl-6">
-                    <div class="card" onclick="loadContent('females.php')">
-                        <div class="card-header">
-                            <h3>Females</h3>
-                        </div>
-                        <div class="card-body">
-                            <p><i class="fa fa-female fa-2x"></i></p>
-                            <h2>6</h2>
-                        </div>
-                    </div>
-                </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Family Dashboard</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Profile</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Family Members</h2>
+                <table class="table table-striped" id="membersTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Birth Date</th>
+                            <th>Relationship</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($members as $member) : ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($member['name']); ?></td>
+                                <td><?php echo htmlspecialchars($member['birth_date']); ?></td>
+                                <td><?php echo htmlspecialchars($member['relationship']); ?></td>
+                                <td>
+                                    <!-- Add any action buttons like Edit or Delete here -->
+                                    <button class="btn btn-warning btn-sm">Edit</button>
+                                    <button class="btn btn-danger btn-sm">Delete</button>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                        <?php if (empty($members)) : ?>
+                            <tr>
+                                <td colspan="4">No members found.</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
             </div>
         </div>
-        <div id="content"></div>
-    </main>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    </div>
 
-    <script>
-        function loadContent(page) {
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', page, true);
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    window.location.href = page
-                    document.getElementById('content').innerHTML = xhr.responseText;
-                }
-            };
-            xhr.send();
-        }
-    </script>
-    <script>
-        $(document).ready(function() {
-
-            //toggle menu
-            $('.hamburger-container').click(function() {
-                $('#menu').slideToggle();
-            });
-
-            //to fix issue that toggle adds style(hides) to nav
-            $(window).resize(function() {
-                if (window.innerWidth > 1024) {
-                    $('#menu').removeAttr('style');
-                }
-            });
-
-            //icon animation
-            var topBar = $('.hamburger li:nth-child(1)'),
-                middleBar = $('.hamburger li:nth-child(2)'),
-                bottomBar = $('.hamburger li:nth-child(3)');
-
-            $('.hamburger-container').on('click', function() {
-                if (middleBar.hasClass('rot-45deg')) {
-                    topBar.removeClass('rot45deg');
-                    middleBar.removeClass('rot-45deg');
-                    bottomBar.removeClass('hidden');
-                } else {
-                    bottomBar.addClass('hidden');
-                    topBar.addClass('rot45deg');
-                    middleBar.addClass('rot-45deg');
-                }
-            });
-
-        });
-    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="../js/dashboard.js"></script>
 </body>
 
 </html>

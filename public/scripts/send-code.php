@@ -9,26 +9,28 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = trim($_POST["email"] ?? '');
     $familyName = trim($_POST["family_name"] ?? '');
 
+    // Validate email
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         echo json_encode(["success" => false, "message" => "Invalid email address."]);
         exit;
     }
 
-    if (empty($familyName) || !preg_match("/^[a-zA-Z ]+$/", $familyName)) {
-        echo json_encode(["success" => false, "message" => "Invalid family name."]);
-        exit;
-    }
+    // // Validate family name (letters and spaces only)
+    // if (empty($familyName) || !preg_match("/^[a-zA-Z ]+$/", $familyName)) {
+    //     echo json_encode(["success" => false, "message" => "Invalid family name."]);
+    //     exit;
+    // }
 
     // Generate Family Code
     function generateFamilyCode($familyName)
     {
-        $prefix = strtoupper(substr(preg_replace("/[^a-zA-Z]/", "", $familyName), 0, 4)); // Remove non-letters
+        $prefix = strtoupper(substr($familyName, 0, 4));
 
-        while (strlen($prefix) < 4) {
-            $prefix .= chr(rand(65, 90));
-        }
+        // Ensure prefix is exactly 4 characters
+        $prefix = str_pad($prefix, 4, chr(rand(65, 90)));
 
-        $randomCode = strtoupper(substr(bin2hex(random_bytes(2)), 0, 4)); // Generate 4 random alphanumeric characters
+        // Generate a 4-digit random number
+        $randomCode = random_int(1000, 9999);
 
         return $prefix . '-' . $randomCode;
     }
@@ -36,11 +38,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $familyCode = generateFamilyCode($familyName);
 
     try {
-        // Store Family Code in Database
-        $stmt = $pdo->prepare("INSERT INTO family (family_name, family_code) VALUES (?, ?)");
-        $stmt->execute([$familyName, $familyCode]);
+        // Prepare and execute insert query
+        $stmt = $pdo->prepare("INSERT INTO family (family_name, family_code) VALUES (:family_name, :family_code)");
+        $stmt->execute([
+            ':family_name' => $familyName,
+            ':family_code' => $familyCode
+        ]);
 
-        // Send Family Code Email
+        // Send email with family code
         $subject = "Your Family Code";
         $body = "
             <div style='font-family: Arial, sans-serif; max-width: 500px; margin: auto; border: 1px solid #ddd; border-radius: 8px; padding: 20px; text-align: center; background-color: #f9f9f9;'>
@@ -55,11 +60,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         sendMail($email, $subject, $body);
 
+        // Store family code in session for further use
         session_start();
         $_SESSION['family_code'] = $familyCode;
 
         echo json_encode(["success" => true, "message" => "Family code has been sent.", "redirect" => "verify-code.php"]);
-    } catch (Exception $e) {
-        echo json_encode(["success" => false, "message" => "Database error: " . $e->getMessage()]);
+    } catch (PDOException $e) {
+        // Log error and send generic message to user
+        error_log("Database error: " . $e->getMessage());
+        echo json_encode(["success" => false, "message" => "An error occurred while processing your request."]);
     }
 }

@@ -9,8 +9,8 @@ function sendAjaxRequest(url, data, callback) {
 
             try {
                 let response = JSON.parse(xhr.responseText);
-                console.log(response); // Check if it's a valid JSON object
-                callback(response); // Pass parsed response to callback
+                console.log(response);
+                callback(response);
             } catch (error) {
                 console.error("Invalid JSON response:", xhr.responseText);
                 callback({ success: false, message: "Invalid server response." });
