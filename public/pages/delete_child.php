@@ -54,10 +54,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
-    <?php require __DIR__ . '/../partials/navbar.php';?>
+    <?php require __DIR__ . '/../partials/navbar.php'; ?>
     <main>
         <div class="container mt-5">
-            <h2>Delete Child</h2>
+            <h2 class="mb-4 primary">Delete Child</h2>
             <div class="card">
                 <div class="card-body">
                     <h3 class="card-title"><?php echo htmlspecialchars($child['name']); ?></h3>
@@ -69,8 +69,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </p>
                     <p>Are you sure you want to delete this child?</p>
                     <form method="POST" action="">
+                        <a href="child_details.php?id=<?php echo $child['id']; ?>" class="badge mr-4">Cancel</a>
                         <button type="submit" class="btn btn-danger">Delete</button>
-                        <a href="child_details.php?id=<?php echo $child['id']; ?>" class="btn btn-secondary">Cancel</a>
                     </form>
                 </div>
             </div>

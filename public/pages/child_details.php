@@ -41,11 +41,12 @@ try {
     <?php include_once __DIR__ . '/../partials/navbar.php' ?>
     <main>
         <div class="container mt-5">
-            <h2>Child Details</h2>
+            <h2 class="mb-4 primary">Child Details</h2>
             <div class="card">
                 <div class="card-body">
                     <h3 class="card-title"><?php echo htmlspecialchars($child['name']); ?></h3>
                     <p class="card-text">
+                        <img src="<?php echo htmlspecialchars($child['photo']); ?>" alt="" class="user-photo">
                         <strong>Birth Date:</strong> <?php echo htmlspecialchars($child['birth_date']); ?><br>
                         <strong>Gender:</strong> <?php echo htmlspecialchars($child['gender']); ?><br>
                         <strong>Blood Type:</strong> <?php echo htmlspecialchars($child['blood_type']); ?><br>

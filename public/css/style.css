@@ -47,6 +47,9 @@ label::after {
     content: " *";
     color: var(--danger);
 }
+.primary {
+    color: var(--primary);
+}
 .container {
     padding: 30px;
     border-radius: 5px;
@@ -98,8 +101,13 @@ form {
 
 .button:hover {
     transform: scale(1.01);
+    transition: 1s;
     background-color: var(--primary-dark);
     color: white;
+}
+.button:focus {
+    transform: scale(0.9);
+    transition: 1s;
 }
 
 /* Input Field Styling */
@@ -187,7 +195,6 @@ i.d-none {
 .card {
     box-shadow: var(--shadow);
     text-align: center;
-    cursor: pointer;
     border: none;
     border-radius: 8px;
 }
@@ -214,4 +221,20 @@ i.d-none {
 }
 .title {
     margin-bottom: 6px;
+}
+
+p.card-text {
+    line-height: 50px;
+}
+
+.user-photo {
+    width: 200px;
+    height: 200px;
+    aspect-ratio: 1/1;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 4px;
+    box-shadow: var(--shadow);
+    cursor: pointer;
 }

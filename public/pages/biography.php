@@ -34,8 +34,8 @@ try {
     <?php include_once '../partials/navbar.php'; ?>
     <main>
         <div class="container mt-5">
-            <h2>Family Biography</h2>
-            <div class="card">
+            <h2 class="mb-4">Family Biography</h2>
+            <div class="card mt-4">
                 <div class="card-body">
                     <h3 class="card-title">Biography of the Family</h3>
                     <p class="card-text"><?php echo htmlspecialchars($biography['biography']); ?></p>

@@ -68,8 +68,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <main>
         <div class="container mt-5">
-            <h2>Edit Child</h2>
-            <form method="POST" action="">
+            <h2 class="mb-4 primary">Edit Child</h2>
+            <form method="POST" action="" class="box-shadow p-5">
                 <div class="form-group">
                     <label for="name">Name:</label>
                     <input type="text" id="name" name="name" class="form-control" value="<?php echo htmlspecialchars($child['name']); ?>" required>

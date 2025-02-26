@@ -2,7 +2,7 @@
 require __DIR__ . '/../../config/database.php';
 
 session_start();
-$familyId = $_SESSION['family_id']; // Assuming family_id is stored in session
+$familyId = $_SESSION['family_id'] = 1; // Assuming family_id is stored in session
 
 // Fetch family overview
 try {
