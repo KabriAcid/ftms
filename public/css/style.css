@@ -2,6 +2,7 @@
 
 :root {
     --primary: #138e00;
+    --primary-light: #138c00;
     --primary-dark: #0c5a00;
 
     --danger: #e50000;
@@ -29,6 +30,14 @@ html {
 body {
     font-family: 'Sora';
 }
+
+nav {
+    width: 100%!important;
+    background-color: var(--primary-light);
+}
+.nav-link, .navbar-brand {
+    color: white!important;
+}
 main {
     width: 80%;
     margin: auto;
@@ -39,14 +48,12 @@ label::after {
     color: var(--danger);
 }
 .container {
-    max-width: 800px;
-    margin: 0 auto;
-    margin-top: 20px;
     padding: 30px;
     border-radius: 5px;
+}
+.box-shadow {
     box-shadow: var(--shadow);
 }
-
 form {
     margin: 20px 0;
     width: 100%;

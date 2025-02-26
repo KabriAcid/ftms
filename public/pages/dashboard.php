@@ -4,16 +4,27 @@ require __DIR__ . '/../../config/database.php';
 session_start();
 $familyId = $_SESSION['family_id']; // Assuming family_id is stored in session
 
-// Fetch family members
+// Fetch family overview
 try {
-    $stmt = $pdo->prepare("SELECT * FROM members WHERE family_id = :family_id");
+    $stmt = $pdo->prepare("SELECT * FROM family WHERE id = :family_id");
     $stmt->execute([':family_id' => $familyId]);
-    $members = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $family = $stmt->fetch(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     error_log("Database error: " . $e->getMessage());
-    $members = [];
+    $family = [];
+}
+
+// Fetch children
+try {
+    $stmt = $pdo->prepare("SELECT * FROM children WHERE family_id = :family_id");
+    $stmt->execute([':family_id' => $familyId]);
+    $children = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    error_log("Database error: " . $e->getMessage());
+    $children = [];
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,59 +34,80 @@ try {
     <title>Family Management System Dashboard</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/style.css">
+    <style>
+        td {
+            vertical-align: middle;
+        }
+    </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Family Dashboard</a>
-        <div class="collapse navbar-collapse">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Profile</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Logout</a></li>
-            </ul>
-        </div>
-    </nav>
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-12">
-                <h2>Family Members</h2>
-                <table class="table table-striped" id="membersTable">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Birth Date</th>
-                            <th>Relationship</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($members as $member) : ?>
+    <?php require __DIR__ . '/../partials/navbar.php'; ?> <!-- Include the navbar -->
+
+    <main>
+        <div class="container mt-5">
+            <!-- Family Overview -->
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Family Overview</h2>
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title"><?php echo htmlspecialchars($family['family_name']); ?></h3>
+                            <p class="card-text"><?php echo htmlspecialchars($family['family_code']); ?></p>
+                            <a href="biography.php" class="btn btn-secondary">View Biography</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Children -->
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <h2>Children</h2>
+                    <table class="table table-striped" id="childrenTable">
+                        <thead>
                             <tr>
-                                <td><?php echo htmlspecialchars($member['name']); ?></td>
-                                <td><?php echo htmlspecialchars($member['birth_date']); ?></td>
-                                <td><?php echo htmlspecialchars($member['relationship']); ?></td>
-                                <td>
-                                    <!-- Add any action buttons like Edit or Delete here -->
-                                    <button class="btn btn-warning btn-sm">Edit</button>
-                                    <button class="btn btn-danger btn-sm">Delete</button>
-                                </td>
+                                <th>Photo</th>
+                                <th>Name</th>
+                                <th>Birth Date</th>
+                                <th>Gender</th>
+                                <th>Blood Type</th>
+                                <th>Status</th>
+                                <th>Actions</th>
                             </tr>
-                        <?php endforeach; ?>
-                        <?php if (empty($members)) : ?>
-                            <tr>
-                                <td colspan="4">No members found.</td>
-                            </tr>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($children as $child) : ?>
+                                <tr>
+                                    <td><img src="../pages/uploads/avatar.jpg<?php htmlspecialchars($child['photo']); ?>" alt="Profile Photo" class="img-thumbnail" width="50"></td>
+                                    <td><?php echo htmlspecialchars($child['name']); ?></td>
+                                    <td><?php echo htmlspecialchars($child['birth_date']); ?></td>
+                                    <td><?php echo htmlspecialchars($child['gender']); ?></td>
+                                    <td><?php echo htmlspecialchars($child['blood_type']); ?></td>
+                                    <td><?php echo $child['status'] == 1 ? 'Alive' : 'Dead'; ?></td>
+                                    <td>
+                                        <a href="child_details.php?id=<?php echo $child['id']; ?>" class="badge badge-info">View</a>
+                                        <a href="edit_child.php?id=<?php echo $child['id']; ?>" class="badge badge-warning">Edit</a>
+                                        <a href="delete_child.php?id=<?php echo $child['id']; ?>" class="badge badge-danger">Delete</a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                            <?php if (empty($children)) : ?>
+                                <tr>
+                                    <td colspan="7">No children found.</td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
+    </main>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery
+
+    <script src=" https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="../js/dashboard.js"></script>
 </body>
 
 </html>

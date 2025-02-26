@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
 
-    <main class="form-container">
+    <main class="container-fluid p-5">
         <div class="container">
             <h2 class="text-center my-5">Please log in with your details</h2>
             <?php if ($error): ?>
@@ -53,8 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
             <?php endif; ?>
 
-            <form action="" method="POST">
-
+            <form action="" method="POST" class="box-shadow p-5">
                 <div class="row">
                     <div class="col-12 mb-3">
                         <label for="email" class="form-label">Email</label>

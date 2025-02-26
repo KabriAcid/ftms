@@ -163,8 +163,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
 
-    <main class="form-container">
-        <div class="container">
+    <main class="container-fluid p-5">
+        <div class="container box-shadow">
             <h2 class="text-center my-5">Family Registration Form</h2>
 
             <?php if (!empty($errors)): ?>
