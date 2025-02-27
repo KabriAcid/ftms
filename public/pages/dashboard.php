@@ -1,9 +1,24 @@
 <?php
 require __DIR__ . '/../../config/database.php';
-
 session_start();
-$familyId = $_SESSION['family_id'] = 1; // Assuming family_id is stored in session
-
+$family_code = $_SESSION['user']['family_code'];
+foreach($_SESSION['user'] as $key => $val){
+    echo $key . ": " . $val;
+    echo "<br>";
+}
+try {
+    $stmt = $pdo->prepare("SELECT * FROM family WHERE family_code = :family_code");
+    $stmt->execute([':family_code' => $family_code]);
+    $family = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if ($family) {
+        $familyId = $family['id'];
+    } else {
+        $familyId = 0;
+    }
+} catch (PDOException $e) {
+    echo "Database Error" . $e->getMessage();
+    $family = [];
+}
 // Fetch family overview
 try {
     $stmt = $pdo->prepare("SELECT * FROM family WHERE id = :family_id");
@@ -33,6 +48,7 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Family Management System Dashboard</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/style.css">
     <style>
         td {
@@ -51,6 +67,9 @@ try {
                 <div class="col-md-12">
                     <h2>Family Overview</h2>
                     <div class="card">
+                        <div class="card-header">
+                            <img src="../img/avatar.jpg" alt="family-pic" class="avatar">
+                        </div>
                         <div class="card-body">
                             <h3 class="card-title"><?php echo htmlspecialchars($family['family_name']); ?></h3>
                             <p class="card-text"><?php echo htmlspecialchars($family['family_code']); ?></p>
@@ -59,12 +78,20 @@ try {
                     </div>
                 </div>
             </div>
-
+            <div class="row my-4">
+                <div class="col-12 d-flex">
+                    <input type="search" name="search" placeholder="Search Family Member" id="search" class="input-field">
+                    <button type="button" class="button ml-2" id="button">Search</button>
+                </div>
+                <div class="response-container">
+                    <p class="text-center" id="response"></p>
+                </div>
+            </div>
             <!-- Children -->
-            <div class="row mt-4">
+            <div class="row mt-4" id="childrenTable">
                 <div class="col-md-12">
                     <h2>Children</h2>
-                    <table class="table table-striped" id="childrenTable">
+                    <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th>Photo</th>
@@ -104,9 +131,41 @@ try {
         </div>
     </main>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery
+    <script>
+        const searchInput = document.getElementById('search');
+        const searchButton = document.getElementById('button');
+        const responseMessage = document.getElementById('response');
 
-    <script src=" https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        searchButton.addEventListener('click', function() {
+            const searchValue = searchInput.value;
+
+            let xhr = new XMLHttpRequest();
+            xhr.open('POST', '../scripts/search-member.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    try {
+                        const response = JSON.parse(xhr.responseText);
+                        if (response.success) {
+                            responseMessage.innerHTML = response.message;
+                            document.getElementById('childrenTable').style.display = 'none'
+                        } else {
+                            responseMessage.innerHTML = response.message;
+                            responseMessage.classList.add('error')
+                        }
+                    } catch (e) {
+                        console.error("Invalid JSON response: ", xhr.responseText);
+                        responseMessage.innerHTML = "An unexpected error occurred.";
+                    }
+                }
+            };
+            xhr.onerror = function() {
+                responseMessage.innerHTML = "Network error. Please try again.";
+            };
+            xhr.send('search=' + encodeURIComponent(searchValue));
+        });
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 

@@ -2,24 +2,26 @@ document.getElementById('addChildForm').addEventListener('submit', function (eve
     event.preventDefault();
 
     var name = document.getElementById('name').value;
+    var phone_number = document.getElementById('phone_number').value;
     var birthDate = document.getElementById('birth_date').value;
     var gender = document.getElementById('gender').value;
     var bloodType = document.getElementById('blood_type').value;
     var errorMessage = document.getElementById('error-message');
 
-    if (!name || !birthDate || !gender || !bloodType) {
+    if (!name || !phone_number || !birthDate || !gender || !bloodType) {
         errorMessage.textContent = 'Please fill in all fields.';
         return;
     }
 
     var data = {
         name: name,
+        phone_number: phone_number,
         birth_date: birthDate,
         gender: gender,
         blood_type: bloodType
     };
 
-    sendAjaxRequest('process_add_child.php', data, function (response) {
+    sendAjaxRequest('../scripts/process_add_child.php', data, function (response) {
         if (response.success) {
             window.location.href = 'dashboard.php';
         } else {

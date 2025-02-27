@@ -13,7 +13,7 @@
 
 <body>
     <main>
-        <div class="container">
+        <div class="container box-shadow">
             <div class="container-header">
                 <h2>GENERATE A FAMILY CODE</h2>
                 <p>A custom family code will be sent to your email.</p>

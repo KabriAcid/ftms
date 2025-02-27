@@ -5,7 +5,6 @@ require_once __DIR__ . '/../../config/database.php';
 // Start session for CSRF protection
 session_start();
 if (isset($_SESSION['family_code'])) {
-    $_SESSION['family_code'] = 'CHE330';
     $family_code = $_SESSION['family_code'];
 } else {
     $family_code = 00000;
@@ -25,9 +24,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // }
 
     // Collect form data
-    $first_name = trim($_POST['first_name']);
-    $last_name = trim($_POST['last_name']);
-    $email = trim($_POST['email']);
+    $first_name = trim(ucwords($_POST['first_name']));
+    $last_name = trim(ucwords($_POST['last_name']));
+    $email = trim(strtolower($_POST['email']));
     $phone = isset($_POST['phone']) ? trim($_POST['phone']) : NULL;
     $password = trim($_POST['password']);
     $confirm_password = trim($_POST['confirm_password']);
@@ -139,8 +138,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: login.php");
             exit();
         } catch (PDOException $e) {
-            error_log("Database error: " . $e->getMessage());
-            $errors[] = "An internal error occurred. Please try again.";
+            $errors[] = "An internal error occurred. Please try again." . $e->getMessage();
         }
     }
 }

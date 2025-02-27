@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     // Check if the family code exists in the database
-    $stmt = $pdo->prepare("SELECT id FROM families WHERE family_code = ?");
+    $stmt = $pdo->prepare("SELECT id FROM family WHERE family_code = ?");
     $stmt->execute([$familyCode]);
     $family = $stmt->fetch();
 

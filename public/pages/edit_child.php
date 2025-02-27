@@ -1,5 +1,4 @@
 <?php
-require __DIR__ . '/../partials/navbar.php'; // Include the navbar
 require __DIR__ . '/../../config/database.php';
 
 session_start();
@@ -29,15 +28,17 @@ try {
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['name'];
+    $phone_number = $_POST['phone_number'];
     $birthDate = $_POST['birth_date'];
     $gender = $_POST['gender'];
     $bloodType = $_POST['blood_type'];
     $status = $_POST['status']; // Alive or dead
 
     try {
-        $stmt = $pdo->prepare("UPDATE children SET name = :name, birth_date = :birth_date, gender = :gender, blood_type = :blood_type, status = :status WHERE id = :child_id AND family_id = :family_id");
+        $stmt = $pdo->prepare("UPDATE children SET name = :name, phone_number = :phone_number, birth_date = :birth_date, gender = :gender, blood_type = :blood_type, status = :status WHERE id = :child_id AND family_id = :family_id");
         $stmt->execute([
             ':name' => $name,
+            ':phone_number' => $phone_number,
             ':birth_date' => $birthDate,
             ':gender' => $gender,
             ':blood_type' => $bloodType,
@@ -73,6 +74,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="form-group">
                     <label for="name">Name:</label>
                     <input type="text" id="name" name="name" class="form-control" value="<?php echo htmlspecialchars($child['name']); ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone_number">Phone Number:</label>
+                    <input type="text" id="phone_number" name="phone_number" class="form-control" value="<?php echo htmlspecialchars($child['phone_number']); ?>" required>
                 </div>
                 <div class="form-group">
                     <label for="birth_date">Birth Date:</label>

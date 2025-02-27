@@ -6,11 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guest Authentication</title>
     <link rel="stylesheet" href="public/css/style.css">
+    <style>
+        main {
+            margin-bottom: 32rem;
+        }
+    </style>
 </head>
 
 <body>
     <main>
-        <div class="container">
+        <div class="container box-shadow mt-4">
             <div class="container-header">
                 <h2>GUEST AUTHENTICATION</h2>
                 <p>Enter your family code below or generate a new one.</p>

@@ -16,7 +16,7 @@ document.getElementById('sendCode').addEventListener('click', function () {
         family_name: familyName
     };
 
-    sendAjaxRequest('process_registration.php', data, function (response) {
+    sendAjaxRequest('../scripts/send-code.php', data, function (response) {
         spinner.classList.add('d-none');
         if (response.success) {
             alert('Family code sent to your email!');

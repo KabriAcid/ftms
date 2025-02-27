@@ -31,6 +31,9 @@ body {
     font-family: 'Sora';
 }
 
+a {
+    text-decoration: none;
+}
 nav {
     width: 100%!important;
     background-color: var(--primary-light);
@@ -106,7 +109,6 @@ form {
     color: white;
 }
 .button:focus {
-    transform: scale(0.9);
     transition: 1s;
 }
 
@@ -164,6 +166,11 @@ form {
     color: var(--danger);
     margin: 12px 0;
     font-weight: 500;
+}
+
+.error {
+    color: var(--danger);
+    margin: 10px 0;
 }
 
 .err {

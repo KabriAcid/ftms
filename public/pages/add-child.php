@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Child</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/style.css">
 </head>
 
@@ -22,12 +22,16 @@
                     <input type="text" id="name" name="name" class="input-field" required placeholder="Name">
                 </div>
                 <div class="form-row">
+                    <label for="phone_number" class="input-field-label">Phone Number:</label>
+                    <input type="text" id="phone_number" name="phone_number" class="input-field" required placeholder="Phone Number">
+                </div>
+                <div class="form-row">
                     <label for="birth_date" class="input-field-label">Birth Date:</label>
                     <input type="date" id="birth_date" name="birth_date" class="input-field" required>
                 </div>
                 <div class="form-row">
                     <label for="gender" class="input-field-label">Gender:</label>
-                    <select id="gender" name="gender" class="input-field" required>
+                    <select id="gender" name="gender" class="input-field pr-3" required>
                         <option value="">Select Gender</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
