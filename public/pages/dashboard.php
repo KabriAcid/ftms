@@ -71,8 +71,9 @@ try {
                             <img src="../img/avatar.jpg" alt="family-pic" class="avatar">
                         </div>
                         <div class="card-body">
-                            <h3 class="card-title"><?php echo htmlspecialchars($family['family_name']); ?></h3>
-                            <p class="card-text"><?php echo htmlspecialchars($family['family_code']); ?></p>
+                        <h3 class="card-title"><?php echo isset($family['family_name']) ? htmlspecialchars($family['family_name']) : 'No Family Name'; ?></h3>
+                        <p class="card-text"><?php echo isset($family['family_code']) ? htmlspecialchars($family['family_code']) : 'No Family Code'; ?></p>
+
                             <a href="biography.php" class="btn btn-secondary">View Biography</a>
                         </div>
                     </div>
