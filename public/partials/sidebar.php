@@ -1,5 +1,5 @@
-<nav>
-    <section class="sidebar">
+<aside class="sidebar">
+    <nav>
         <div class="header">
             <a href="#"><span class="focus">F</span><span class="unfocus">amily Tree</span></a>
             <button><i class="fa-solid fa-ellipsis-vertical"></i></button>
@@ -19,30 +19,30 @@
                 <ul class="items">
                     <li class="item">
                         <a href="#">
-                            <i class="fa-solid fa-house"></i>
-                            <span class="item-text">Dashboard</span>
-                            <span class="item-tooltip">Dashboard</span>
+                            <i class="fa-solid fa-sitemap"></i>
+                            <span class="item-text">Family Tree</span>
+                            <span class="item-tooltip">Family Tree</span>
                         </a>
                     </li>
                     <li class="item">
                         <a href="#">
                             <i class="fa-solid fa-user"></i>
-                            <span class="item-text">Account</span>
-                            <span class="item-tooltip">Account</span>
+                            <span class="item-text">Profile</span>
+                            <span class="item-tooltip">Profile</span>
                         </a>
                     </li>
                     <li class="item">
                         <a href="#">
-                            <i class="fa-solid fa-file"></i>
-                            <span class="item-text">Posts</span>
-                            <span class="item-tooltip">Posts</span>
+                            <i class="fa-solid fa-users"></i>
+                            <span class="item-text">Members</span>
+                            <span class="item-tooltip">Members</span>
                         </a>
                     </li>
                     <li class="item">
                         <a href="#">
-                            <i class="fa-solid fa-calendar"></i>
-                            <span class="item-text">Schedules</span>
-                            <span class="item-tooltip">Schedules</span>
+                            <i class="fa-solid fa-calendar-alt"></i>
+                            <span class="item-text">Events</span>
+                            <span class="item-tooltip">Events</span>
                         </a>
                     </li>
                 </ul>
@@ -61,7 +61,7 @@
                     </li>
                     <li class="item">
                         <a href="#">
-                            <i class="fa-solid fa-gear"></i>
+                            <i class="fa-solid fa-cogs"></i>
                             <span class="item-text">Settings</span>
                             <span class="item-tooltip">Settings</span>
                         </a>
@@ -69,5 +69,5 @@
                 </ul>
             </div>
         </div>
-    </section>
-</nav>
+    </nav>
+</aside>

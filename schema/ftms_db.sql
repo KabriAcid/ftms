@@ -36,23 +36,7 @@ CREATE TABLE `children` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `status` tinyint(1) NOT NULL DEFAULT 1,
   `photo` varchar(255) DEFAULT 'uploads/avatar.jpg'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `children`
---
-
-INSERT INTO `children` (`id`, `family_id`, `name`, `birth_date`, `gender`, `created_at`, `status`, `photo`) VALUES
-(2, 2, 'Jenny Smith', '2018-11-30', 'Female', '2025-02-24 21:49:13', 1, 'uploads/avatar.png'),
-(3, 1, 'Alec Murray', '1974-04-25', 'Female', '2025-02-24 21:49:23', 1, 'uploads/avatar.png'),
-(4, 1, 'Barbara Fox', '2022-10-29', 'Female', '2025-02-24 21:49:55', 1, 'uploads/avatar.png'),
-(5, 1, 'Gillian Cummings', '1989-06-02', 'Male', '2025-02-24 21:50:10', 1, 'uploads/avatar.png');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `family`
---
+)
 
 CREATE TABLE `family` (
   `id` int(11) NOT NULL,
@@ -60,21 +44,7 @@ CREATE TABLE `family` (
   `family_code` varchar(50) NOT NULL,
   `family_name` varchar(100) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `family`
---
-
-INSERT INTO `family` (`id`, `user_id`, `family_code`, `family_name`, `created_at`) VALUES
-(1, 1, 'JOHN-1234', 'Doe Family', '2025-02-24 21:49:13'),
-(2, 2, 'JANE-5678', 'Smith Family', '2025-02-24 21:49:13');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `users`
---
+);
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
@@ -91,7 +61,7 @@ CREATE TABLE `users` (
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+);
 
 --
 -- Indexes for dumped tables
