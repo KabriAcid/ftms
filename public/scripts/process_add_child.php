@@ -10,17 +10,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $phone_number = trim($_POST["phone_number"] ?? '');
     $birthDate = trim($_POST["birth_date"] ?? '');
     $gender = trim($_POST["gender"] ?? '');
-    $bloodType = trim($_POST["blood_type"] ?? '');
 
     try {
-        $stmt = $pdo->prepare("INSERT INTO children (family_id, name, phone_number, birth_date, gender, blood_type, created_at) VALUES (:family_id, :name, :phone_number, :birth_date, :gender, :blood_type, NOW())");
+        $stmt = $pdo->prepare("INSERT INTO children (family_id, name, phone_number, birth_date, gender, created_at) VALUES (:family_id, :name, :phone_number, :birth_date, :gender, NOW())");
         $stmt->execute([
             ':family_id' => $familyId,
             ':name' => $name,
             ':phone_number' => $phone_number,
             ':birth_date' => $birthDate,
             ':gender' => $gender,
-            ':blood_type' => $bloodType
         ]);
 
         echo json_encode(["success" => true, "message" => "Child added successfully."]);

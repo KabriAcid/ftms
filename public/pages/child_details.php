@@ -49,7 +49,6 @@ try {
                         <img src="<?php echo htmlspecialchars($child['photo']); ?>" alt="" class="user-photo">
                         <strong>Birth Date:</strong> <?php echo htmlspecialchars($child['birth_date']); ?><br>
                         <strong>Gender:</strong> <?php echo htmlspecialchars($child['gender']); ?><br>
-                        <strong>Blood Type:</strong> <?php echo htmlspecialchars($child['blood_type']); ?><br>
                         <strong>Status:</strong> <?php echo $child['status'] == 1 ? 'Alive' : 'Dead'; ?>
                     </p>
                     <a href="edit_child.php?id=<?php echo $child['id']; ?>" class="badge badge-primary">Edit</a>

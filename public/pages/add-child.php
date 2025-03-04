@@ -37,20 +37,7 @@
                         <option value="Female">Female</option>
                     </select>
                 </div>
-                <div class="form-row">
-                    <label for="blood_type" class="input-field-label">Blood Type:</label>
-                    <select id="blood_type" name="blood_type" class="input-field" required>
-                        <option value="">Select Blood Type</option>
-                        <option value="A+">A+</option>
-                        <option value="A-">A-</option>
-                        <option value="B+">B+</option>
-                        <option value="B-">B-</option>
-                        <option value="AB+">AB+</option>
-                        <option value="AB-">AB-</option>
-                        <option value="O+">O+</option>
-                        <option value="O-">O-</option>
-                    </select>
-                </div>
+
                 <div class="end">
                     <button type="submit" class="button">Add Child</button>
                 </div>

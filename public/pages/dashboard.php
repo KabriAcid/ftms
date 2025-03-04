@@ -1,25 +1,19 @@
 <?php
 require __DIR__ . '/../../config/database.php';
 session_start();
+
+// Fetch family overview
 $family_code = $_SESSION['user']['family_code'];
-foreach($_SESSION['user'] as $key => $val){
-    echo $key . ": " . $val;
-    echo "<br>";
-}
+
 try {
     $stmt = $pdo->prepare("SELECT * FROM family WHERE family_code = :family_code");
     $stmt->execute([':family_code' => $family_code]);
-    $family = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    if ($family) {
-        $familyId = $family['id'];
-    } else {
-        $familyId = 0;
-    }
+    $family = $stmt->fetch(PDO::FETCH_ASSOC);
+    $familyId = $family['id'];
 } catch (PDOException $e) {
-    echo "Database Error" . $e->getMessage();
+    error_log("Database error: " . $e->getMessage());
     $family = [];
 }
-// Fetch family overview
 try {
     $stmt = $pdo->prepare("SELECT * FROM family WHERE id = :family_id");
     $stmt->execute([':family_id' => $familyId]);
@@ -98,7 +92,6 @@ try {
                                 <th>Name</th>
                                 <th>Birth Date</th>
                                 <th>Gender</th>
-                                <th>Blood Type</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
@@ -110,7 +103,6 @@ try {
                                     <td><?php echo htmlspecialchars($child['name']); ?></td>
                                     <td><?php echo htmlspecialchars($child['birth_date']); ?></td>
                                     <td><?php echo htmlspecialchars($child['gender']); ?></td>
-                                    <td><?php echo htmlspecialchars($child['blood_type']); ?></td>
                                     <td><?php echo $child['status'] == 1 ? 'Alive' : 'Dead'; ?></td>
                                     <td>
                                         <a href="child_details.php?id=<?php echo $child['id']; ?>" class="badge badge-info">View</a>

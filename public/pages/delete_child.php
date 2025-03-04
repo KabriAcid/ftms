@@ -64,7 +64,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <p class="card-text">
                         <strong>Birth Date:</strong> <?php echo htmlspecialchars($child['birth_date']); ?><br>
                         <strong>Gender:</strong> <?php echo htmlspecialchars($child['gender']); ?><br>
-                        <strong>Blood Type:</strong> <?php echo htmlspecialchars($child['blood_type']); ?><br>
                         <strong>Status:</strong> <?php echo $child['status'] == 1 ? 'Alive' : 'Dead'; ?>
                     </p>
                     <p>Are you sure you want to delete this child?</p>

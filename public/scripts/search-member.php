@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             
             $result = '<table class="table table-striped">';
-            $result .= '<thead><tr><th>Photo</th><th>Name</th><th>Birth Date</th><th>Gender</th><th>Blood Type</th><th>Status</th><th>Actions</th></tr></thead>';
+            $result .= '<thead><tr><th>Photo</th><th>Name</th><th>Birth Date</th><th>Gender</th><th>Status</th><th>Actions</th></tr></thead>';
             $result .= '<tbody>';
             foreach ($children as $child) {
                 $result .= '<tr>';
@@ -32,7 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $result .= '<td>' . htmlspecialchars($child['name']) . '</td>';
                 $result .= '<td>' . htmlspecialchars($child['birth_date']) . '</td>';
                 $result .= '<td>' . htmlspecialchars($child['gender']) . '</td>';
-                $result .= '<td>' . htmlspecialchars($child['blood_type']) . '</td>';
                 $result .= '<td>' . ($child['status'] == 1 ? 'Alive' : 'Dead') . '</td>';
                 $result .= '<td><a href="child_details.php?id=' . $child['id'] . '" class="badge badge-info">View</a> ';
                 $result .= '<a href="edit_child.php?id=' . $child['id'] . '" class="badge badge-warning">Edit</a> ';

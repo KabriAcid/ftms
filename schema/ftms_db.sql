@@ -33,7 +33,6 @@ CREATE TABLE `children` (
   `name` varchar(100) NOT NULL,
   `birth_date` date DEFAULT NULL,
   `gender` enum('Male','Female','Other') DEFAULT NULL,
-  `blood_type` varchar(3) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `status` tinyint(1) NOT NULL DEFAULT 1,
   `photo` varchar(255) DEFAULT 'uploads/avatar.jpg'
@@ -43,11 +42,11 @@ CREATE TABLE `children` (
 -- Dumping data for table `children`
 --
 
-INSERT INTO `children` (`id`, `family_id`, `name`, `birth_date`, `gender`, `blood_type`, `created_at`, `status`, `photo`) VALUES
-(2, 2, 'Jenny Smith', '2018-11-30', 'Female', 'O+', '2025-02-24 21:49:13', 1, 'uploads/avatar.png'),
-(3, 1, 'Alec Murray', '1974-04-25', 'Female', 'B+', '2025-02-24 21:49:23', 1, 'uploads/avatar.png'),
-(4, 1, 'Barbara Fox', '2022-10-29', 'Female', 'A+', '2025-02-24 21:49:55', 1, 'uploads/avatar.png'),
-(5, 1, 'Gillian Cummings', '1989-06-02', 'Male', 'A+', '2025-02-24 21:50:10', 1, 'uploads/avatar.png');
+INSERT INTO `children` (`id`, `family_id`, `name`, `birth_date`, `gender`, `created_at`, `status`, `photo`) VALUES
+(2, 2, 'Jenny Smith', '2018-11-30', 'Female', '2025-02-24 21:49:13', 1, 'uploads/avatar.png'),
+(3, 1, 'Alec Murray', '1974-04-25', 'Female', '2025-02-24 21:49:23', 1, 'uploads/avatar.png'),
+(4, 1, 'Barbara Fox', '2022-10-29', 'Female', '2025-02-24 21:49:55', 1, 'uploads/avatar.png'),
+(5, 1, 'Gillian Cummings', '1989-06-02', 'Male', '2025-02-24 21:50:10', 1, 'uploads/avatar.png');
 
 -- --------------------------------------------------------
 

@@ -5,10 +5,9 @@ document.getElementById('addChildForm').addEventListener('submit', function (eve
     var phone_number = document.getElementById('phone_number').value;
     var birthDate = document.getElementById('birth_date').value;
     var gender = document.getElementById('gender').value;
-    var bloodType = document.getElementById('blood_type').value;
     var errorMessage = document.getElementById('error-message');
 
-    if (!name || !phone_number || !birthDate || !gender || !bloodType) {
+    if (!name || !phone_number || !birthDate || !gender) {
         errorMessage.textContent = 'Please fill in all fields.';
         return;
     }
@@ -18,7 +17,6 @@ document.getElementById('addChildForm').addEventListener('submit', function (eve
         phone_number: phone_number,
         birth_date: birthDate,
         gender: gender,
-        blood_type: bloodType
     };
 
     sendAjaxRequest('../scripts/process_add_child.php', data, function (response) {

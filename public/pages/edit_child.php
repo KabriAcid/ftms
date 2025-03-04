@@ -31,17 +31,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $phone_number = $_POST['phone_number'];
     $birthDate = $_POST['birth_date'];
     $gender = $_POST['gender'];
-    $bloodType = $_POST['blood_type'];
     $status = $_POST['status']; // Alive or dead
 
     try {
-        $stmt = $pdo->prepare("UPDATE children SET name = :name, phone_number = :phone_number, birth_date = :birth_date, gender = :gender, blood_type = :blood_type, status = :status WHERE id = :child_id AND family_id = :family_id");
+        $stmt = $pdo->prepare("UPDATE children SET name = :name, phone_number = :phone_number, birth_date = :birth_date, gender = :gender, status = :status WHERE id = :child_id AND family_id = :family_id");
         $stmt->execute([
             ':name' => $name,
             ':phone_number' => $phone_number,
             ':birth_date' => $birthDate,
             ':gender' => $gender,
-            ':blood_type' => $bloodType,
             ':status' => $status,
             ':child_id' => $childId,
             ':family_id' => $familyId
@@ -89,19 +87,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <option value="Male" <?php echo $child['gender'] === 'Male' ? 'selected' : ''; ?>>Male</option>
                         <option value="Female" <?php echo $child['gender'] === 'Female' ? 'selected' : ''; ?>>Female</option>
                         <option value="Other" <?php echo $child['gender'] === 'Other' ? 'selected' : ''; ?>>Other</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="blood_type">Blood Type:</label>
-                    <select id="blood_type" name="blood_type" class="form-control" required>
-                        <option value="A+" <?php echo $child['blood_type'] === 'A+' ? 'selected' : ''; ?>>A+</option>
-                        <option value="A-" <?php echo $child['blood_type'] === 'A-' ? 'selected' : ''; ?>>A-</option>
-                        <option value="B+" <?php echo $child['blood_type'] === 'B+' ? 'selected' : ''; ?>>B+</option>
-                        <option value="B-" <?php echo $child['blood_type'] === 'B-' ? 'selected' : ''; ?>>B-</option>
-                        <option value="AB+" <?php echo $child['blood_type'] === 'AB+' ? 'selected' : ''; ?>>AB+</option>
-                        <option value="AB-" <?php echo $child['blood_type'] === 'AB-' ? 'selected' : ''; ?>>AB-</option>
-                        <option value="O+" <?php echo $child['blood_type'] === 'O+' ? 'selected' : ''; ?>>O+</option>
-                        <option value="O-" <?php echo $child['blood_type'] === 'O-' ? 'selected' : ''; ?>>O-</option>
                     </select>
                 </div>
                 <div class="form-group">
