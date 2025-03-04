@@ -71,66 +71,20 @@ try {
                             <img src="../img/avatar.jpg" alt="family-pic" class="avatar">
                         </div>
                         <div class="card-body">
-                        <h3 class="card-title"><?php echo isset($family['family_name']) ? htmlspecialchars($family['family_name']) : 'No Family Name'; ?></h3>
-                        <p class="card-text"><?php echo isset($family['family_code']) ? htmlspecialchars($family['family_code']) : 'No Family Code'; ?></p>
-
+                            <h3 class="card-title"><?php echo htmlspecialchars($family['family_name']); ?></h3>
+                            <p class="card-text"><?php echo htmlspecialchars($family['family_code']); ?></p>
                             <a href="biography.php" class="btn btn-secondary">View Biography</a>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row my-4">
-                <div class="col-12 d-flex">
-                    <input type="search" name="search" placeholder="Search Family Member" id="search" class="input-field">
-                    <button type="button" class="button ml-2" id="button">Search</button>
-                </div>
-                <div class="response-container">
-                    <p class="text-center" id="response"></p>
-                </div>
-            </div>
-            <!-- Children -->
-            <div class="row mt-4" id="childrenTable">
-                <div class="col-md-12">
-                    <h2>Children</h2>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Photo</th>
-                                <th>Name</th>
-                                <th>Birth Date</th>
-                                <th>Gender</th>
-                                <th>Blood Type</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($children as $child) : ?>
-                                <tr>
-                                    <td><img src="../pages/uploads/avatar.jpg<?php htmlspecialchars($child['photo']); ?>" alt="Profile Photo" class="img-thumbnail" width="50"></td>
-                                    <td><?php echo htmlspecialchars($child['name']); ?></td>
-                                    <td><?php echo htmlspecialchars($child['birth_date']); ?></td>
-                                    <td><?php echo htmlspecialchars($child['gender']); ?></td>
-                                    <td><?php echo htmlspecialchars($child['blood_type']); ?></td>
-                                    <td><?php echo $child['status'] == 1 ? 'Alive' : 'Dead'; ?></td>
-                                    <td>
-                                        <a href="child_details.php?id=<?php echo $child['id']; ?>" class="badge badge-info">View</a>
-                                        <a href="edit_child.php?id=<?php echo $child['id']; ?>" class="badge badge-warning">Edit</a>
-                                        <a href="delete_child.php?id=<?php echo $child['id']; ?>" class="badge badge-danger">Delete</a>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                            <?php if (empty($children)) : ?>
-                                <tr>
-                                    <td colspan="7">No children found.</td>
-                                </tr>
-                            <?php endif; ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </main>
+        </header>
+
+        <!-- Main Content Area -->
+        <main id="content">
+
+        </main>
+    </div>
 
     <script>
         const searchInput = document.getElementById('search');
@@ -166,8 +120,8 @@ try {
             xhr.send('search=' + encodeURIComponent(searchValue));
         });
     </script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/bootstrap.js"></script>
 </body>
 
 </html>

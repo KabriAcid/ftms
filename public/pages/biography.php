@@ -2,7 +2,18 @@
 require __DIR__ . '/../../config/database.php';
 
 session_start();
-$familyId = $_SESSION['family_id']; // Assuming family_id is stored in session
+
+$family_code = $_SESSION['user']['family_code'];
+
+try {
+    $stmt = $pdo->prepare("SELECT * FROM family WHERE family_code = :family_code");
+    $stmt->execute([':family_code' => $family_code]);
+    $family = $stmt->fetch(PDO::FETCH_ASSOC);
+    $familyId = $family['id'];
+} catch (PDOException $e) {
+    error_log("Database error: " . $e->getMessage());
+    $family = [];
+}
 
 // Fetch family biography
 try {

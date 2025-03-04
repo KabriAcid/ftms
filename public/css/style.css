@@ -1,4 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600&display=swap');
+/* @import url('https: //fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap'); */
+
+@font-face {
+    font-family: Quicksand;
+    src: url(../assets/fonts/Quicksand-Regular.ttf);
+}
 
 :root {
     --primary: #138e00;
@@ -16,7 +21,24 @@
 
     --shadow: 20px 20px 60px #dcdcdc,
         -20px -20px 60px #ffffff;
+
+    /* NAVBAR VARIABLES */
+    --bg-primary: #eee;
+    --bg-secondary: #fafafa;
+    --logo-text: #000;
+    --separator: #d9d9d9;
+    --btn-hover: #f0efef;
+    --btn-active: #e5e5e5;
+    --item-text: #5c5e64;
+    --item-hover: #f6f6f6;
+    --item-active-bg: #e8e5e5;
+    --item-active-text: #000;
+    --tooltip-bg: #000;
+    --tooltip-text: #fff;
+    --switch-bg: #f0f0f0;
+    --switch-active: #fff;
 }
+
 * {
     padding: 0;
     margin: 0;
@@ -27,43 +49,373 @@ html {
     scroll-behavior: smooth;
 }
 
-body {
-    font-family: 'Sora';
-}
-
 a {
     text-decoration: none;
 }
-nav {
-    width: 100%!important;
-    background-color: var(--primary-light);
-}
-.nav-link, .navbar-brand {
-    color: white!important;
-}
+
+
 main {
-    width: 80%;
-    margin: auto;
+    width: 100%;
+    margin-left: 5rem;
+
 }
 
-label::after {
-    content: " *";
-    color: var(--danger);
+.nav-link,
+.navbar-brand {
+    color: white !important;
 }
+
+.fa-solid {
+    color: var(--primary);
+}
+
+/* SIDEBAR */
+
+.dashboard-body {
+    display: flex;
+    height: 100vh;
+    margin: 0;
+}
+
+#main-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-left: 19rem;
+    overflow-x: hidden;
+}
+
+#navbar {
+    background-color: #34495e;
+    color: white;
+    padding: 10px;
+}
+
+#content {
+    flex: 1;
+    padding: 20px;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-primary);
+    min-height: 100vh;
+    width: 19rem;
+    position: fixed;
+    left: 0;
+    z-index: 10;
+    top: 0;
+    transition: width 0.4s, background-color 0.3s;
+    overflow-x: hidden;
+    /* Prevent horizontal overflow */
+}
+
+.sidebar .header {
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--bg-secondary);
+    position: relative;
+    transition: background-color 0.3s;
+}
+
+.sidebar .header a {
+    text-decoration: none;
+    color: var(--logo-text);
+    font-size: 1.3rem;
+    font-weight: 550;
+}
+
+.sidebar .header .unfocus,
+.sidebar .header .focus {
+    display: inline-block;
+    max-width: 20rem;
+    overflow: hidden;
+    transition: all 0.4s, color 0.3s;
+}
+
+.sidebar .header .focus {
+    outline: 1px dashed transparent;
+    outline-offset: 0.5rem;
+    border-radius: 0.5px;
+}
+
+.sidebar .header button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    width: 1.7rem;
+    height: 1.7rem;
+    border-radius: 50%;
+    color: var(--logo-text);
+    transition: background-color 0.3s;
+}
+
+.sidebar .header button i {
+    font-size: 1rem;
+}
+
+.sidebar .header button:hover {
+    background-color: var(--btn-hover);
+}
+
+.sidebar .header button:active {
+    background-color: var(--btn-active);
+}
+
+.sidebar .separator-wrapper {
+    position: relative;
+}
+
+.sidebar .separator-wrapper .separator {
+    margin: 0;
+    border: 0.5px solid var(--separator);
+    transition: border-color 0.3s;
+}
+
+.sidebar .separator-wrapper .minimize-btn {
+    border: 1px solid var(--separator);
+    background-color: var(--bg-primary);
+    display: block;
+    width: 1.9rem;
+    height: 1.9rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%) translateX(50%);
+    right: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.sidebar .separator-wrapper .minimize-btn input {
+    display: none;
+}
+
+.sidebar .separator-wrapper .minimize-btn i {
+    font-size: 1.2rem;
+    color: var(--logo-text);
+    transition: transform 0.3s;
+}
+
+.sidebar .separator-wrapper .minimize-btn:hover {
+    background-color: var(--btn-hover);
+}
+
+.sidebar .separator-wrapper .minimize-btn:active {
+    background-color: var(--btn-active);
+}
+
+.sidebar .navigation {
+    padding: 1.5rem;
+    flex-grow: 1;
+}
+
+.sidebar .navigation .section {
+    margin-top: 2rem;
+}
+
+.sidebar .navigation .section .title-wrapper {
+    height: 1.9rem;
+    position: relative;
+}
+
+.sidebar .navigation .section .title-wrapper .title {
+    padding-inline: 0.5rem;
+    color: var(--item-text);
+    text-transform: uppercase;
+    transition: all 0.4s, color 0.3s;
+}
+
+.sidebar .navigation .section .items {
+    padding: 0;
+    margin-block: 0.9rem;
+    list-style-type: none;
+}
+
+.sidebar .navigation .section .items .item a {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.8rem 0.5rem;
+    color: var(--item-text);
+    border-radius: 0.4rem;
+    transition: background-color 0.3s, color 0.3s;
+    position: relative;
+}
+
+.sidebar .navigation .section .items .item a i {
+    width: 1rem;
+    transition: all 0.4s;
+}
+
+.sidebar .navigation .section .items .item a .item-text {
+    max-width: 20rem;
+    transition: all 0.4s;
+}
+
+.sidebar .navigation .section .items .item a .item-tooltip {
+    position: absolute;
+    background-color: var(--tooltip-bg);
+    color: var(--tooltip-text);
+    left: 109%;
+    padding: 0.4rem;
+    border-radius: 0.3rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s;
+    display: none;
+    z-index: 10;
+}
+
+.sidebar .navigation .section .items .item a .item-tooltip:before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-right: 8px solid var(--tooltip-bg);
+    right: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.sidebar .navigation .section .items .item a:hover {
+    background-color: var(--item-hover);
+}
+
+.sidebar .navigation .section .items .item a:active {
+    background-color: var(--item-active-bg);
+    color: var(--item-active-text);
+}
+
+.sidebar:has(#minimize:checked) {
+    width: 9rem;
+}
+
+.sidebar:has(#minimize:checked) .header a .unfocus {
+    max-width: 0;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.sidebar:has(#minimize:checked) .header a .focus {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) rotate(-15deg);
+    outline-color: var(--logo-text);
+}
+
+.sidebar:has(#minimize:checked) .header button {
+    max-width: 0;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.sidebar:has(#minimize:checked) .navigation .section .title-wrapper .title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.sidebar:has(#minimize:checked) .navigation .section .items .item a i {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.sidebar:has(#minimize:checked) .navigation .section .items .item a .item-text {
+    max-width: 0;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.sidebar:has(#minimize:checked) .navigation .section .items .item a .item-tooltip {
+    display: block;
+}
+
+.sidebar:has(#minimize:checked) .navigation .section .items .item a:hover .item-tooltip {
+    left: 115%;
+    opacity: 1;
+    visibility: visible;
+    display: block;
+}
+
+.sidebar:has(#minimize:checked) .separator-wrapper .minimize-btn i {
+    transform: rotate(180deg);
+}
+
+/* SIDEBAR */
+
+/* NAVBAR */
+/* Navbar styling */
+#navbar {
+    background-color: var(--primary-light);
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Navbar content container */
+.navbar-content {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* User info styling */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+    /* Ensure the user info is aligned to the right */
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-name {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+/* NAVBAR */
+
 .primary {
     color: var(--primary);
 }
+
 .container {
     padding: 30px;
     border-radius: 5px;
 }
+
 .box-shadow {
     box-shadow: var(--shadow);
 }
+
 form {
     margin: 20px 0;
     width: 100%;
 }
+
 .container-header>* {
     margin: 10px 0;
     text-align: center;
@@ -75,7 +427,8 @@ form {
 }
 
 /* General Button Styling */
-.button, .btn-secondary {
+.button,
+.btn-secondary {
     display: block;
     padding: 10px 20px;
     font-size: 16px;
@@ -97,6 +450,7 @@ form {
     border: 1px solid var(--primary);
     text-decoration: none;
 }
+
 .btn-secondary:hover {
     background-color: var(--primary);
     color: white;
@@ -108,6 +462,7 @@ form {
     background-color: var(--primary-dark);
     color: white;
 }
+
 .button:focus {
     transition: 1s;
 }
@@ -153,9 +508,11 @@ form {
 .form-row {
     margin: 15px 0;
 }
+
 .form-label {
-    margin: 0px!important;
+    margin: 0px !important;
 }
+
 .link {
     text-decoration: none;
     font-weight: 600;
@@ -199,12 +556,14 @@ i.d-none {
 .fa {
     color: var(--primary);
 }
+
 .card {
     box-shadow: var(--shadow);
     text-align: center;
     border: none;
     border-radius: 8px;
 }
+
 .card-header {
     border-radius: 8px 8px 0 0;
     background-color: rgba(30, 228, 0, 0.4);
@@ -216,18 +575,22 @@ i.d-none {
     width: 100%;
     padding: 0;
 }
+
 .avatar {
     width: 100%;
     height: 100;
     aspect-ratio: 1/1;
 }
+
 .number {
     color: var(--primary);
     font-size: 2em;
     font-weight: 700;
 }
+
 .title {
     margin-bottom: 6px;
+    font-weight: 700;
 }
 
 p.card-text {
