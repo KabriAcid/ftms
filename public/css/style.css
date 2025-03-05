@@ -2,7 +2,7 @@
 
 @font-face {
     font-family: Quicksand;
-    src: url(../assets/fonts/Quicksand-Regular.ttf);
+    src: url(../assets/fonts/Quicksand-Medium.ttf);
 }
 
 :root {
@@ -81,7 +81,7 @@ main {
     flex: 1;
     display: flex;
     flex-direction: column;
-    margin-left: 19rem;
+    margin-left: 5rem;
     overflow-x: hidden;
 }
 
@@ -93,9 +93,12 @@ main {
 
 #content {
     flex: 1;
-    padding: 20px;
+    padding: 20px 0;
 }
 
+.card {
+    border: none!important;
+}
 .sidebar {
     display: flex;
     flex-direction: column;
@@ -260,7 +263,9 @@ main {
     max-width: 20rem;
     transition: all 0.4s;
 }
-
+.item-tooltip {
+    z-index: 1;
+}
 .sidebar .navigation .section .items .item a .item-tooltip {
     position: absolute;
     background-color: var(--tooltip-bg);
@@ -272,7 +277,6 @@ main {
     visibility: hidden;
     transition: all 0.3s;
     display: none;
-    z-index: 10;
 }
 
 .sidebar .navigation .section .items .item a .item-tooltip:before {
@@ -344,7 +348,7 @@ main {
 }
 
 .sidebar:has(#minimize:checked) .navigation .section .items .item a:hover .item-tooltip {
-    left: 115%;
+    left: 110%;
     opacity: 1;
     visibility: visible;
     display: block;

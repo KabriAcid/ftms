@@ -21,7 +21,7 @@
                         <a href="#">
                             <i class="fa-solid fa-sitemap"></i>
                             <span class="item-text">Family Tree</span>
-                            <span class="item-tooltip">Family Tree</span>
+                            <span class="item-tooltip">Tree</span>
                         </a>
                     </li>
                     <li class="item">
