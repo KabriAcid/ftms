@@ -27,6 +27,8 @@ document.getElementById('sendCode').addEventListener('click', function () {
     });
 });
 
+
+
 function sendAjaxRequest(url, data, callback) {
     const xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);

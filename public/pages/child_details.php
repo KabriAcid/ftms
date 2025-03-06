@@ -67,7 +67,7 @@ try {
                             <?php if ($member['profile_picture']): ?>
                                 <img src="<?php echo htmlspecialchars($member['profile_picture']); ?>" alt="Profile Picture" class="img-thumbnail" style="width: 150px; height: 150px;">
                             <?php else: ?>
-                                <img src="https://randomuser.me/api/portraits/men/<?php echo rand(1, 99); ?>.jpg" alt="Profile Picture" class="img-thumbnail" style="width: 150px; height: 150px;">
+                                <img src="uploads/user.png" alt="Profile Picture" class="img-thumbnail" style="width: 150px; height: 150px;">
                             <?php endif; ?>
                         </div>
                         <div class="col-md-9">

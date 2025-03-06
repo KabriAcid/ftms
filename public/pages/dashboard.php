@@ -32,6 +32,7 @@ try {
     $stmt = $pdo->prepare("SELECT * FROM members");
     $stmt->execute();
     $members = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 } catch (PDOException $e) {
     error_log("Database error: " . $e->getMessage());
     die('An error occurred while fetching members.');
@@ -261,9 +262,9 @@ try {
                                                 <td><?php echo $index + 1; ?></td>
                                                 <td>
                                                     <?php if ($member['profile_picture']): ?>
-                                                        <img src="<?php echo htmlspecialchars($member['profile_picture']); ?>" alt="Photo" class="img-thumbnail" style="width: 50px; height: 50px;">
+                                                        <img src="<?php echo htmlspecialchars($member['profile_picture']); ?>" alt="Photo" class="img-thumbnail p-0" style="width: 50px; height: 50px;">
                                                     <?php else: ?>
-                                                        <img src="https://randomuser.me/api/portraits/men/<?php echo $index + 1; ?>.jpg" alt="Photo" class="img-thumbnail" style="width: 50px; height: 50px;">
+                                                        <img src="uploads/user.png" alt="Photo" class="img-thumbnail" style="width: 50px; height: 50px;">
                                                     <?php endif; ?>
                                                 </td>
                                                 <td><?php echo htmlspecialchars($member['first_name'] . ' ' . $member['last_name']); ?></td>
