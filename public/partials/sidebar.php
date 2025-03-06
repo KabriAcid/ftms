@@ -1,7 +1,7 @@
 <aside class="sidebar">
     <nav>
         <div class="header">
-            <a href="#"><span class="focus"><img src="../favicon.png" alt="favicon" width="50px" height="50px"></span><span class="unfocus">Family Tree</span></a>
+            <a href="dashboard.php"><span class="focus"><img src="../favicon.png" alt="favicon" width="50px" height="50px"></span><span class="unfocus">Family Tree</span></a>
             <button><i class="fa-solid fa-ellipsis-vertical"></i></button>
         </div>
         <div class="separator-wrapper">

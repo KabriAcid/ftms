@@ -491,14 +491,14 @@ form {
 }
 
 /* Label for Input Field */
-.input-field-label {
+label {
     font-size: 16px;
     font-weight: normal;
     color: var(--gray-3);
     display: block;
 }
 
-.form-row {
+.form-group {
     margin: 15px 0;
 }
 

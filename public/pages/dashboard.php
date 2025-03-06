@@ -3,11 +3,15 @@ session_start();
 require __DIR__ . '/../../config/database.php';
 require __DIR__ . '/../helpers/helpers.php';
 
-var_dump($_SESSION['user']);
+// var_dump($_SESSION['user']);
 ?>
 
 <?php require __DIR__ . '/../partials/header.php'; ?>
-
+<style>
+    td {
+        vertical-align: middle;
+    }
+</style>
 <body class="dashboard-body">
     <!-- Sidebar (your existing markup) -->
     <?php require __DIR__ . '/../partials/sidebar.php'; ?>
@@ -29,7 +33,7 @@ var_dump($_SESSION['user']);
                             }
                             ?>
                         </span>
-                        <img src="../IMG/avatar.jpg" alt="User Avatar" class="user-avatar">
+                        <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="User Avatar" class="user-avatar">
                     </a>
                 </div>
             </div>
@@ -47,7 +51,7 @@ var_dump($_SESSION['user']);
                 </div>
 
                 <!-- Family Overview Section -->
-                <div class="container-fluid pt-3">
+                <div class="container-fluid mt-4">
                     <div class="row">
                         <!-- Total Males Card -->
                         <div class="col-xl-3 col-sm-6">
@@ -123,74 +127,74 @@ var_dump($_SESSION['user']);
                     </div>
                 </div>
 
-            </div>
-            <!--  -->
-            <div class="container pt-3 box-shadow">
-                <!-- Children List Section -->
-                <div class="row">
-                    <div class="col-12">
-                        <h4 class="mb-3 py-4 font-weight-bold">Children List</h5>
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Photo</th>
-                                            <th>Name</th>
-                                            <th>Birth Date</th>
-                                            <th>Gender</th>
-                                            <th>Status</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- Placeholder rows for children -->
-                                        <tr>
-                                            <td>1</td>
-                                            <td>
-                                                <img src="https://via.placeholder.com/50" alt="Photo" class="img-thumbnail" style="width: 50px; height: 50px;">
-                                            </td>
-                                            <td>John Doe</td>
-                                            <td>2005-06-15</td>
-                                            <td>Male</td>
-                                            <td>Active</td>
-                                            <td>
-                                                <!-- Actions can include buttons like Edit, View, Delete, etc. -->
-                                                <a href="child_details.php?id<?= 1;?>" class="badge badge-sm bg-secondary border-0">View</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>
-                                                <img src="https://via.placeholder.com/50" alt="Photo" class="img-thumbnail" style="width: 50px; height: 50px;">
-                                            </td>
-                                            <td>Jane Doe</td>
-                                            <td>2010-09-23</td>
-                                            <td>Female</td>
-                                            <td>Active</td>
-                                            <td>
-                                                <!-- Actions can include buttons like Edit, View, Delete, etc. -->
-                                                <a href="child_details.php?id<?= 1;?>" class="badge badge-sm bg-secondary border-0">View</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>
-                                                <img src="https://via.placeholder.com/50" alt="Photo" class="img-thumbnail" style="width: 50px; height: 50px;">
-                                            </td>
-                                            <td>Michael Smith</td>
-                                            <td>2013-12-05</td>
-                                            <td>Male</td>
-                                            <td>Inactive</td>
-                                            <td>
-                                                <!-- Actions can include buttons like Edit, View, Delete, etc. -->
-                                                <a href="child_details.php?id<?= 1;?>" class="badge badge-sm bg-secondary border-0">View</a>
-                                            </td>
-                                        </tr>
-                                        <!-- Add more placeholder rows as needed -->
-                                    </tbody>
-                                </table>
-                            </div>
+                <!--  -->
+                <div class="container mt-4 box-shadow">
+                    <!-- Members List Section -->
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 class="mb-3 py-4 font-weight-bold">Members List</h5>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Photo</th>
+                                                <th>Name</th>
+                                                <th>Birth Date</th>
+                                                <th>Gender</th>
+                                                <th>Status</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Placeholder rows for children -->
+                                            <tr>
+                                                <td>1</td>
+                                                <td>
+                                                    <img src="https://randomuser.me/api/portraits/men/6.jpg" alt="Photo" class="img-thumbnail" style="width: 50px; height: 50px;">
+                                                </td>
+                                                <td>John Doe</td>
+                                                <td>2005-06-15</td>
+                                                <td>Male</td>
+                                                <td>Active</td>
+                                                <td>
+                                                    <!-- Actions can include buttons like Edit, View, Delete, etc. -->
+                                                    <a href="child_details.php?id<?= 1; ?>" class="badge badge-sm bg-secondary border-0">View</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>
+                                                    <img src="https://randomuser.me/api/portraits/women/2.jpg" alt="Photo" class="img-thumbnail" style="width: 50px; height: 50px;">
+                                                </td>
+                                                <td>Jane Doe</td>
+                                                <td>2010-09-23</td>
+                                                <td>Female</td>
+                                                <td>Active</td>
+                                                <td>
+                                                    <!-- Actions can include buttons like Edit, View, Delete, etc. -->
+                                                    <a href="child_details.php?id<?= 1; ?>" class="badge badge-sm bg-secondary border-0">View</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3</td>
+                                                <td>
+                                                    <img src="https://randomuser.me/api/portraits/men/3.jpg" alt="Photo" class="img-thumbnail" style="width: 50px; height: 50px;">
+                                                </td>
+                                                <td>Michael Smith</td>
+                                                <td>2013-12-05</td>
+                                                <td>Male</td>
+                                                <td>Inactive</td>
+                                                <td>
+                                                    <!-- Actions can include buttons like Edit, View, Delete, etc. -->
+                                                    <a href="child_details.php?id<?= 1; ?>" class="badge badge-sm bg-secondary border-0">View</a>
+                                                </td>
+                                            </tr>
+                                            <!-- Add more placeholder rows as needed -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                        </div>
                     </div>
                 </div>
             </div>
