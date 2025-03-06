@@ -2,7 +2,7 @@
 require __DIR__ . '/../../config/database.php';
 
 session_start();
-<<<<<<< HEAD
+
 $userId = $_SESSION['user']['id']; // Assuming user_id is stored in session
 
 try {
@@ -32,7 +32,6 @@ try {
     $stmt = $pdo->prepare("SELECT * FROM members");
     $stmt->execute();
     $members = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 } catch (PDOException $e) {
     error_log("Database error: " . $e->getMessage());
     die('An error occurred while fetching members.');
@@ -71,83 +70,6 @@ try {
                         </span>
                         <img src="<?php echo $_SESSION['user']['profile_picture'] ?? 'uploads/avatar.jpg'; ?>" alt="Avatar" class="user-avatar">
                     </a>
-=======
-$family_code = $_SESSION['user']['family_code'];
-foreach($_SESSION['user'] as $key => $val){
-    echo $key . ": " . $val;
-    echo "<br>";
-}
-try {
-    $stmt = $pdo->prepare("SELECT * FROM family WHERE family_code = :family_code");
-    $stmt->execute([':family_code' => $family_code]);
-    $family = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    if ($family) {
-        $familyId = $family['id'];
-    } else {
-        $familyId = 0;
-    }
-} catch (PDOException $e) {
-    echo "Database Error" . $e->getMessage();
-    $family = [];
-}
-// Fetch family overview
-try {
-    $stmt = $pdo->prepare("SELECT * FROM family WHERE id = :family_id");
-    $stmt->execute([':family_id' => $familyId]);
-    $family = $stmt->fetch(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    error_log("Database error: " . $e->getMessage());
-    $family = [];
-}
-
-// Fetch children
-try {
-    $stmt = $pdo->prepare("SELECT * FROM children WHERE family_id = :family_id");
-    $stmt->execute([':family_id' => $familyId]);
-    $children = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    error_log("Database error: " . $e->getMessage());
-    $children = [];
-}
-?>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Family Management System Dashboard</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/style.css">
-    <style>
-        td {
-            vertical-align: middle;
-        }
-    </style>
-</head>
-
-<body>
-    <?php require __DIR__ . '/../partials/navbar.php'; ?> <!-- Include the navbar -->
-
-    <main>
-        <div class="container mt-5">
-            <!-- Family Overview -->
-            <div class="row">
-                <div class="col-md-12">
-                    <h2>Family Overview</h2>
-                    <div class="card">
-                        <div class="card-header">
-                            <img src="../img/avatar.jpg" alt="family-pic" class="avatar">
-                        </div>
-                        <div class="card-body">
-                            <h3 class="card-title"><?php echo htmlspecialchars($family['family_name']); ?></h3>
-                            <p class="card-text"><?php echo htmlspecialchars($family['family_code']); ?></p>
-                            <a href="biography.php" class="btn btn-secondary">View Biography</a>
-                        </div>
-                    </div>
->>>>>>> 3205cbadc014cd35721f8bd3435d47490e787d27
                 </div>
             </div>
         </header>
@@ -155,17 +77,16 @@ try {
         <!-- Main Content Area -->
         <main id="content">
             <div class="container">
-                <!-- Header: Welcome Message -->
                 <div class="row">
                     <div class="col">
                         <h2>Welcome, <?php echo isset($_SESSION['user']['first_name']) ? htmlspecialchars($_SESSION['user']['first_name']) : 'Guest'; ?>!</h2>
                         <p>Here's a quick overview of your family tree.</p>
                     </div>
                 </div>
-
+                <!-- -->
                 <!-- Family Overview Section -->
-                <div class="container-fluid mt-4">
-                    <div class="row">
+                <div class="container-fluid mt-4 p-0">
+                    <div class="row summary-cards">
                         <!-- Total Males Card -->
                         <div class="col-xl-3 col-sm-6">
                             <div class="card mb-3 mb-xl-0" onclick="window.location.href='males.php'">
@@ -217,9 +138,9 @@ try {
                             </div>
                         </div>
 
-                        <!-- Total Deceased Card -->
+                        <!-- Total Late Card -->
                         <div class="col-xl-3 col-sm-6">
-                            <div class="card mb-3 mb-xl-0" onclick="window.location.href='deceased.php'">
+                            <div class="card mb-3 mb-xl-0" onclick="window.location.href='late.php'">
                                 <div class="card-body p-3">
                                     <div class="text-center">
                                         <div class="icon icon-shape bg-gradient-dark text-center border-radius-md mb-2">
@@ -235,8 +156,6 @@ try {
                         </div>
                     </div>
                 </div>
-
-
                 <!--  -->
                 <div class="container mt-4 box-shadow">
                     <div class="row">
@@ -284,12 +203,44 @@ try {
                     </div>
 
                 </div>
+                <!--  -->
+                <div class="container mt-4 p-0">
+                    <div class="row">
+                        <div class="col-lg-8 col-mb-0 mb-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>Events</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-2 text-center">
+                                            <div class="d-flex align-items-center ">
+                                                <div class="box-shadow">
+                                                    <i class="fa-solid fa-cake" class="p-5">&copy;</i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-10 text-start">
+                                            <h6 class="bold">Wedding Anniversary</h6>
+                                            <p><?= date('d-m-Y h:m:s'); ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Distinctio nam tempore amet accusamus ea earum consequatur magnam ipsam excepturi quaerat saepe tenetur corporis cumque magni provident, maxime animi eaque ullam?</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </main>
     </div>
-
-
     <script>
         const searchInput = document.getElementById('search');
         const searchButton = document.getElementById('button');

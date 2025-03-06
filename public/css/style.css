@@ -92,8 +92,9 @@ main {
 }
 
 .card {
-    border: none!important;
+    border: none !important;
 }
+
 .sidebar {
     display: flex;
     flex-direction: column;
@@ -253,9 +254,11 @@ main {
     max-width: 20rem;
     transition: all 0.4s;
 }
+
 .item-tooltip {
     z-index: 1;
 }
+
 .sidebar .navigation .section .items .item a .item-tooltip {
     position: absolute;
     background-color: var(--tooltip-bg);
@@ -423,7 +426,8 @@ form {
 
 /* General Button Styling */
 .button,
-.btn-secondary, .btn-danger {
+.btn-secondary,
+.btn-danger {
     display: block;
     padding: 10px 20px;
     font-size: 16px;
@@ -460,7 +464,7 @@ form {
 }
 
 .btn-danger:hover {
-    background-color: var(--danger)!important;
+    background-color: var(--danger) !important;
 }
 
 .button:hover {
@@ -616,7 +620,15 @@ p.card-text {
     box-shadow: var(--shadow);
     cursor: pointer;
 }
+
 .font-weight-bolder {
-    font-weight: 600;
     font-size: 2em;
+    font-weight: 600;
+}
+.bold {
+    font-weight: 600;
+}
+
+.summary-cards div {
+    cursor: pointer;
 }

@@ -39,7 +39,7 @@
                         </a>
                     </li>
                     <li class="item">
-                        <a href="add-member.php">
+                        <a href="add_member.php">
                             <i class="fa-solid fa-user-plus"></i>
                             <span class="item-text">Add Member</span>
                             <span class="item-tooltip">Add Member</span>

@@ -20,7 +20,7 @@
                 <input type="text" id="family_code" name="family_code" placeholder="Enter Your Family Code" class="input-field" required>
                 <p id="error-message"></p>
                 <div class="between">
-                    <a href="public/pages/generate-code.php" class="btn-secondary" id="generateCode">Generate</a>
+                    <a href="public/pages/generate_code.php" class="btn-secondary" id="generateCode">Generate</a>
                     <button type="button" class="button" id="submit">Proceed</button>
                 </div>
             </form>
