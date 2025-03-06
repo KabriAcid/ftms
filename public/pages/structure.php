@@ -21,14 +21,14 @@ require __DIR__ . '/../helpers/helpers.php';
                     <a href="profile.php" class="text-light">
                         <span class="user-name mx-2">
                             <?php
-                            if (isset($_SESSION['username'])) {
-                                echo $_SESSION['username'];
+                            if (isset($_SESSION['user']['first_name'])) {
+                                echo "Hi, " . $_SESSION['user']['first_name'];
                             } else {
                                 echo 'Guest';
                             }
                             ?>
                         </span>
-                        <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="User Avatar" class="user-avatar">
+                        <img src="<?php echo $_SESSION['user']['profile_picture'] ?? 'uploads/avatar.jpg'; ?>" alt="Avatar" class="user-avatar">
                     </a>
                 </div>
             </div>

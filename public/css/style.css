@@ -82,6 +82,7 @@ main {
 #navbar {
     background-color: #34495e;
     color: white;
+    margin-left: 14em;
     padding: 10px;
 }
 
@@ -378,10 +379,11 @@ main {
 }
 
 .user-avatar {
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
     object-fit: cover;
+    aspect-ratio: 1/1;
 }
 
 .user-name {
@@ -421,14 +423,14 @@ form {
 
 /* General Button Styling */
 .button,
-.btn-secondary {
+.btn-secondary, .btn-danger {
     display: block;
     padding: 10px 20px;
     font-size: 16px;
     text-transform: capitalize;
     background-color: var(--primary);
     border: none;
-    font-family: 'Sora';
+    font-family: 'Quicksand';
     border-radius: 4px;
     margin: 10px 0;
     cursor: pointer;
@@ -447,6 +449,18 @@ form {
 .btn-secondary:hover {
     background-color: var(--primary);
     color: white;
+}
+
+.btn-danger {
+    color: var(--gray-4);
+    background-color: transparent;
+    transition: 500ms;
+    border: 1px solid var(--danger);
+    text-decoration: none;
+}
+
+.btn-danger:hover {
+    background-color: var(--danger)!important;
 }
 
 .button:hover {
@@ -468,7 +482,7 @@ form {
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 8px;
-    font-family: 'Sora';
+    font-family: 'Quicksand';
     background-color: #f9f9f9;
     transition: border-color 0.3s ease;
     box-shadow: 0 0 20px rgba(245, 255, 249, 0.7);

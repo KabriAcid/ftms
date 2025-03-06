@@ -18,7 +18,7 @@
                 </div>
                 <ul class="items">
                     <li class="item">
-                        <a href="#">
+                        <a href="dashboard.php">
                             <i class="fa-solid fa-sitemap"></i>
                             <span class="item-text">Family Tree</span>
                             <span class="item-tooltip">Tree</span>
@@ -36,6 +36,13 @@
                             <i class="fa-solid fa-users"></i>
                             <span class="item-text">Members</span>
                             <span class="item-tooltip">Members</span>
+                        </a>
+                    </li>
+                    <li class="item">
+                        <a href="add-member.php">
+                            <i class="fa-solid fa-user-plus"></i>
+                            <span class="item-text">Add Member</span>
+                            <span class="item-tooltip">Add Member</span>
                         </a>
                     </li>
                     <li class="item">
@@ -61,7 +68,7 @@
                     </li>
                     <li class="item">
                         <a href="logout.php">
-                            <i class="fa fa-exit"></i>
+                            <i class="fa-solid fa-key"></i>
                             <span class="item-text">Logout</span>
                             <span class="item-tooltip">Logout</span>
                         </a>

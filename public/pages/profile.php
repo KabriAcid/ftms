@@ -3,8 +3,8 @@ require __DIR__ . '/../../config/database.php';
 
 session_start();
 $userId = $_SESSION['user']['id']; // Assuming user_id is stored in session
-
 // Fetch user details
+$message = false;
 try {
     $stmt = $pdo->prepare("SELECT * FROM members WHERE id = :user_id");
     $stmt->execute([':user_id' => $userId]);
@@ -62,6 +62,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['user']['address'] = $address;
         $_SESSION['user']['profile_picture'] = $profilePicture;
 
+        $message = true;
+
         header('Location: profile.php');
         exit();
     } catch (PDOException $e) {
@@ -80,20 +82,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <!-- Navbar -->
         <header id="navbar">
             <div class="navbar-content">
-                <h4>Dashboard</h4>
+                <h4>Profile</h4>
                 <div class="user-info">
                     <!-- Avatar Placeholder -->
                     <a href="profile.php" class="text-light">
                         <span class="user-name mx-2">
                             <?php
-                            if (isset($_SESSION['username'])) {
-                                echo $_SESSION['username'];
+                            if (isset($_SESSION['user']['first_name'])) {
+                                echo "Hi, " . $_SESSION['user']['first_name'];
                             } else {
                                 echo 'Guest';
                             }
                             ?>
                         </span>
-                        <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="User Avatar" class="user-avatar">
+                        <img src="<?php echo $_SESSION['user']['profile_picture'] ?? 'uploads/avatar.jpg'; ?>" alt="Avatar" class="user-avatar">
                     </a>
                 </div>
             </div>
@@ -111,6 +113,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <!-- -->
                 <div class="container mt-5 box-shadow">
                     <h2>Profile</h2>
+                    <?php
+                    if ($message):
+                        echo "<p class='text-center text-success'>Profile Updated Successfully</p>";
+                    endif;
+                    ?>
                     <form method="POST" action="" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="first_name">First Name:</label>

@@ -2,64 +2,123 @@
 require __DIR__ . '/../../config/database.php';
 
 session_start();
-$familyId = $_SESSION['user']['id']; // Assuming family_id is stored in session
 
-// Get child ID from GET parameters
-if (!isset($_GET['id']) || empty($_GET['id'])) {
-    die('Child ID not provided.');
-}
+// Get the member ID from the URL
+$memberId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
-$childId = $_GET['id'];
-
-// Fetch child details
+// Fetch member details
 try {
-    $stmt = $pdo->prepare("SELECT * FROM children WHERE id = :child_id AND family_id = :family_id");
-    $stmt->execute([':child_id' => $childId, ':family_id' => $familyId]);
-    $child = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt = $pdo->prepare("SELECT * FROM members WHERE id = :id");
+    $stmt->execute([':id' => $memberId]);
+    $member = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if (!$child) {
-        die('Child not found or you do not have permission to view this child.');
+    if (!$member) {
+        die('Member not found.');
     }
 } catch (PDOException $e) {
     error_log("Database error: " . $e->getMessage());
-    die('An error occurred while fetching child details.');
+    die('An error occurred while fetching member details.');
 }
 ?>
+<?php require __DIR__ . '/../partials/header.php'; ?>
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Child Details</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/style.css">
-</head>
-
-<body>
-    <?php include_once __DIR__ . '/../partials/navbar.php' ?>
-    <main>
-        <div class="container mt-5">
-            <h2 class="mb-4 primary">Child Details</h2>
-            <div class="card">
-                <div class="card-body">
-                    <h3 class="card-title"><?php echo htmlspecialchars($child['name']); ?></h3>
-                    <p class="card-text">
-                        <img src="<?php echo htmlspecialchars($child['photo']); ?>" alt="" class="user-photo">
-                        <strong>Birth Date:</strong> <?php echo htmlspecialchars($child['birth_date']); ?><br>
-                        <strong>Gender:</strong> <?php echo htmlspecialchars($child['gender']); ?><br>
-                        <strong>Status:</strong> <?php echo $child['status'] == 1 ? 'Alive' : 'Dead'; ?>
-                    </p>
-                    <a href="edit_child.php?id=<?php echo $child['id']; ?>" class="badge badge-primary">Edit</a>
-                    <a href="delete_child.php?id=<?php echo $child['id']; ?>" class="badge badge-danger">Delete</a>
+<body class="dashboard-body">
+    <!-- Sidebar (your existing markup) -->
+    <?php require __DIR__ . '/../partials/sidebar.php'; ?>
+    <!-- Main Container -->
+    <div id="main-container">
+        <!-- Navbar -->
+        <header id="navbar">
+            <div class="navbar-content">
+                <h4>Details</h4>
+                <div class="user-info">
+                    <!-- Avatar Placeholder -->
+                    <a href="profile.php" class="text-light">
+                        <span class="user-name mx-2">
+                            <?php
+                            if (isset($_SESSION['user']['first_name'])) {
+                                echo "Hi, " . $_SESSION['user']['first_name'];
+                            } else {
+                                echo 'Guest';
+                            }
+                            ?>
+                        </span>
+                        <img src="<?php echo $_SESSION['user']['profile_picture'] ?? 'uploads/avatar.jpg'; ?>" alt="Avatar" class="user-avatar">
+                    </a>
                 </div>
             </div>
-        </div>
-    </main>
+        </header>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <!-- Main Content Area -->
+        <main id="content">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <h2>Member details</h2>
+                        <p>Here, you can view a member's profile.</p>
+                    </div>
+                </div>
+                <!-- -->
+                <!-- Member Details -->
+                <div class="container mt-5 box-shadow">
+                    <h3><?php echo htmlspecialchars($member['first_name'] . ' ' . $member['last_name']); ?></h3>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <?php if ($member['profile_picture']): ?>
+                                <img src="<?php echo htmlspecialchars($member['profile_picture']); ?>" alt="Profile Picture" class="img-thumbnail" style="width: 150px; height: 150px;">
+                            <?php else: ?>
+                                <img src="https://randomuser.me/api/portraits/men/<?php echo rand(1, 99); ?>.jpg" alt="Profile Picture" class="img-thumbnail" style="width: 150px; height: 150px;">
+                            <?php endif; ?>
+                        </div>
+                        <div class="col-md-9">
+                            <table class="table table-striped">
+                                <tr>
+                                    <th>First Name:</th>
+                                    <td><?php echo htmlspecialchars($member['first_name']); ?></td>
+                                </tr>
+                                <tr>
+                                    <th>Last Name:</th>
+                                    <td><?php echo htmlspecialchars($member['last_name']); ?></td>
+                                </tr>
+                                <tr>
+                                    <th>Email:</th>
+                                    <td><?php echo htmlspecialchars($member['email']); ?></td>
+                                </tr>
+                                <tr>
+                                    <th>Phone:</th>
+                                    <td><?php echo htmlspecialchars($member['phone']); ?></td>
+                                </tr>
+                                <tr>
+                                    <th>Gender:</th>
+                                    <td><?php echo htmlspecialchars($member['gender']); ?></td>
+                                </tr>
+                                <tr>
+                                    <th>Birth Date:</th>
+                                    <td><?php echo htmlspecialchars($member['birth_date']); ?></td>
+                                </tr>
+                                <tr>
+                                    <th>Address:</th>
+                                    <td><?php echo htmlspecialchars($member['address']); ?></td>
+                                </tr>
+                                <tr>
+                                    <th>Status:</th>
+                                    <td><?php echo $member['status'] == 1 ? 'Alive' : 'Late'; ?></td>
+                                </tr>
+                            </table>
+                            <div class="d-flex justify-content-end">
+                                <a href="delete_member.php?id=<?php echo $member['id']; ?>" class="mx-2 py-1 btn-danger d-inline button">Delete</a>
+                                <a href="edit_member.php?id=<?php echo $member['id']; ?>" class="py-1 d-inline button">Edit</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="../js/jquery.js"></script>
+    <script src="../js/bootstrap.js"></script>
 </body>
 
 </html>
