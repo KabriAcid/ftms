@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     // Prepare query to check if the family code exists
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE family_code = :family_code");
+    $stmt = $pdo->prepare("SELECT * FROM members WHERE family_code = :family_code");
     $stmt->execute(["family_code" => $familyCode]);
     $family = $stmt->fetch(PDO::FETCH_ASSOC);
 

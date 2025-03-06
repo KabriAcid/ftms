@@ -2,11 +2,11 @@
 require __DIR__ . '/../../config/database.php';
 
 session_start();
-$userId = $_SESSION['user_id']; // Assuming user_id is stored in session
+$userId = $_SESSION['user']['id']; // Assuming user_id is stored in session
 
 // Fetch user details
 try {
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE id = :user_id");
+    $stmt = $pdo->prepare("SELECT * FROM members WHERE id = :user_id");
     $stmt->execute([':user_id' => $userId]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -118,4 +118,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </main>
 </body>
+
 </html>

@@ -9,14 +9,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = trim($_POST['password']);
 
     // Fetch user from database
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE family_code = ?");
+    $stmt = $pdo->prepare("SELECT * FROM families WHERE family_code = ?");
     $stmt->execute([$family_code]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($user && password_verify($password, $user['password'])) {
-        $_SESSION['user'] = $user;
-        header("Location: dashboard.php");
-        exit;
+    if ($user) {
+        echo 'success';
+        // Check if family ID exists in members table
+        $family_id = $user['id'];
+        $stmt = $pdo->prepare("SELECT * FROM members WHERE family_id = ?");
+        $stmt->execute([$family_id]);
+        $member = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($member) {
+            $_SESSION['user'] = $member;
+            header("Location: dashboard.php");
+            exit;
+        } else {
+            $error = "No matching family member found.";
+        }
     } else {
         $error = "Invalid family code or password.";
     }
@@ -24,18 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Family Tree User Registration</title>
-    <!-- Bootstrap CSS -->
-
-    <link rel="stylesheet" href="../../public/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../public/css/style.css">
-</head>
+<?php require __DIR__ . '/../partials/header.php' ?>
 
 <body>
 

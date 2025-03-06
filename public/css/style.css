@@ -56,17 +56,11 @@ a {
 
 main {
     width: 100%;
-    margin-left: 5rem;
-
 }
 
 .nav-link,
 .navbar-brand {
     color: white !important;
-}
-
-.fa-solid {
-    color: var(--primary);
 }
 
 /* SIDEBAR */
@@ -139,12 +133,6 @@ main {
     transition: all 0.4s, color 0.3s;
 }
 
-.sidebar .header .focus {
-    outline: 1px dashed transparent;
-    outline-offset: 0.5rem;
-    border-radius: 0.5px;
-}
-
 .sidebar .header button {
     background-color: transparent;
     border: none;
@@ -203,7 +191,7 @@ main {
 
 .sidebar .separator-wrapper .minimize-btn i {
     font-size: 1.2rem;
-    color: var(--logo-text);
+    color: var(--primary);
     transition: transform 0.3s;
 }
 
@@ -257,6 +245,7 @@ main {
 .sidebar .navigation .section .items .item a i {
     width: 1rem;
     transition: all 0.4s;
+    color: var(--primary);
 }
 
 .sidebar .navigation .section .items .item a .item-text {
@@ -314,7 +303,7 @@ main {
 .sidebar:has(#minimize:checked) .header a .focus {
     position: absolute;
     left: 50%;
-    transform: translateX(-50%) rotate(-15deg);
+    transform: translateX(-50%);
     outline-color: var(--logo-text);
 }
 
@@ -557,8 +546,9 @@ i.d-none {
     display: none;
 }
 
-.fa {
+i.fa {
     color: var(--primary);
+    font-size: 2rem;
 }
 
 .card {
@@ -611,4 +601,8 @@ p.card-text {
     border-radius: 4px;
     box-shadow: var(--shadow);
     cursor: pointer;
+}
+.font-weight-bolder {
+    font-weight: 600;
+    font-size: 2em;
 }

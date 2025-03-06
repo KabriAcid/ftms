@@ -2,6 +2,8 @@
 session_start();
 require __DIR__ . '/../../config/database.php';
 require __DIR__ . '/../helpers/helpers.php';
+
+var_dump($_SESSION['user']);
 ?>
 
 <?php require __DIR__ . '/../partials/header.php'; ?>
@@ -17,25 +19,27 @@ require __DIR__ . '/../helpers/helpers.php';
                 <h4>Dashboard</h4>
                 <div class="user-info">
                     <!-- Avatar Placeholder -->
-                    <span class="user-name">
-                        <?php
-                        if (isset($_SESSION['username'])) {
-                            echo $_SESSION['username'];
-                        } else {
-                            echo 'Guest';
-                        }
-                        ?>
-                    </span>
-                    <img src="../IMG/avatar.jpg" alt="User Avatar" class="user-avatar">
+                    <a href="profile.php" class="text-light">
+                        <span class="user-name mx-2">
+                            <?php
+                            if (isset($_SESSION['username'])) {
+                                echo $_SESSION['username'];
+                            } else {
+                                echo 'Guest';
+                            }
+                            ?>
+                        </span>
+                        <img src="../IMG/avatar.jpg" alt="User Avatar" class="user-avatar">
+                    </a>
                 </div>
             </div>
         </header>
 
         <!-- Main Content Area -->
         <main id="content">
-            <div class="container mt-4">
+            <div class="container">
                 <!-- Header: Welcome Message -->
-                <div class="row mb-4">
+                <div class="row">
                     <div class="col">
                         <h2>Welcome, <?php echo isset($_SESSION['user']['username']) ? htmlspecialchars($_SESSION['user']['username']) : 'Guest'; ?>!</h2>
                         <p>Here's a quick overview of your family tree.</p>
@@ -43,50 +47,157 @@ require __DIR__ . '/../helpers/helpers.php';
                 </div>
 
                 <!-- Family Overview Section -->
-                <div class="row">
-                    <!-- Family Summary Card -->
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Family Summary</h5>
-                                <p class="card-text">Family Name: <?php echo htmlspecialchars($family_summary['family_name']); ?></p>
-                                <p class="card-text">Family Code: <?php echo htmlspecialchars($family_summary['family_code']); ?></p>
-                                <p class="card-text">Members: <?php echo htmlspecialchars($family_summary['member_count']); ?></p>
+                <div class="container-fluid pt-3">
+                    <div class="row">
+                        <!-- Total Males Card -->
+                        <div class="col-xl-3 col-sm-6">
+                            <div class="card mb-3 mb-xl-0">
+                                <div class="card-body p-3">
+                                    <div class="text-center">
+                                        <div class="icon icon-shape bg-gradient-dark text-center border-radius-md mb-2">
+                                            <i class="fa fa-male text-lg" aria-hidden="true"></i>
+                                        </div>
+                                        <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Males</p>
+                                        <h6 class="font-weight-bolder mb-0">
+                                            <!-- Placeholder value -->
+                                            40
+                                        </h6>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Recent Activities Card -->
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Recent Activities</h5>
-                                <ul class="list-group list-group-flush">
-                                    <?php foreach ($recent_activities as $activity): ?>
-                                        <li class="list-group-item"><?php echo htmlspecialchars($activity['description']); ?> - <?php echo htmlspecialchars($activity['created_at']); ?></li>
-                                    <?php endforeach; ?>
-                                </ul>
+                        <!-- Total Females Card -->
+                        <div class="col-xl-3 col-sm-6">
+                            <div class="card mb-3 mb-xl-0">
+                                <div class="card-body p-3">
+                                    <div class="text-center">
+                                        <div class="icon icon-shape bg-gradient-dark text-center border-radius-md mb-2">
+                                            <i class="fa fa-female text-lg" aria-hidden="true"></i>
+                                        </div>
+                                        <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Females</p>
+                                        <h6 class="font-weight-bolder mb-0">
+                                            <!-- Placeholder value -->
+                                            35
+                                        </h6>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Upcoming Events Card -->
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Upcoming Events</h5>
-                                <ul class="list-group list-group-flush">
-                                    <?php foreach ($upcoming_events as $event): ?>
-                                        <li class="list-group-item"><?php echo htmlspecialchars($event['event_name']); ?> - <?php echo htmlspecialchars($event['event_date']); ?></li>
-                                    <?php endforeach; ?>
-                                </ul>
+                        <!-- Total Alive Card -->
+                        <div class="col-xl-3 col-sm-6">
+                            <div class="card mb-3 mb-xl-0">
+                                <div class="card-body p-3">
+                                    <div class="text-center">
+                                        <div class="icon icon-shape bg-gradient-dark text-center border-radius-md mb-2">
+                                            <i class="fa fa-heartbeat text-lg" aria-hidden="true"></i>
+                                        </div>
+                                        <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Alive</p>
+                                        <h6 class="font-weight-bolder mb-0">
+                                            <!-- Placeholder value -->
+                                            60
+                                        </h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Total Deceased Card -->
+                        <div class="col-xl-3 col-sm-6">
+                            <div class="card mb-3 mb-xl-0">
+                                <div class="card-body p-3">
+                                    <div class="text-center">
+                                        <div class="icon icon-shape bg-gradient-dark text-center border-radius-md mb-2">
+                                            <i class="fa fa-cross text-lg" aria-hidden="true"></i>
+                                        </div>
+                                        <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Deceased</p>
+                                        <h6 class="font-weight-bolder mb-0">
+                                            <!-- Placeholder value -->
+                                            15
+                                        </h6>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
+            <!--  -->
+            <div class="container pt-3 box-shadow">
+                <!-- Children List Section -->
+                <div class="row">
+                    <div class="col-12">
+                        <h4 class="mb-3 py-4 font-weight-bold">Children List</h5>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Photo</th>
+                                            <th>Name</th>
+                                            <th>Birth Date</th>
+                                            <th>Gender</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Placeholder rows for children -->
+                                        <tr>
+                                            <td>1</td>
+                                            <td>
+                                                <img src="https://via.placeholder.com/50" alt="Photo" class="img-thumbnail" style="width: 50px; height: 50px;">
+                                            </td>
+                                            <td>John Doe</td>
+                                            <td>2005-06-15</td>
+                                            <td>Male</td>
+                                            <td>Active</td>
+                                            <td>
+                                                <!-- Actions can include buttons like Edit, View, Delete, etc. -->
+                                                <a href="child_details.php?id<?= 1;?>" class="badge badge-sm bg-secondary border-0">View</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>
+                                                <img src="https://via.placeholder.com/50" alt="Photo" class="img-thumbnail" style="width: 50px; height: 50px;">
+                                            </td>
+                                            <td>Jane Doe</td>
+                                            <td>2010-09-23</td>
+                                            <td>Female</td>
+                                            <td>Active</td>
+                                            <td>
+                                                <!-- Actions can include buttons like Edit, View, Delete, etc. -->
+                                                <a href="child_details.php?id<?= 1;?>" class="badge badge-sm bg-secondary border-0">View</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>
+                                                <img src="https://via.placeholder.com/50" alt="Photo" class="img-thumbnail" style="width: 50px; height: 50px;">
+                                            </td>
+                                            <td>Michael Smith</td>
+                                            <td>2013-12-05</td>
+                                            <td>Male</td>
+                                            <td>Inactive</td>
+                                            <td>
+                                                <!-- Actions can include buttons like Edit, View, Delete, etc. -->
+                                                <a href="child_details.php?id<?= 1;?>" class="badge badge-sm bg-secondary border-0">View</a>
+                                            </td>
+                                        </tr>
+                                        <!-- Add more placeholder rows as needed -->
+                                    </tbody>
+                                </table>
+                            </div>
+                    </div>
+                </div>
+            </div>
+
         </main>
     </div>
+
 
     <script>
         const searchInput = document.getElementById('search');

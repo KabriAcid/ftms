@@ -5,12 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guest Authentication</title>
+    <link rel="stylesheet" href="public/css/bootstrap.min.css">
     <link rel="stylesheet" href="public/css/style.css">
-    <style>
-        main {
-            margin-bottom: 32rem;
-        }
-    </style>
 </head>
 
 <body>

@@ -2,7 +2,7 @@
 require __DIR__ . '/../../config/database.php';
 
 session_start();
-$familyId = $_SESSION['family_id']; // Assuming family_id is stored in session
+$familyId = $_SESSION['user']['id']; // Assuming family_id is stored in session
 
 // Get child ID from GET parameters
 if (!isset($_GET['id']) || empty($_GET['id'])) {

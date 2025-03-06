@@ -1,7 +1,7 @@
 <aside class="sidebar">
     <nav>
         <div class="header">
-            <a href="#"><span class="focus">F</span><span class="unfocus">amily Tree</span></a>
+            <a href="#"><span class="focus"><img src="../favicon.png" alt="favicon" width="50px" height="50px"></span><span class="unfocus">Family Tree</span></a>
             <button><i class="fa-solid fa-ellipsis-vertical"></i></button>
         </div>
         <div class="separator-wrapper">
@@ -25,7 +25,7 @@
                         </a>
                     </li>
                     <li class="item">
-                        <a href="#">
+                        <a href="profile.php">
                             <i class="fa-solid fa-user"></i>
                             <span class="item-text">Profile</span>
                             <span class="item-tooltip">Profile</span>
@@ -60,10 +60,10 @@
                         </a>
                     </li>
                     <li class="item">
-                        <a href="#">
-                            <i class="fa-solid fa-cogs"></i>
-                            <span class="item-text">Settings</span>
-                            <span class="item-tooltip">Settings</span>
+                        <a href="logout.php">
+                            <i class="fa fa-exit"></i>
+                            <span class="item-text">Logout</span>
+                            <span class="item-tooltip">Logout</span>
                         </a>
                     </li>
                 </ul>
