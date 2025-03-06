@@ -2,6 +2,7 @@
 require __DIR__ . '/../../config/database.php';
 
 session_start();
+<<<<<<< HEAD
 $userId = $_SESSION['user']['id']; // Assuming user_id is stored in session
 
 try {
@@ -69,6 +70,83 @@ try {
                         </span>
                         <img src="<?php echo $_SESSION['user']['profile_picture'] ?? 'uploads/avatar.jpg'; ?>" alt="Avatar" class="user-avatar">
                     </a>
+=======
+$family_code = $_SESSION['user']['family_code'];
+foreach($_SESSION['user'] as $key => $val){
+    echo $key . ": " . $val;
+    echo "<br>";
+}
+try {
+    $stmt = $pdo->prepare("SELECT * FROM family WHERE family_code = :family_code");
+    $stmt->execute([':family_code' => $family_code]);
+    $family = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if ($family) {
+        $familyId = $family['id'];
+    } else {
+        $familyId = 0;
+    }
+} catch (PDOException $e) {
+    echo "Database Error" . $e->getMessage();
+    $family = [];
+}
+// Fetch family overview
+try {
+    $stmt = $pdo->prepare("SELECT * FROM family WHERE id = :family_id");
+    $stmt->execute([':family_id' => $familyId]);
+    $family = $stmt->fetch(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    error_log("Database error: " . $e->getMessage());
+    $family = [];
+}
+
+// Fetch children
+try {
+    $stmt = $pdo->prepare("SELECT * FROM children WHERE family_id = :family_id");
+    $stmt->execute([':family_id' => $familyId]);
+    $children = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    error_log("Database error: " . $e->getMessage());
+    $children = [];
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Management System Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        td {
+            vertical-align: middle;
+        }
+    </style>
+</head>
+
+<body>
+    <?php require __DIR__ . '/../partials/navbar.php'; ?> <!-- Include the navbar -->
+
+    <main>
+        <div class="container mt-5">
+            <!-- Family Overview -->
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Family Overview</h2>
+                    <div class="card">
+                        <div class="card-header">
+                            <img src="../img/avatar.jpg" alt="family-pic" class="avatar">
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title"><?php echo htmlspecialchars($family['family_name']); ?></h3>
+                            <p class="card-text"><?php echo htmlspecialchars($family['family_code']); ?></p>
+                            <a href="biography.php" class="btn btn-secondary">View Biography</a>
+                        </div>
+                    </div>
+>>>>>>> 3205cbadc014cd35721f8bd3435d47490e787d27
                 </div>
             </div>
         </header>
