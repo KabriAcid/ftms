@@ -14,6 +14,7 @@ try {
 
     if (!$member) {
         die('Member not found.');
+        header("Location: dashboard.php?message=Member%20not%20found");
     }
 } catch (PDOException $e) {
     error_log("Database error: " . $e->getMessage());

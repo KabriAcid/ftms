@@ -1,17 +1,28 @@
 <?php
-session_start();
 require __DIR__ . '/../../config/database.php';
+
+session_start();
+if (isset($_GET['message'])) {
+    echo "<script>
+            alert('" . $_GET['message'] . "');
+            window.history.replaceState({}, document.title, window.location.pathname);
+          </script>";
+}
+
+$userId = $_SESSION['user']['id']; // Assuming user_id is stored in session
 
 try {
     // Fetch all members
-    $stmt = $pdo->prepare("SELECT * FROM members WHERE status = 1");
+    $stmt = $pdo->prepare("SELECT * FROM members");
     $stmt->execute();
     $members = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     error_log("Database error: " . $e->getMessage());
     die('An error occurred while fetching members.');
 }
+
 ?>
+
 
 <?php require __DIR__ . '/../partials/header.php'; ?>
 
@@ -23,7 +34,7 @@ try {
         <!-- Navbar -->
         <header id="navbar">
             <div class="navbar-content">
-                <h4>Late</h4>
+                <h4>Members</h4>
                 <div class="user-info">
                     <!-- Avatar Placeholder -->
                     <a href="profile.php" class="text-light">
@@ -47,17 +58,16 @@ try {
             <div class="container">
                 <div class="row">
                     <div class="col">
-                        <h2>Late in the Family</h2>
-                        <p>Below is the list of all late in the family.</p>
+                        <h2>Welcome, <?php echo isset($_SESSION['user']['first_name']) ? htmlspecialchars($_SESSION['user']['first_name']) : 'Guest'; ?>!</h2>
+                        <p>Here's a list of all your family members.</p>
                     </div>
                 </div>
+                <!-- -->
+                <!--  -->
                 <div class="container mt-4 box-shadow">
                     <div class="row">
                         <div class="col-12">
-                            <h4 class="mb-3 py-4 bold">Late List</h4>
-                            <div class="mb-5">
-                                <input type="text" id="search" class="form-control mb-3" placeholder="Search for members...">
-                            </div>
+                            <h4 class="mb-3 py-4 font-weight-bold">Members List</h4>
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
@@ -67,11 +77,12 @@ try {
                                             <th>Name</th>
                                             <th>Birth Date</th>
                                             <th>Phone Number</th>
+                                            <th>Gender</th>
                                             <th>Status</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="members-list">
+                                    <tbody>
                                         <?php foreach ($members as $index => $member): ?>
                                             <tr>
                                                 <td><?php echo $index + 1; ?></td>
@@ -85,7 +96,8 @@ try {
                                                 <td><?php echo htmlspecialchars($member['first_name'] . ' ' . $member['last_name']); ?></td>
                                                 <td><?php echo htmlspecialchars($member['birth_date']); ?></td>
                                                 <td><?php echo htmlspecialchars($member['phone']); ?></td>
-                                                <td><?php echo $member['status'] == 1 ? 'Late' : 'Late'; ?></td>
+                                                <td><?php echo htmlspecialchars($member['gender']); ?></td>
+                                                <td><?php echo $member['status'] == 1 ? 'Alive' : 'Late'; ?></td>
                                                 <td>
                                                     <a href="child_details.php?id=<?php echo $member['id']; ?>" class="badge badge-sm bg-secondary border-0">View</a>
                                                 </td>
@@ -96,26 +108,44 @@ try {
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
-        </main>
 
+        </main>
     </div>
     <script>
-        $(document).ready(function() {
-            $('#search').on('keyup', function() {
-                var query = $(this).val();
-                $.ajax({
-                    url: 'search_males.php',
-                    method: 'GET',
-                    data: {
-                        query: query
-                    },
-                    success: function(data) {
-                        $('#members-list').html(data);
+        const searchInput = document.getElementById('search');
+        const searchButton = document.getElementById('button');
+        const responseMessage = document.getElementById('response');
+
+        searchButton.addEventListener('click', function() {
+            const searchValue = searchInput.value;
+
+            let xhr = new XMLHttpRequest();
+            xhr.open('POST', '../scripts/search-member.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    try {
+                        const response = JSON.parse(xhr.responseText);
+                        if (response.success) {
+                            responseMessage.innerHTML = response.message;
+                            document.getElementById('childrenTable').style.display = 'none'
+                        } else {
+                            responseMessage.innerHTML = response.message;
+                            responseMessage.classList.add('error')
+                        }
+                    } catch (e) {
+                        console.error("Invalid JSON response: ", xhr.responseText);
+                        responseMessage.innerHTML = "An unexpected error occurred.";
                     }
-                });
-            });
+                }
+            };
+            xhr.onerror = function() {
+                responseMessage.innerHTML = "Network error. Please try again.";
+            };
+            xhr.send('search=' + encodeURIComponent(searchValue));
         });
     </script>
     <script src="../js/jquery.js"></script>

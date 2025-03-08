@@ -10,15 +10,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         echo json_encode(["success" => false, "message" => "Family code is required."]);
         exit;
     }
-
-    // Prepare query to check if the family code exists
-    $stmt = $pdo->prepare("SELECT * FROM members WHERE family_code = :family_code");
-    $stmt->execute(["family_code" => $familyCode]);
-    $family = $stmt->fetch(PDO::FETCH_ASSOC);
-
+    try {
+        $stmt = $pdo->prepare("SELECT * FROM families WHERE family_code = :family_code");
+        $stmt->execute(["family_code" => $familyCode]);
+        $family = $stmt->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $th) {
+        throw $th->getMessage();
+    }
+    
     if ($family) {
         session_start();
-        $_SESSION["family_code"] = $familyCode;
+        $_SESSION["family_id"] = $family['id'];
         echo json_encode(["success" => true]);
     } else {
 

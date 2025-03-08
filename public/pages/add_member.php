@@ -1,6 +1,5 @@
 <?php
 require __DIR__ . '/../../config/database.php';
-
 session_start();
 $message = false;
 // Handle form submission
@@ -12,14 +11,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $phone = $_POST['phone'];
     $gender = $_POST['gender'];
+    $relationship = $_POST['relationship'];
     $birthDate = $_POST['birth_date'];
     $address = $_POST['address'];
     $status = $_POST['status'];
-    $profilePicture = "uploads/avatar.jpg";
+    $profilePicture = "uploads/user.png";
+
+    // User email is the default password
+    $password = password_hash($email, PASSWORD_DEFAULT);
 
     // Handle profile picture upload
     if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
-        $uploadDir = '../uploads/';
+        $uploadDir = 'uploads/';
         $uploadFile = $uploadDir . basename($_FILES['profile_picture']['name']);
         if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], $uploadFile)) {
             $profilePicture = $uploadFile;
@@ -27,14 +30,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     try {
-        $stmt = $pdo->prepare("INSERT INTO members (family_id, first_name, last_name, email, phone, gender, birth_date, address, status, profile_picture) VALUES (:family_id, :first_name, :last_name, :email, :phone, :gender, :birth_date, :address, :status, :profile_picture)");
+        $stmt = $pdo->prepare("INSERT INTO members (family_id, first_name, last_name, email, password, phone, gender, relationship, birth_date, address, status, profile_picture) VALUES (:family_id, :first_name, :last_name, :email, :password, :phone, :gender, :relationship, :birth_date, :address, :status, :profile_picture)");
         $stmt->execute([
             ':family_id' => $family_id,
             ':first_name' => $firstName,
             ':last_name' => $lastName,
             ':email' => $email,
+            ':password' => $password,
             ':phone' => $phone,
             ':gender' => $gender,
+            ':relationship' => $relationship,
             ':birth_date' => $birthDate,
             ':address' => $address,
             ':status' => $status,
@@ -100,19 +105,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <form method="POST" action="" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="first_name">First Name:</label>
-                                <input type="text" id="first_name" name="first_name" class="form-control" required>
+                                <input type="text" id="first_name" name="first_name" class="form-control" placeholder="First Name" required>
                             </div>
                             <div class="form-group">
                                 <label for="last_name">Last Name:</label>
-                                <input type="text" id="last_name" name="last_name" class="form-control" required>
+                                <input type="text" id="last_name" name="last_name" class="form-control" placeholder="Last Name" required>
                             </div>
                             <div class="form-group">
                                 <label for="email">Email:</label>
-                                <input type="email" id="email" name="email" class="form-control" required>
+                                <input type="email" id="email" name="email" class="form-control" placeholder="Email address" required>
                             </div>
                             <div class="form-group">
                                 <label for="phone">Phone:</label>
-                                <input type="text" id="phone" name="phone" class="form-control">
+                                <input type="text" id="phone" name="phone" class="form-control" placeholder="Phone Number">
                             </div>
                             <div class="form-group">
                                 <label for="profile_picture">Profile Picture:</label>
@@ -126,12 +131,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 </select>
                             </div>
                             <div class="form-group">
+                                <label for="relationship">Relationship:</label>
+                                <select id="relationship" name="relationship" class="form-control" required>
+                                    <option value="Father">Father</option>
+                                    <option value="Mother">Mother</option>
+                                    <option value="Brother">Brother</option>
+                                    <option value="Uncle">Uncle</option>
+                                    <option value="Aunt">Aunt</option>
+                                    <option value="Niece">Niece</option>
+                                    <option value="Nephew">Nephew</option>
+                                    <option value="Cousin">Cousin</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
                                 <label for="birth_date">Birth Date:</label>
                                 <input type="date" id="birth_date" name="birth_date" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label for="address">Address:</label>
-                                <textarea id="address" name="address" class="form-control"></textarea>
+                                <textarea id="address" name="address" class="form-control" placeholder="Home Address"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="status">Status:</label>

@@ -16,6 +16,7 @@ try {
         header('Location: dashboard.php?message=Member%20deleted%20successfully');
         exit();
     } else {
+        
         // Member not found
         header('Location: dashboard.php?message=Member%20not%20found');
         exit();

@@ -4,10 +4,10 @@ require_once __DIR__ . '/../../config/database.php';
 
 // Start session for CSRF protection
 session_start();
-if (isset($_SESSION['family_code'])) {
-    $family_code = $_SESSION['family_code'];
+if (isset($_SESSION['family_id'])) {
+    $family_id = $_SESSION['family_id'];
 } else {
-    $family_code = 00000;
+    $family_id = 00000;
 }
 
 // Initialize variables
@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors[] = "Invalid email format.";
     } else {
         // Check if email already exists in the database
-        $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
+        $stmt = $pdo->prepare("SELECT id FROM members WHERE email = ?");
         $stmt->execute([$email]);
         if ($stmt->rowCount() > 0) {
             $errors[] = "Email is already taken.";
@@ -67,8 +67,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validate Password
     if (empty($password)) {
         $errors[] = "Password is required.";
-    } elseif (strlen($password) < 6) {
+    } else if (strlen($password) < 6) {
         $errors[] = "Password should be at least 6 characters long.";
+    } else if (strlen($password) > 99) {
+        $errors[] = "Password characters too long.";
     }
 
     // Validate Confirm Password
@@ -116,14 +118,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Insert user data into the database
         try {
-            $stmt = $pdo->prepare("INSERT INTO users (first_name, last_name, family_code, email, phone, password, profile_picture, gender, birth_date, address, role)
+            $stmt = $pdo->prepare("INSERT INTO members (first_name, last_name, family_id, email, phone, password, profile_picture, gender, birth_date, address, role)
                                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
             // Execute the query
             $stmt->execute([
                 $first_name,
                 $last_name,
-                $family_code,
+                $family_id,
                 $email,
                 $phone,
                 $hashed_password,
@@ -213,6 +215,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="col-md-6 mb-3">
                         <label for="">Profile picture</label>
                         <input type="file" name="profile_picture" class="input-field">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="">Role</label>
+                        <select name="role" class="input-field">
+                            <option value="Admin">Admin</option>
+                            <option value="User" selected>User</option>
+                        </select>
                     </div>
                 </div>
 

@@ -28,6 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $phone = $_POST['phone'];
     $gender = $_POST['gender'];
+    $relationship = $_POST['relationship'];
     $birthDate = $_POST['birth_date'];
     $address = $_POST['address'];
     $status = $_POST['status'];
@@ -43,13 +44,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     try {
-        $stmt = $pdo->prepare("UPDATE members SET first_name = :first_name, last_name = :last_name, email = :email, phone = :phone, gender = :gender, birth_date = :birth_date, address = :address, status = :status, profile_picture = :profile_picture WHERE id = :id");
+        $stmt = $pdo->prepare("UPDATE members SET first_name = :first_name, last_name = :last_name, email = :email, phone = :phone, gender = :gender, relationship = :relationship, birth_date = :birth_date, address = :address, status = :status, profile_picture = :profile_picture WHERE id = :id");
         $stmt->execute([
             ':first_name' => $firstName,
             ':last_name' => $lastName,
             ':email' => $email,
             ':phone' => $phone,
             ':gender' => $gender,
+            ':relationship' => $relationship,
             ':birth_date' => $birthDate,
             ':address' => $address,
             ':status' => $status,
@@ -140,6 +142,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <option value="Male" <?php if ($member['gender'] === 'Male') echo 'selected'; ?>>Male</option>
                                 <option value="Female" <?php if ($member['gender'] === 'Female') echo 'selected'; ?>>Female</option>
                                 <option value="Other" <?php if ($member['gender'] === 'Other') echo 'selected'; ?>>Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="relationship">Relationship:</label>
+                            <select id="relationship" name="relationship" class="form-control" required>
+                                <option value="Father" <?php if ($member['relationship'] === 'Father') echo 'selected'; ?>>Father</option>
+                                <option value="Mother" <?php if ($member['relationship'] === 'Mother') echo 'selected'; ?>>Mother</option>
+                                <option value="Brother" <?php if ($member['relationship'] === 'Brother') echo 'selected'; ?>>Brother</option>
+                                <option value="Sister" <?php if ($member['relationship'] === 'Sister') echo 'selected'; ?>>Sister</option>
+                                <option value="Uncle" <?php if ($member['relationship'] === 'Uncle') echo 'selected'; ?>>Uncle</option>
+                                <option value="Aunt" <?php if ($member['relationship'] === 'Aunt') echo 'selected'; ?>>Aunt</option>
+                                <option value="Niece" <?php if ($member['relationship'] === 'Niece') echo 'selected'; ?>>Niece</option>
+                                <option value="Nephew" <?php if ($member['relationship'] === 'Nephew') echo 'selected'; ?>>Nephew</option>
+                                <option value="Cousin" <?php if ($member['relationship'] === 'Cousin') echo 'selected'; ?>>Cousin</option>
                             </select>
                         </div>
                         <div class="form-group">

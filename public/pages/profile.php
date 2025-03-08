@@ -25,6 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $phone = $_POST['phone'];
     $gender = $_POST['gender'];
+    $relationship = $_POST['relationship'];
     $birthDate = $_POST['birth_date'];
     $address = $_POST['address'];
     $profilePicture = $user['profile_picture']; // Default to the current profile picture
@@ -39,13 +40,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     try {
-        $stmt = $pdo->prepare("UPDATE members SET first_name = :first_name, last_name = :last_name, email = :email, phone = :phone, gender = :gender, birth_date = :birth_date, address = :address, profile_picture = :profile_picture WHERE id = :user_id");
+        $stmt = $pdo->prepare("UPDATE members SET first_name = :first_name, last_name = :last_name, email = :email, phone = :phone, gender = :gender, relationship = :relationship, birth_date = :birth_date, address = :address, profile_picture = :profile_picture WHERE id = :user_id");
         $stmt->execute([
             ':first_name' => $firstName,
             ':last_name' => $lastName,
             ':email' => $email,
             ':phone' => $phone,
             ':gender' => $gender,
+            ':relationship' => $relationship,
             ':birth_date' => $birthDate,
             ':address' => $address,
             ':profile_picture' => $profilePicture,
@@ -58,6 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['user']['email'] = $email;
         $_SESSION['user']['phone'] = $phone;
         $_SESSION['user']['gender'] = $gender;
+        $_SESSION['user']['relationship'] = $relationship;
         $_SESSION['user']['birth_date'] = $birthDate;
         $_SESSION['user']['address'] = $address;
         $_SESSION['user']['profile_picture'] = $profilePicture;
@@ -82,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <!-- Navbar -->
         <header id="navbar">
             <div class="navbar-content">
-                <h4>Profile</h4>
+                <h4 class="mb-3 py-4 font-weight-bold">Profile</h4>
                 <div class="user-info">
                     <!-- Avatar Placeholder -->
                     <a href="profile.php" class="text-light">
@@ -148,6 +151,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <option value="Male" <?php if ($user['gender'] === 'Male') echo 'selected'; ?>>Male</option>
                                 <option value="Female" <?php if ($user['gender'] === 'Female') echo 'selected'; ?>>Female</option>
                                 <option value="Other" <?php if ($user['gender'] === 'Other') echo 'selected'; ?>>Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="relationship">Relationship:</label>
+                            <select id="relationship" name="relationship" class="form-control" required>
+                                <option value="Father" <?php if ($user['relationship'] === 'Father') echo 'selected'; ?>>Father</option>
+                                <option value="Mother" <?php if ($user['relationship'] === 'Mother') echo 'selected'; ?>>Mother</option>
+                                <option value="Brother" <?php if ($user['relationship'] === 'Brother') echo 'selected'; ?>>Brother</option>
+                                <option value="Sister" <?php if ($user['relationship'] === 'Sister') echo 'selected'; ?>>Sister</option>
+                                <option value="Uncle" <?php if ($user['relationship'] === 'Uncle') echo 'selected'; ?>>Uncle</option>
+                                <option value="Aunt" <?php if ($user['relationship'] === 'Aunt') echo 'selected'; ?>>Aunt</option>
+                                <option value="Niece" <?php if ($user['relationship'] === 'Niece') echo 'selected'; ?>>Niece</option>
+                                <option value="Nephew" <?php if ($user['relationship'] === 'Nephew') echo 'selected'; ?>>Nephew</option>
+                                <option value="Cousin" <?php if ($user['relationship'] === 'Cousin') echo 'selected'; ?>>Cousin</option>
                             </select>
                         </div>
                         <div class="form-group">

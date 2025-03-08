@@ -5,20 +5,18 @@ require_once __DIR__ . '/../../config/database.php';
 $error = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get input values
-    $family_code = trim($_POST['family_code']);
+    $email = trim($_POST['email']);
     $password = trim($_POST['password']);
 
     // Fetch user from database
-    $stmt = $pdo->prepare("SELECT * FROM families WHERE family_code = ?");
-    $stmt->execute([$family_code]);
+    $stmt = $pdo->prepare("SELECT * FROM members WHERE email = ?");
+    $stmt->execute([$email]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($user) {
-        echo 'success';
         // Check if family ID exists in members table
-        $family_id = $user['id'];
-        $stmt = $pdo->prepare("SELECT * FROM members WHERE family_id = ?");
-        $stmt->execute([$family_id]);
+        $stmt = $pdo->prepare("SELECT * FROM members WHERE email = ? && password = ?");
+        $stmt->execute([$email, $password]);
         $member = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($member) {
@@ -29,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $error = "No matching family member found.";
         }
     } else {
-        $error = "Invalid family code or password.";
+        $error = "Email does not exist.";
     }
 }
 ?>
@@ -51,8 +49,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <form action="" method="POST" class="box-shadow p-5">
                 <div class="row">
                     <div class="col-12 mb-3">
-                        <label for="family_code" class="form-label">Family Code</label>
-                        <input type="text" placeholder="Family Code" class="input-field" id="family_code" name="family_code" required>
+                        <label for="email" class="form-label">Family Code</label>
+                        <input type="text" placeholder="Family Code" class="input-field" id="email" name="email" required>
                     </div>
                     <div class="col-12 mb-3">
                         <label for="password" class="form-label">Password</label>

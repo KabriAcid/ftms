@@ -2,8 +2,14 @@
 require __DIR__ . '/../../config/database.php';
 
 session_start();
+if (isset($_GET['message'])) {
+    echo "<script>
+            alert('" . $_GET['message'] . "');
+            window.history.replaceState({}, document.title, window.location.pathname);
+          </script>";
+}
 
-$userId = $_SESSION['user']['id']; // Assuming user_id is stored in session
+$userId = $_SESSION['user']['id'];
 
 try {
     // Fetch counts
@@ -37,16 +43,25 @@ try {
     die('An error occurred while fetching members.');
 }
 
+try {
+    // Fetch family events
+    $stmt = $pdo->prepare("SELECT * FROM events ORDER BY event_date DESC");
+    $stmt->execute();
+    $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Fetch notifications
+    $stmt = $pdo->prepare("SELECT * FROM notifications ORDER BY created_at DESC");
+    $stmt->execute();
+    $notifications = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    error_log("Database error: " . $e->getMessage());
+    die('An error occurred while fetching events or notifications.');
+}
+
 ?>
 
 
 <?php require __DIR__ . '/../partials/header.php'; ?>
-<style>
-    td {
-        vertical-align: middle;
-    }
-</style>
-
 <body class="dashboard-body">
     <!-- Sidebar (your existing markup) -->
     <?php require __DIR__ . '/../partials/sidebar.php'; ?>
@@ -168,6 +183,7 @@ try {
                                             <th>#</th>
                                             <th>Photo</th>
                                             <th>Name</th>
+                                            <th>Relationship</th>
                                             <th>Birth Date</th>
                                             <th>Phone Number</th>
                                             <th>Gender</th>
@@ -187,6 +203,7 @@ try {
                                                     <?php endif; ?>
                                                 </td>
                                                 <td><?php echo htmlspecialchars($member['first_name'] . ' ' . $member['last_name']); ?></td>
+                                                <td><?php echo htmlspecialchars($member['relationship']); ?></td>
                                                 <td><?php echo htmlspecialchars($member['birth_date']); ?></td>
                                                 <td><?php echo htmlspecialchars($member['phone']); ?></td>
                                                 <td><?php echo htmlspecialchars($member['gender']); ?></td>
@@ -204,34 +221,52 @@ try {
 
                 </div>
                 <!--  -->
-                <div class="container mt-4 p-0">
+                <div class="container p-0 mt-3">
                     <div class="row">
-                        <div class="col-lg-8 col-mb-0 mb-4">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4>Events</h4>
+                        <!-- Family Events Card -->
+                        <div class="col-lg-5 col-sm-12">
+                            <div class="card mb-3">
+                                <div class="card-header bg-gradient-dark text-white">
+                                    <h4 class="mb-0">Family Events</h4>
                                 </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-2 text-center">
-                                            <div class="d-flex align-items-center ">
-                                                <div class="box-shadow">
-                                                    <i class="fa-solid fa-cake" class="p-5">&copy;</i>
+                                <div class="card-body p-3">
+                                    <ul class="list-unstyled mb-0">
+                                        <?php foreach ($events as $event): ?>
+                                            <li class="d-flex align-items-center mb-3">
+                                                <div class="icon icon-shape bg-gradient-dark text-center border-radius-md me-3">
+                                                    <i class="fa fa-calendar text-lg" aria-hidden="true"></i>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-10 text-start">
-                                            <h6 class="bold">Wedding Anniversary</h6>
-                                            <p><?= date('d-m-Y h:m:s'); ?></p>
-                                        </div>
-                                    </div>
+                                                <div class="text-center">
+                                                    <h6 class="bold mb-0"><?php echo htmlspecialchars($event['event_title']); ?></h6>
+                                                    <p class="text-sm text-muted mb-0"><?php echo htmlspecialchars($event['event_date']); ?></p>
+                                                </div>
+                                            </li>
+                                        <?php endforeach; ?>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Distinctio nam tempore amet accusamus ea earum consequatur magnam ipsam excepturi quaerat saepe tenetur corporis cumque magni provident, maxime animi eaque ullam?</p>
+
+                        <!-- Notifications Card -->
+                        <div class="col-lg-7 col-sm-12">
+                            <div class="card mb-3">
+                                <div class="card-header bg-gradient-dark text-white">
+                                    <h4 class="mb-0">Notifications</h4>
+                                </div>
+                                <div class="card-body p-3">
+                                    <ul class="list-unstyled mb-0">
+                                        <?php foreach ($notifications as $notification): ?>
+                                            <li class="d-flex align-items-center mb-3">
+                                                <div class="icon icon-shape bg-gradient-dark text-center border-radius-md me-3">
+                                                    <i class="fa fa-bell text-lg" aria-hidden="true"></i>
+                                                </div>
+                                                <div>
+                                                    <h6 class="bold mb-0"><?php echo htmlspecialchars($notification['title']); ?></h6>
+                                                    <p class="text-sm text-muted mb-0"><?php echo htmlspecialchars($notification['created_at']); ?></p>
+                                                </div>
+                                            </li>
+                                        <?php endforeach; ?>
+                                    </ul>
                                 </div>
                             </div>
                         </div>

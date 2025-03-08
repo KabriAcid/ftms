@@ -32,7 +32,7 @@
                         </a>
                     </li>
                     <li class="item">
-                        <a href="#">
+                        <a href="members.php">
                             <i class="fa-solid fa-users"></i>
                             <span class="item-text">Members</span>
                             <span class="item-tooltip">Members</span>
