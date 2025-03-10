@@ -4,6 +4,8 @@ require_once __DIR__ . '/../../config/database.php';
 
 // Start session for CSRF protection
 session_start();
+
+$family_id = $family_code = null;
 if (isset($_SESSION['family_code'])) {
     $family_code = $_SESSION['family_code'];
 
@@ -11,14 +13,14 @@ if (isset($_SESSION['family_code'])) {
     $stmt->execute([$family_code]);
     $family = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    $family_id = $family['id'];
-} else {
-    $family_code = null;
+    if ($family) {
+        $family_id = $family['id'];
+    }
 }
 
 // Initialize variables
 $errors = [];
-$first_name = $last_name = $email = $phone = $password = $confirm_password = $gender = $birth_date = $address = $role = '';
+$first_name = $last_name = $email = $phone = $relationship = $password = $confirm_password = $gender = $birth_date = $address = $role = '';
 $profile_picture = 'uploads/user.png';
 
 // Handle form submission
@@ -28,13 +30,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $first_name = trim(ucwords($_POST['first_name']));
     $last_name = trim(ucwords($_POST['last_name']));
     $email = trim(strtolower($_POST['email']));
-    $phone = isset($_POST['phone']) ? trim($_POST['phone']) : NULL;
+    $relationship = trim($_POST['relationship']);
+    $phone = isset($_POST['phone']) ? trim($_POST['phone']) : null;
     $password = trim($_POST['password']);
     $confirm_password = trim($_POST['confirm_password']);
     $gender = $_POST['gender'];
-    $birth_date = isset($_POST['birth_date']) ? trim($_POST['birth_date']) : NULL;
-    $address = isset($_POST['address']) ? trim($_POST['address']) : NULL;
-    $role = isset($_POST['role']) ? $_POST['role'] : 'Admin';
+    $birth_date = isset($_POST['birth_date']) ? trim($_POST['birth_date']) : null;
+    $address = isset($_POST['address']) ? trim($_POST['address']) : 'N/A';
+
+    // Check if there are any existing members with the same family_code
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM members WHERE family_code = ?");
+    $stmt->execute([$family_code]);
+    $member_count = $stmt->fetchColumn();
+
+    // Assign "Admin" role to the first registered member with this family_code
+    if ($member_count == 0) {
+        $role = 'Admin';
+    } else {
+        $role = 'User';
+    }
 
     // Validate First Name
     if (empty($first_name)) {
@@ -115,8 +129,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Insert user data into the database
         try {
-            $stmt = $pdo->prepare("INSERT INTO members (first_name, last_name, family_id, family_code, email, phone, password, profile_picture, gender, birth_date, address, role)
-                                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt = $pdo->prepare("INSERT INTO members (first_name, last_name, family_id, family_code, email, relationship, phone, password, profile_picture, gender, birth_date, address, role)
+                                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
             // Execute the query
             $stmt->execute([
@@ -125,6 +139,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $family_id,
                 $family_code,
                 $email,
+                $relationship,
                 $phone,
                 $hashed_password,
                 $profile_picture,
@@ -138,7 +153,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: login.php");
             exit();
         } catch (PDOException $e) {
-            $errors[] = "An internal error occurred. Please try again." . $e->getMessage();
+            $errors[] = "An internal error occurred. Please try again. " . $e->getMessage();
         }
     }
 }
@@ -194,7 +209,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="phone" class="form-label">Phone (optional)</label>
-                        <input type="tel" placeholder="Phone Number" class="input-field" id="phone" name="phone" value="<?php echo $phone; ?>">
+                        <input type="tel" placeholder="Phone Number" class="input-field" id="phone" name="phone" value="<?php echo $phone; ?>" maxlength="11">
                     </div>
                 </div>
 
@@ -210,9 +225,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <div class="row">
-                    <div class="col mb-3">
+                    <div class="col-md-6 mb-3">
                         <label for="">Profile picture</label>
                         <input type="file" name="profile_picture" class="input-field">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="">Relationship</label>
+                        <select id="relationship" name="relationship" class="input-field" required>
+                            <option value="Father">Father</option>
+                            <option value="Mother">Mother</option>
+                            <option value="Brother">Brother</option>
+                            <option value="Sister">Sister</option>
+                            <option value="Uncle">Uncle</option>
+                            <option value="Aunt">Aunt</option>
+                            <option value="Niece">Niece</option>
+                            <option value="Nephew">Nephew</option>
+                            <option value="Cousin">Cousin</option>
+                        </select>
                     </div>
                 </div>
 

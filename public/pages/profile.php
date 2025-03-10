@@ -1,11 +1,11 @@
 <?php
 require __DIR__ . '/../../config/database.php';
 
+session_start();
 if(!isset($_SESSION['user'])){
     header("Location: logout.php");
 }
 
-session_start();
 $userId = $_SESSION['user']['id']; // Assuming user_id is stored in session
 // Fetch user details
 $message = false;

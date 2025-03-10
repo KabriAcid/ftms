@@ -1,6 +1,5 @@
 <?php
 session_start();
-var_dump($_SESSION['family_code']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,7 +18,7 @@ var_dump($_SESSION['family_code']);
 
 <body>
     <main>
-        <div class="container box-shadow w-50 m-auto">
+        <div class="container box-shadow w-50 m-auto mt-4">
             <div class="container-header">
                 <h2>VERIFY FAMILY CODE</h2>
                 <p>Enter the family code that has been sent to your email.</p>

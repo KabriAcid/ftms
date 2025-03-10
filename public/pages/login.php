@@ -3,42 +3,45 @@ session_start();
 require_once __DIR__ . '/../../config/database.php';
 
 $error = "";
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get input values
-    $family_code = trim($_POST['family_code']);
-    $password = trim($_POST['password']);
+try {
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Get input values
+        $family_code = trim($_POST['family_code']);
+        $password = trim($_POST['password']);
 
-    // Fetch user from database
-    $stmt = $pdo->prepare("SELECT * FROM families WHERE family_code = ?");
-    $stmt->execute([$family_code]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if ($user) {
-        echo 'success';
-        // Check if family ID exists in members table
-        $family_id = $user['id'];
-        $stmt = $pdo->prepare("SELECT * FROM members WHERE family_id = ?");
-        $stmt->execute([$family_id]);
+        // Fetch member from database
+        $stmt = $pdo->prepare("SELECT * FROM members WHERE family_code = ?");
+        $stmt->execute([$family_code]);
         $member = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        // Debugging step: Print retrieved member data
+        // echo "<pre>"; print_r($member); echo "</pre>"; exit;
+
         if ($member) {
-            $_SESSION['user'] = $member;
-            header("Location: dashboard.php");
-            exit;
+            // Debugging step: Verify the password hash
+            if (password_verify($password, $member['password'])) {
+                $_SESSION['user'] = $member;
+                header("Location: dashboard.php");
+                exit;
+            } else {
+                // Debugging step: Print hashed password
+                // echo "Hashed password: " . $member['password'];
+                $error = "Invalid family code or password.";
+            }
         } else {
-            $error = "No matching family member found.";
+            $error = "Invalid family code or password.";
         }
-    } else {
-        $error = "Invalid family code or password.";
     }
+} catch (PDOException $e) {
+    $error = $e->getMessage();
+} catch (Exception $e) {
+    $error = $e->getMessage();
 }
 ?>
-
 
 <?php require __DIR__ . '/../partials/header.php' ?>
 
 <body>
-
     <main class="container-fluid p-5">
         <div class="container">
             <h2 class="text-center my-5">Please log in with your details</h2>
@@ -67,12 +70,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
             </form>
         </div>
-
     </main>
     <!-- Bootstrap JS & dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
-
 </body>
 
 </html>

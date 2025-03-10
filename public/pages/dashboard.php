@@ -44,7 +44,7 @@ try {
 
 try {
     // Fetch all members
-    $stmt = $pdo->prepare("SELECT * FROM members WHERE family_id = ?");
+    $stmt = $pdo->prepare("SELECT * FROM members WHERE family_id = ? LIMIT 5");
     $stmt->execute([$family_id]);
     $members = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
