@@ -26,15 +26,17 @@ document.addEventListener("DOMContentLoaded", function () {
     const submit = document.getElementById('submit');
     submit.addEventListener("click", function () {
 
-        let familyCode = document.getElementById("family_code").value;
+        let family_code = document.getElementById("family_code").value;
         let errorMessage = document.getElementById("error-message");
 
-        if (familyCode.trim() === "") {
+        sessionStorage.setItem('family_code', family_code);
+
+        if (family_code.trim() === "") {
             errorMessage.textContent = "Family code is required.";
             return;
         }
 
-        let formData = "family_code=" + encodeURIComponent(familyCode);
+        let formData = "family_code=" + encodeURIComponent(family_code);
 
         sendAjaxRequest("public/scripts/guest_auth.php", formData, function (response) {
             if (response.success) {

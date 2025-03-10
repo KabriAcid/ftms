@@ -1,10 +1,5 @@
 <?php
 session_start();
-
-// if(isset($_SESSION['family_code'])){
-//     session_destroy();
-// }
-
 require_once __DIR__ . '/../../config/database.php';
 
 $error = "";

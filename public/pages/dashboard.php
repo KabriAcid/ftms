@@ -9,34 +9,43 @@ if (isset($_GET['message'])) {
           </script>";
 }
 
+if (!isset($_SESSION['user'])) {
+    header("Location: logout.php");
+}
+
 $userId = $_SESSION['user']['id'];
+$family_id = $_SESSION['user']['family_id'];
 
 try {
-    // Fetch counts
-    $maleCountStmt = $pdo->prepare("SELECT COUNT(*) FROM members WHERE gender = 'Male'");
-    $maleCountStmt->execute();
+    // Fetch male count for the current user's family
+    $maleCountStmt = $pdo->prepare("SELECT COUNT(*) FROM members WHERE gender = 'Male' AND family_id = ?");
+    $maleCountStmt->execute([$family_id]);
     $maleCount = $maleCountStmt->fetchColumn();
 
-    $femaleCountStmt = $pdo->prepare("SELECT COUNT(*) FROM members WHERE gender = 'Female'");
-    $femaleCountStmt->execute();
+    // Fetch female count for the current user's family
+    $femaleCountStmt = $pdo->prepare("SELECT COUNT(*) FROM members WHERE gender = 'Female' AND family_id = ?");
+    $femaleCountStmt->execute([$family_id]);
     $femaleCount = $femaleCountStmt->fetchColumn();
 
-    $aliveCountStmt = $pdo->prepare("SELECT COUNT(*) FROM members WHERE status = 1");
-    $aliveCountStmt->execute();
+    // Fetch alive count for the current user's family
+    $aliveCountStmt = $pdo->prepare("SELECT COUNT(*) FROM members WHERE status = 1 AND family_id = ?");
+    $aliveCountStmt->execute([$family_id]);
     $aliveCount = $aliveCountStmt->fetchColumn();
 
-    $deceasedCountStmt = $pdo->prepare("SELECT COUNT(*) FROM members WHERE status = 0");
-    $deceasedCountStmt->execute();
+    // Fetch deceased count for the current user's family
+    $deceasedCountStmt = $pdo->prepare("SELECT COUNT(*) FROM members WHERE status = 0 AND family_id = ?");
+    $deceasedCountStmt->execute([$family_id]);
     $deceasedCount = $deceasedCountStmt->fetchColumn();
 } catch (PDOException $e) {
     error_log("Database error: " . $e->getMessage());
     die('An error occurred while fetching counts.');
 }
 
+
 try {
     // Fetch all members
-    $stmt = $pdo->prepare("SELECT * FROM members");
-    $stmt->execute();
+    $stmt = $pdo->prepare("SELECT * FROM members WHERE family_id = ?");
+    $stmt->execute([$family_id]);
     $members = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     error_log("Database error: " . $e->getMessage());
@@ -44,18 +53,26 @@ try {
 }
 
 try {
-    // Fetch family events
-    $stmt = $pdo->prepare("SELECT * FROM events ORDER BY event_date DESC");
-    $stmt->execute();
-    $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // Fetch all members
 
+    $stmt = $pdo->prepare("SELECT * FROM families WHERE id = ?");
+    $stmt->execute([$family_id]);
+    $family = $stmt->fetch(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     error_log("Database error: " . $e->getMessage());
-    die('An error occurred while fetching events.');
+    die('An error occurred while fetching members.');
 }
 
+try {
+    // Fetch family events
+    $stmt = $pdo->prepare("SELECT * FROM events WHERE family_id = ? ORDER BY event_date DESC");
+    $stmt->execute([$family_id]);
+    $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    error_log("Database error: " . $e->getMessage());
+    echo "An error occurred while fetching events.";
+}
 ?>
-
 
 <?php require __DIR__ . '/../partials/header.php'; ?>
 
@@ -91,11 +108,10 @@ try {
             <div class="container">
                 <div class="row">
                     <div class="col">
-                        <h2>Welcome, <?php echo isset($_SESSION['user']['first_name']) ? htmlspecialchars($_SESSION['user']['first_name']) : 'Guest'; ?>!</h2>
-                        <p>Here's a quick overview of your family tree.</p>
+                        <h1>Welcome to <span class="bold primary"><?php echo ($family['family_name']) . '&apos;' . 's' ?></span> family.</h1>
+                        <p>Your family code is: <b><?= $_SESSION['user']['family_code']; ?></b>.</p>
                     </div>
                 </div>
-                <!-- -->
                 <!-- Family Overview Section -->
                 <div class="container-fluid mt-4 p-0">
                     <div class="row summary-cards">
@@ -206,7 +222,7 @@ try {
                                                 <td><?php echo htmlspecialchars($member['gender']); ?></td>
                                                 <td><?php echo $member['status'] == 1 ? 'Alive' : 'Late'; ?></td>
                                                 <td>
-                                                    <a href="child_details.php?id=<?php echo $member['id']; ?>" class="badge badge-sm bg-secondary border-0">View</a>
+                                                    <a href="member_details.php?id=<?php echo $member['id']; ?>" class="badge badge-sm bg-secondary border-0">View</a>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>
@@ -228,17 +244,31 @@ try {
                                 </div>
                                 <div class="card-body p-3">
                                     <ul class="list-unstyled mb-0">
-                                        <?php foreach ($events as $event): ?>
-                                            <li class="d-flex align-items-center mb-3">
+                                        <?php if (!empty($events)): ?>
+                                            <?php foreach ($events as $event): ?>
+                                                <li class="d-flex align-items-start mb-3">
+                                                    <div class="icon icon-shape bg-gradient-dark text-center border-radius-md me-3">
+                                                        <i class="fa fa-calendar text-lg" aria-hidden="true"></i>
+                                                    </div>
+                                                    <div class="text-center">
+                                                        <h6 class="bold"><?php echo htmlspecialchars($event['event_title']); ?></h6>
+                                                        <p class="text-start mb-0"><?php echo htmlspecialchars($event['event_description']); ?></p>
+                                                        <p class="text-sm text-muted mb-0 text-start"><?php echo htmlspecialchars($event['event_date']); ?></p>
+                                                    </div>
+                                                </li>
+                                            <?php endforeach; ?>
+                                        <?php else: ?>
+                                            <li class="d-flex align-items-start mb-3">
                                                 <div class="icon icon-shape bg-gradient-dark text-center border-radius-md me-3">
                                                     <i class="fa fa-calendar text-lg" aria-hidden="true"></i>
                                                 </div>
                                                 <div class="text-center">
-                                                    <h6 class="bold mb-0"><?php echo htmlspecialchars($event['event_title']); ?></h6>
-                                                    <p class="text-sm text-muted mb-0"><?php echo htmlspecialchars($event['event_date']); ?></p>
+                                                    <h6 class="bold">No events found</h6>
+                                                    <p class="text-sm text-muted mb-0 text-start">There are no events scheduled at the moment.</p>
                                                 </div>
                                             </li>
-                                        <?php endforeach; ?>
+                                        <?php endif; ?>
+
                                     </ul>
                                 </div>
                             </div>

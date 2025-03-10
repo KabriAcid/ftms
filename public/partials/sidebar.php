@@ -6,7 +6,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <nav>
         <div class="header">
             <a href="dashboard.php"><span class="focus"><img src="../favicon.png" alt="favicon" width="50px" height="50px"></span><span class="unfocus">Family Tree</span></a>
-            <button><i class="fa-solid fa-ellipsis-vertical"></i></button>
         </div>
         <div class="separator-wrapper">
             <hr class="separator" />
@@ -82,6 +81,13 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     <?php
                     }
                     ?>
+                    <li class="item <?php echo ($current_page == 'update_password.php') ? 'active' : ''; ?>">
+                        <a href="update_password.php">
+                            <i class="fa-solid fa-lock"></i>
+                            <span class="item-text">Change Password</span>
+                            <span class="item-tooltip">Change Password</span>
+                        </a>
+                    </li>
                     <li class="item">
                         <a href="logout.php">
                             <i class="fa-solid fa-key"></i>

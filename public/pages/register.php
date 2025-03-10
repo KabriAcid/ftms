@@ -12,23 +12,17 @@ if (isset($_SESSION['family_code'])) {
     $family = $stmt->fetch(PDO::FETCH_ASSOC);
 
     $family_id = $family['id'];
-
 } else {
-    $family_code = 1;
+    $family_code = null;
 }
 
 // Initialize variables
 $errors = [];
 $first_name = $last_name = $email = $phone = $password = $confirm_password = $gender = $birth_date = $address = $role = '';
-$profile_picture = 'avatar.png';
+$profile_picture = 'uploads/user.png';
 
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    // // CSRF Protection
-    // if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-    //     $errors[] = "Invalid CSRF token.";
-    // }
 
     // Collect form data
     $first_name = trim(ucwords($_POST['first_name']));
@@ -40,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $gender = $_POST['gender'];
     $birth_date = isset($_POST['birth_date']) ? trim($_POST['birth_date']) : NULL;
     $address = isset($_POST['address']) ? trim($_POST['address']) : NULL;
-    $role = isset($_POST['role']) ? $_POST['role'] : 'User';
+    $role = isset($_POST['role']) ? $_POST['role'] : 'Admin';
 
     // Validate First Name
     if (empty($first_name)) {
@@ -160,8 +154,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Family Tree</title>
     <!-- Bootstrap CSS -->
-
     <link rel="stylesheet" href="../../public/css/bootstrap.min.css">
+    <link rel="shortcut icon" href="../favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="../../public/css/style.css">
 </head>
 
@@ -216,7 +210,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <div class="row">
-                    <div class="col-md-6 mb-3">
+                    <div class="col mb-3">
                         <label for="">Profile picture</label>
                         <input type="file" name="profile_picture" class="input-field">
                     </div>

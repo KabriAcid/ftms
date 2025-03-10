@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guest Authentication</title>
+    <link rel="shortcut icon" href="public/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="public/css/bootstrap.min.css">
     <link rel="stylesheet" href="public/css/style.css">
 </head>
@@ -16,7 +17,7 @@
                 <h2>GUEST AUTHENTICATION</h2>
                 <p>Enter your family code below or generate a new one.</p>
             </div>
-            <form id="guestAuthForm">
+            <form id="guestAuthForm" method="get">
                 <input type="text" id="family_code" name="family_code" placeholder="Enter Your Family Code" class="input-field" required>
                 <p id="error-message"></p>
                 <div class="between">

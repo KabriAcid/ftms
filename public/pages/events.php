@@ -1,7 +1,12 @@
 <?php
 session_start();
 require __DIR__ . '/../../config/database.php';
+if (!isset($_SESSION['user'])) {
+    header("Location: logout.php");
+}
+
 $message = false;
+$family_id = $_SESSION['user']['family_id'];
 
 function sanitizeAndValidateEvent($eventData)
 {
@@ -44,8 +49,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $eventTime = $_POST['event_time'];
 
         try {
-            $stmt = $pdo->prepare("INSERT INTO events (event_title, event_description, event_date, event_time) VALUES (:event_title, :event_description, :event_date, :event_time)");
+            $stmt = $pdo->prepare("INSERT INTO events (family_id, event_title, event_description, event_date, event_time) VALUES (:family_id, :event_title, :event_description, :event_date, :event_time)");
             $stmt->execute([
+                ':family_id' => $family_id,
                 ':event_title' => $eventTitle,
                 ':event_description' => $eventDescription,
                 ':event_date' => $eventDate,
@@ -103,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 <div class="container mt-3 box-shadow">
                     <?php if ($message): ?>
-                        <p class='text-center text-success'><?php echo $message; ?> <b>Refresh page</b></p>
+                        <p class='text-center text-success'><?php echo $message; ?></p>
                     <?php endif; ?>
                     <form method="POST" action="">
                         <div class="form-group">

@@ -2,6 +2,10 @@
 session_start();
 require __DIR__ . '/../../config/database.php';
 
+if (!isset($_SESSION['user'])) {
+    header("Location: logout.php");
+}
+
 try {
     // Fetch all members
     $stmt = $pdo->prepare("SELECT * FROM members WHERE gender = 'Female'");
@@ -87,7 +91,7 @@ try {
                                                 <td><?php echo htmlspecialchars($member['phone']); ?></td>
                                                 <td><?php echo $member['status'] == 1 ? 'Alive' : 'Late'; ?></td>
                                                 <td>
-                                                    <a href="child_details.php?id=<?php echo $member['id']; ?>" class="badge badge-sm bg-secondary border-0">View</a>
+                                                    <a href="member_details.php?id=<?php echo $member['id']; ?>" class="badge badge-sm bg-secondary border-0">View</a>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>

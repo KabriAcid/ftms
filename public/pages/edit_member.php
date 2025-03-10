@@ -3,6 +3,10 @@ require __DIR__ . '/../../config/database.php';
 
 session_start();
 
+if (!isset($_SESSION['user'])) {
+    header("Location: logout.php");
+}
+
 // Get the member ID from the URL
 $memberId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $message = false;

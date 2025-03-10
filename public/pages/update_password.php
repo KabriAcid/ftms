@@ -2,40 +2,34 @@
 session_start();
 require __DIR__ . '/../../config/database.php';
 
+$message = '';
+
 if (!isset($_SESSION['user'])) {
     header("Location: logout.php");
 }
 
-$message = '';
-
-// Ensure the user is logged in and is an admin
-
-$familyId = $_SESSION['user']['family_id'];
-
-// Handle actions
+// Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['delete_members'])) {
+    $newPassword = $_POST['new_password'];
+    $confirmPassword = $_POST['confirm_password'];
+    $userId = $_SESSION['user']['id'];
+
+    if ($newPassword === $confirmPassword) {
+        // Update the password
         try {
-            $stmt = $pdo->prepare("DELETE FROM members WHERE family_id = :family_id");
-            $stmt->execute([':family_id' => $familyId]);
-            $message = "All family members have been deleted successfully.";
+            $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+            $stmt = $pdo->prepare("UPDATE members SET password = ? WHERE id = ?");
+            $stmt->execute([$hashedPassword, $userId]);
+            $message = "Password updated successfully.";
         } catch (PDOException $e) {
             error_log("Database error: " . $e->getMessage());
-            $message = "An error occurred while deleting family members.";
+            $message = "An error occurred while updating the password.";
         }
-    } elseif (isset($_POST['delete_events'])) {
-        try {
-            $stmt = $pdo->prepare("DELETE FROM events WHERE family_id = :family_id");
-            $stmt->execute([':family_id' => $familyId]);
-            $message = "All events have been deleted successfully.";
-        } catch (PDOException $e) {
-            error_log("Database error: " . $e->getMessage());
-            $message = "An error occurred while deleting events.";
-        }
+    } else {
+        $message = "New password and confirm password do not match.";
     }
 }
 ?>
-
 <?php require __DIR__ . '/../partials/header.php'; ?>
 
 <body class="dashboard-body">
@@ -46,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <!-- Navbar -->
         <header id="navbar">
             <div class="navbar-content">
-                <h4>Manage Family</h4>
+                <h4>Update Password</h4>
                 <div class="user-info">
                     <!-- Avatar Placeholder -->
                     <a href="profile.php" class="text-light">
@@ -70,15 +64,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="container">
                 <div class="row">
                     <div class="col">
-                        <h2>Manage App</h2>
-                        <p>Here you can choose to manage your family as the admin.</p>
+                        <h2>Update Password</h2>
+                        <p>Change your account password below.</p>
                         <?php if ($message): ?>
                             <div class="alert alert-info"><?php echo $message; ?></div>
                         <?php endif; ?>
-                        <form method="POST" action="">
-                            <button type="submit" name="delete_members" class="btn btn-danger">Delete All Family Members</button>
-                            <button type="submit" name="delete_events" class="btn btn-danger">Delete All Events</button>
-                        </form>
+                        <div class="container mt-3 box-shadow">
+                            <form method="POST" action="">
+                                <div class="form-group">
+                                    <label for="new_password">New Password:</label>
+                                    <input type="password" placeholder="Password" id="new_password" name="new_password" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirm_password">Confirm New Password:</label>
+                                    <input type="password" placeholder="Confirm Password" id="confirm_password" name="confirm_password" class="form-control" required>
+                                </div>
+                                <button type="submit" class="button">Update Password</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

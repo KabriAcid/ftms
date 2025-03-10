@@ -1,7 +1,11 @@
 <?php
 require __DIR__ . '/../../config/database.php';
-
 session_start();
+
+if (!isset($_SESSION['user'])) {
+    header("Location: logout.php");
+}
+
 if (isset($_GET['message'])) {
     echo "<script>
             alert('" . $_GET['message'] . "');
@@ -10,11 +14,12 @@ if (isset($_GET['message'])) {
 }
 
 $userId = $_SESSION['user']['id']; // Assuming user_id is stored in session
+$family_id = $_SESSION['user']['family_id']; // Assuming user_id is stored in session
 
 try {
     // Fetch all members
-    $stmt = $pdo->prepare("SELECT * FROM members");
-    $stmt->execute();
+    $stmt = $pdo->prepare("SELECT * FROM members WHERE family_id = ?");
+    $stmt->execute([$family_id]);
     $members = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     error_log("Database error: " . $e->getMessage());
@@ -99,7 +104,7 @@ try {
                                                 <td><?php echo htmlspecialchars($member['gender']); ?></td>
                                                 <td><?php echo $member['status'] == 1 ? 'Alive' : 'Late'; ?></td>
                                                 <td>
-                                                    <a href="child_details.php?id=<?php echo $member['id']; ?>" class="badge badge-sm bg-secondary border-0">View</a>
+                                                    <a href="member_details.php?id=<?php echo $member['id']; ?>" class="badge badge-sm bg-secondary border-0">View</a>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>

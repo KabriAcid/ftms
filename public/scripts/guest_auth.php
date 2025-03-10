@@ -4,15 +4,15 @@ require __DIR__ . '/../../config/database.php';
 header("Content-Type: application/json");
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $familyCode = trim($_POST["family_code"]);
+    $family_code = trim($_POST["family_code"]);
 
-    if (empty($familyCode)) {
+    if (empty($family_code)) {
         echo json_encode(["success" => false, "message" => "Family code is required."]);
         exit;
     }
     try {
         $stmt = $pdo->prepare("SELECT * FROM families WHERE family_code = :family_code");
-        $stmt->execute(["family_code" => $familyCode]);
+        $stmt->execute(["family_code" => $family_code]);
         $family = $stmt->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $th) {
         throw $th->getMessage();
@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     
     if ($family) {
         session_start();
-        $_SESSION["family_id"] = $family['id'];
+        $_SESSION["family_code"] = $family['family_code'];
         echo json_encode(["success" => true]);
     } else {
 

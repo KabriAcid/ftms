@@ -2,7 +2,9 @@
 require __DIR__ . '/../../config/database.php';
 session_start();
 
-if (isset($_SESSION['user'])) {
+if (!isset($_SESSION['user'])) {
+    header("Location: logout.php");
+} else if (isset($_SESSION['user'])) {
     $family_code = $_SESSION['user']['family_code'];
 }
 

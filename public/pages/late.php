@@ -2,6 +2,10 @@
 session_start();
 require __DIR__ . '/../../config/database.php';
 
+if (!isset($_SESSION['user'])) {
+    header("Location: logout.php");
+}
+
 try {
     // Fetch all members
     $stmt = $pdo->prepare("SELECT * FROM members WHERE status != 1");
@@ -14,7 +18,8 @@ try {
 ?>
 
 <?php require __DIR__ . '/../partials/header.php'; ?>
-t   
+t
+
 <body class="dashboard-body">
     <!-- Sidebar (your existing markup) -->
     <?php require __DIR__ . '/../partials/sidebar.php'; ?>
@@ -87,7 +92,7 @@ t
                                                 <td><?php echo htmlspecialchars($member['phone']); ?></td>
                                                 <td><?php echo $member['status'] == 1 ? 'Late' : 'Late'; ?></td>
                                                 <td>
-                                                    <a href="child_details.php?id=<?php echo $member['id']; ?>" class="badge badge-sm bg-secondary border-0">View</a>
+                                                    <a href="member_details.php?id=<?php echo $member['id']; ?>" class="badge badge-sm bg-secondary border-0">View</a>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>

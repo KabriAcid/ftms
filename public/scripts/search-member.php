@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (empty($children)) {
             echo json_encode(['success' => false, 'message' => 'No family members found.']);
         } else {
-            
+
             $result = '<table class="table table-striped">';
             $result .= '<thead><tr><th>Photo</th><th>Name</th><th>Birth Date</th><th>Gender</th><th>Status</th><th>Actions</th></tr></thead>';
             $result .= '<tbody>';
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $result .= '<td>' . htmlspecialchars($child['birth_date']) . '</td>';
                 $result .= '<td>' . htmlspecialchars($child['gender']) . '</td>';
                 $result .= '<td>' . ($child['status'] == 1 ? 'Alive' : 'Dead') . '</td>';
-                $result .= '<td><a href="child_details.php?id=' . $child['id'] . '" class="badge badge-info">View</a> ';
+                $result .= '<td><a href="member_details.php?id=' . $child['id'] . '" class="badge badge-info">View</a> ';
                 $result .= '<a href="edit_child.php?id=' . $child['id'] . '" class="badge badge-warning">Edit</a> ';
                 $result .= '<a href="delete_child.php?id=' . $child['id'] . '" class="badge badge-danger">Delete</a></td>';
                 $result .= '</tr>';
