@@ -9,6 +9,7 @@ var_dump($_SESSION['family_code']);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Verify Code</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/style.css">
     <!-- Add icon library -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -24,7 +25,7 @@ var_dump($_SESSION['family_code']);
             </div>
             <form>
                 <div class="form-row">
-                    <input type="text" id="family_code" name="family_code" placeholder="Verify your family code" class="input-field" required>
+                    <input type="text" id="family_code" name="family_code" placeholder="Verify your family code" class="input-field" required maxlength="9">
                 </div>
                 <p id="error-message"></p>
                 <div class="center">

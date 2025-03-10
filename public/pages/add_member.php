@@ -1,6 +1,12 @@
 <?php
 require __DIR__ . '/../../config/database.php';
 session_start();
+
+if(isset($_SESSION['user'])){
+    $family_code = $_SESSION['user']['family_code'];
+}
+
+
 $message = false;
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -30,9 +36,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     try {
-        $stmt = $pdo->prepare("INSERT INTO members (family_id, first_name, last_name, email, password, phone, gender, relationship, birth_date, address, status, profile_picture) VALUES (:family_id, :first_name, :last_name, :email, :password, :phone, :gender, :relationship, :birth_date, :address, :status, :profile_picture)");
+        $stmt = $pdo->prepare("INSERT INTO members (family_id, family_code, first_name, last_name, email, password, phone, gender, relationship, birth_date, address, status, profile_picture) VALUES (:family_id, :family_code, :first_name, :last_name, :email, :password, :phone, :gender, :relationship, :birth_date, :address, :status, :profile_picture)");
         $stmt->execute([
             ':family_id' => $family_id,
+            ':family_code' => $family_code,
             ':first_name' => $firstName,
             ':last_name' => $lastName,
             ':email' => $email,

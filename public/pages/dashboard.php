@@ -49,19 +49,16 @@ try {
     $stmt->execute();
     $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Fetch notifications
-    $stmt = $pdo->prepare("SELECT * FROM notifications ORDER BY created_at DESC");
-    $stmt->execute();
-    $notifications = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     error_log("Database error: " . $e->getMessage());
-    die('An error occurred while fetching events or notifications.');
+    die('An error occurred while fetching events.');
 }
 
 ?>
 
 
 <?php require __DIR__ . '/../partials/header.php'; ?>
+
 <body class="dashboard-body">
     <!-- Sidebar (your existing markup) -->
     <?php require __DIR__ . '/../partials/sidebar.php'; ?>
@@ -239,30 +236,6 @@ try {
                                                 <div class="text-center">
                                                     <h6 class="bold mb-0"><?php echo htmlspecialchars($event['event_title']); ?></h6>
                                                     <p class="text-sm text-muted mb-0"><?php echo htmlspecialchars($event['event_date']); ?></p>
-                                                </div>
-                                            </li>
-                                        <?php endforeach; ?>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Notifications Card -->
-                        <div class="col-lg-7 col-sm-12">
-                            <div class="card mb-3">
-                                <div class="card-header bg-gradient-dark text-white">
-                                    <h4 class="mb-0">Notifications</h4>
-                                </div>
-                                <div class="card-body p-3">
-                                    <ul class="list-unstyled mb-0">
-                                        <?php foreach ($notifications as $notification): ?>
-                                            <li class="d-flex align-items-center mb-3">
-                                                <div class="icon icon-shape bg-gradient-dark text-center border-radius-md me-3">
-                                                    <i class="fa fa-bell text-lg" aria-hidden="true"></i>
-                                                </div>
-                                                <div>
-                                                    <h6 class="bold mb-0"><?php echo htmlspecialchars($notification['title']); ?></h6>
-                                                    <p class="text-sm text-muted mb-0"><?php echo htmlspecialchars($notification['created_at']); ?></p>
                                                 </div>
                                             </li>
                                         <?php endforeach; ?>

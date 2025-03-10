@@ -8,12 +8,13 @@
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/style.css">
     <!-- Add icon library -->
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 </head>
 
 <body>
     <main>
-        <div class="container box-shadow">
+        <div class="container box-shadow mt-4">
             <div class="container-header">
                 <h2>GENERATE A FAMILY CODE</h2>
                 <p>A custom family code will be sent to your email.</p>
@@ -30,7 +31,7 @@
                 <p id="error-message"></p>
                 <div class="end">
                     <button type="button" class="button" id="sendCode">
-                        <i class="fa fa-circle-o-notch fa-spin d-none text-white" id="spinner"></i> Send Code
+                        <i class="fa fa-circle-o-notch fa-spin d-none" id="spinner"></i> Send Code
                     </button>
                 </div>
             </form>

@@ -34,12 +34,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $status = $_POST['status'];
     $profilePicture = $member['profile_picture']; // Default to the current profile picture
 
-    // Handle profile picture upload
-    if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
-        $uploadDir = '../uploads/';
-        $uploadFile = $uploadDir . basename($_FILES['profile_picture']['name']);
-        if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], $uploadFile)) {
-            $profilePicture = $uploadFile;
+    // Profile Picture Upload Handling
+    if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == 0) {
+        $upload_dir = 'uploads/';
+        if (!is_dir($upload_dir)) {
+            mkdir($upload_dir, 0777, true);
+        }
+
+        $file_ext = strtolower(pathinfo($_FILES['profile_picture']['name'], PATHINFO_EXTENSION));
+        if (!in_array($file_ext, ['jpg', 'jpeg', 'png', 'gif', 'heic'])) {
+            $errors[] = "Invalid file type for profile picture. Only JPG, PNG, and GIF are allowed.";
+        } else {
+            $unique_id = uniqid();
+            $profile_picture = $upload_dir . $unique_id . "." . $file_ext;
+            if (!move_uploaded_file($_FILES['profile_picture']['tmp_name'], $profile_picture)) {
+                $errors[] = "Error uploading profile picture.";
+            }
         }
     }
 
@@ -109,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <h2>Edit Member</h2>
                     <?php
                     if ($message):
-                        echo "<p class='text-center text-success'>Member Details Updated Successfully</p>";
+                        echo "<p class='text-center text-success'>Member Details Updated Successfully. Refresh page</p>";
                     endif;
                     ?>
                     <form method="POST" action="" enctype="multipart/form-data">

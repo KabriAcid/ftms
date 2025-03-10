@@ -46,24 +46,10 @@
                         </a>
                     </li>
                     <li class="item">
-                        <a href="#">
+                        <a href="events.php">
                             <i class="fa-solid fa-calendar-alt"></i>
                             <span class="item-text">Events</span>
                             <span class="item-tooltip">Events</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="section settings-section">
-                <div class="title-wrapper">
-                    <span class="title">Settings</span>
-                </div>
-                <ul class="items">
-                    <li class="item">
-                        <a href="#">
-                            <i class="fa-solid fa-bell"></i>
-                            <span class="item-text">Notifications</span>
-                            <span class="item-tooltip">Notifications</span>
                         </a>
                     </li>
                     <li class="item">

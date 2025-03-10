@@ -54,8 +54,9 @@ a {
 }
 
 td {
-    vertical-align: middle;
+    vertical-align: middle!important;
 }
+
 main {
     width: 100%;
 }
@@ -571,6 +572,11 @@ i.fa {
     font-size: 2rem;
 }
 
+.fa-spin {
+    color: white !important;
+    font-size: 1em !important;
+}
+
 .card {
     box-shadow: var(--shadow);
     text-align: center;
@@ -582,7 +588,7 @@ i.fa {
     border-radius: 8px 8px 0 0;
     background-color: rgba(30, 228, 0, 0.4);
     font-size: 12px;
-    color: var(--gray-4);
+    color: var(--gray-3);
 }
 
 .avatar-container {
@@ -627,6 +633,7 @@ p.card-text {
     font-size: 2em;
     font-weight: 600;
 }
+
 .bold {
     font-weight: 600;
 }

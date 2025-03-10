@@ -4,10 +4,17 @@ require_once __DIR__ . '/../../config/database.php';
 
 // Start session for CSRF protection
 session_start();
-if (isset($_SESSION['family_id'])) {
-    $family_id = $_SESSION['family_id'];
+if (isset($_SESSION['family_code'])) {
+    $family_code = $_SESSION['family_code'];
+
+    $stmt = $pdo->prepare("SELECT * FROM families WHERE family_code = ?");
+    $stmt->execute([$family_code]);
+    $family = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    $family_id = $family['id'];
+
 } else {
-    $family_id = 00000;
+    $family_code = 1;
 }
 
 // Initialize variables
@@ -67,10 +74,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validate Password
     if (empty($password)) {
         $errors[] = "Password is required.";
-    } else if (strlen($password) < 6) {
+    } elseif (strlen($password) < 6) {
         $errors[] = "Password should be at least 6 characters long.";
-    } else if (strlen($password) > 99) {
-        $errors[] = "Password characters too long.";
     }
 
     // Validate Confirm Password
@@ -100,11 +105,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $file_ext = strtolower(pathinfo($_FILES['profile_picture']['name'], PATHINFO_EXTENSION));
         if (!in_array($file_ext, ['jpg', 'jpeg', 'png', 'gif', 'heic'])) {
             $errors[] = "Invalid file type for profile picture. Only JPG, PNG, and GIF are allowed.";
-        } elseif ($_FILES['profile_picture']['size'] > 2000000) {
-            $errors[] = "Profile picture size should not exceed 2MB.";
         } else {
             $unique_id = uniqid();
-            $profile_picture = $upload_dir . $unique_id;
+            $profile_picture = $upload_dir . $unique_id . "." . $file_ext;
             if (!move_uploaded_file($_FILES['profile_picture']['tmp_name'], $profile_picture)) {
                 $errors[] = "Error uploading profile picture.";
             }
@@ -118,14 +121,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Insert user data into the database
         try {
-            $stmt = $pdo->prepare("INSERT INTO members (first_name, last_name, family_id, email, phone, password, profile_picture, gender, birth_date, address, role)
-                                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt = $pdo->prepare("INSERT INTO members (first_name, last_name, family_id, family_code, email, phone, password, profile_picture, gender, birth_date, address, role)
+                                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
             // Execute the query
             $stmt->execute([
                 $first_name,
                 $last_name,
                 $family_id,
+                $family_code,
                 $email,
                 $phone,
                 $hashed_password,
@@ -215,13 +219,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="col-md-6 mb-3">
                         <label for="">Profile picture</label>
                         <input type="file" name="profile_picture" class="input-field">
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="">Role</label>
-                        <select name="role" class="input-field">
-                            <option value="Admin">Admin</option>
-                            <option value="User" selected>User</option>
-                        </select>
                     </div>
                 </div>
 

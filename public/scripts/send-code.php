@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     try {
         // Prepare and execute insert query
-        $stmt = $pdo->prepare("INSERT INTO family (family_name, family_code) VALUES (:family_name, :family_code)");
+        $stmt = $pdo->prepare("INSERT INTO families (family_name, family_code) VALUES (:family_name, :family_code)");
         $stmt->execute([
             ':family_name' => $familyName,
             ':family_code' => $familyCode

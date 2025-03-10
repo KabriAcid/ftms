@@ -1,7 +1,7 @@
 <?php
 function getMembers($pdo, $gender = null, $status = null, $query = null)
 {
-    $sql = "SELECT * FROM members WHERE 1=1";
+    $sql = "SELECT * FROM members WHERE 1 = 1";
 
     if ($gender !== null) {
         $sql .= " AND gender = :gender";
