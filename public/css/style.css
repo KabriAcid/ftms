@@ -54,11 +54,17 @@ a {
 }
 
 td {
-    vertical-align: middle!important;
+    vertical-align: middle !important;
 }
 
 main {
     width: 100%;
+}
+
+.active {
+    background-color: var(--item-hover);
+    border-radius: 9px;
+    box-shadow: var(--shadow);
 }
 
 .nav-link,
@@ -517,6 +523,7 @@ label {
     font-weight: normal;
     color: var(--gray-3);
     display: block;
+
 }
 
 .form-group {

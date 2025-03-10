@@ -106,10 +106,16 @@ try {
                                     <td><?php echo $member['status'] == 1 ? 'Alive' : 'Late'; ?></td>
                                 </tr>
                             </table>
-                            <div class="d-flex justify-content-end">
-                                <a href="delete_member.php?id=<?php echo $member['id']; ?>" class="mx-2 py-1 btn-danger d-inline button">Delete</a>
-                                <a href="edit_member.php?id=<?php echo $member['id']; ?>" class="py-1 d-inline button">Edit</a>
-                            </div>
+                            <?php
+                            if (isset($_SESSION['user']) && $_SESSION['user']['role'] == 'Admin') {
+                            ?>
+                                <div class="d-flex justify-content-end">
+                                    <a href="delete_member.php?id=<?php echo $member['id']; ?>" class="mx-2 py-1 btn-danger d-inline button">Delete</a>
+                                    <a href="edit_member.php?id=<?php echo $member['id']; ?>" class="py-1 d-inline button">Edit</a>
+                                </div>
+                            <?php
+                            }
+                            ?>
                         </div>
                     </div>
                 </div>

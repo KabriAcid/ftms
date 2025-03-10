@@ -85,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <!-- Navbar -->
         <header id="navbar">
             <div class="navbar-content">
-                <h4 class="mb-3 py-4 font-weight-bold">Profile</h4>
+                <h4 class="mb-3 font-weight-bold">Profile</h4>
                 <div class="user-info">
                     <!-- Avatar Placeholder -->
                     <a href="profile.php" class="text-light">

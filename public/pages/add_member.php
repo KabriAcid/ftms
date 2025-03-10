@@ -2,7 +2,7 @@
 require __DIR__ . '/../../config/database.php';
 session_start();
 
-if(isset($_SESSION['user'])){
+if (isset($_SESSION['user'])) {
     $family_code = $_SESSION['user']['family_code'];
 }
 
@@ -104,11 +104,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <!-- Form to add new member -->
                     <div class="container mt-5 box-shadow">
                         <h2>Add Member</h2>
-                        <?php
-                        if ($message):
-                            echo "<p class='text-center text-success'>Member Added Successfully</p>";
-                        endif;
-                        ?>
+                        <?php if ($message): ?>
+                            <div class="alert alert-info"><?php echo $message; ?></div>
+                        <?php endif; ?>
                         <form method="POST" action="" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="first_name">First Name:</label>

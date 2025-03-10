@@ -6,6 +6,7 @@ session_start();
 // Get the member ID from the URL
 $memberId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $message = false;
+$errors = [];
 
 // Fetch member details
 try {
@@ -46,36 +47,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errors[] = "Invalid file type for profile picture. Only JPG, PNG, and GIF are allowed.";
         } else {
             $unique_id = uniqid();
-            $profile_picture = $upload_dir . $unique_id . "." . $file_ext;
-            if (!move_uploaded_file($_FILES['profile_picture']['tmp_name'], $profile_picture)) {
+            $profile_picture_path = $upload_dir . $unique_id . "." . $file_ext;
+            if (!move_uploaded_file($_FILES['profile_picture']['tmp_name'], $profile_picture_path)) {
                 $errors[] = "Error uploading profile picture.";
+            } else {
+                $profilePicture = $profile_picture_path;
             }
         }
     }
 
-    try {
-        $stmt = $pdo->prepare("UPDATE members SET first_name = :first_name, last_name = :last_name, email = :email, phone = :phone, gender = :gender, relationship = :relationship, birth_date = :birth_date, address = :address, status = :status, profile_picture = :profile_picture WHERE id = :id");
-        $stmt->execute([
-            ':first_name' => $firstName,
-            ':last_name' => $lastName,
-            ':email' => $email,
-            ':phone' => $phone,
-            ':gender' => $gender,
-            ':relationship' => $relationship,
-            ':birth_date' => $birthDate,
-            ':address' => $address,
-            ':status' => $status,
-            ':profile_picture' => $profilePicture,
-            ':id' => $memberId
-        ]);
+    if (empty($errors)) {
+        try {
+            $stmt = $pdo->prepare("UPDATE members SET first_name = :first_name, last_name = :last_name, email = :email, phone = :phone, gender = :gender, relationship = :relationship, birth_date = :birth_date, address = :address, status = :status, profile_picture = :profile_picture WHERE id = :id");
+            $stmt->execute([
+                ':first_name' => $firstName,
+                ':last_name' => $lastName,
+                ':email' => $email,
+                ':phone' => $phone,
+                ':gender' => $gender,
+                ':relationship' => $relationship,
+                ':birth_date' => $birthDate,
+                ':address' => $address,
+                ':status' => $status,
+                ':profile_picture' => $profilePicture,
+                ':id' => $memberId
+            ]);
 
-        $message = true;
-    } catch (PDOException $e) {
-        error_log("Database error: " . $e->getMessage());
-        die('An error occurred while updating member details.');
+            $message = "Profile updated successfully.";
+        } catch (PDOException $e) {
+            error_log("Database error: " . $e->getMessage());
+            $message = "An error occurred while updating member details.";
+        }
+    } else {
+        $message = implode(", ", $errors);
     }
 }
 ?>
+
 <?php require __DIR__ . '/../partials/header.php'; ?>
 
 <body class="dashboard-body">
@@ -115,13 +123,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                 </div>
                 <!-- Form to edit member details -->
-                <div class="container mt-5 box-shadow">
-                    <h2>Edit Member</h2>
-                    <?php
-                    if ($message):
-                        echo "<p class='text-center text-success'>Member Details Updated Successfully. Refresh page</p>";
-                    endif;
-                    ?>
+                <div class="container mt-3 box-shadow">
+                    <?php if ($message): ?>
+                        <div class="alert alert-info"><?php echo $message; ?></div>
+                    <?php endif; ?>
                     <form method="POST" action="" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="first_name">First Name:</label>
