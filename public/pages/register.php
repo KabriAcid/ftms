@@ -245,6 +245,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <p>Already have an account? <a href="login.php" class="link">Login</a></p>
                 </div>
             </form>
+            <p class="text-sm text-secondary text-center">Copyright @Dreamcoders</p>
         </div>
 
     </main>

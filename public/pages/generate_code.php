@@ -36,6 +36,7 @@
                     </button>
                 </div>
             </form>
+            <p class="text-sm text-secondary text-center">Copyright @Dreamcoders</p>
         </div>
     </main>
     <script src="../js/send-code.js"></script>

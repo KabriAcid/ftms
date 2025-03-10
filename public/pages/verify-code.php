@@ -35,6 +35,7 @@ var_dump($_SESSION['family_code']);
                     </button>
                 </div>
             </form>
+            <p class="text-sm text-secondary text-center">Copyright @Dreamcoders</p>
         </div>
     </main>
     <script src="../js/verify-code.js"></script>

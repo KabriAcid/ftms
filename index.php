@@ -25,10 +25,9 @@
                     <button type="button" class="button" id="submit">Proceed</button>
                 </div>
             </form>
+            <p class="text-sm text-secondary text-center">Copyright @Dreamcoders</p>
         </div>
     </main>
     <script src="public/js/guest-auth.js"></script>
 </body>
-
-
 </html>
