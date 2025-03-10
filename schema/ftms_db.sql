@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 25, 2025 at 02:21 PM
+-- Generation Time: Mar 10, 2025 at 08:06 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -24,89 +24,127 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `children`
+-- Table structure for table `events`
 --
 
-CREATE TABLE `children` (
+CREATE TABLE `events` (
   `id` int(11) NOT NULL,
-  `family_id` int(11) DEFAULT NULL,
-  `name` varchar(100) NOT NULL,
-  `birth_date` date DEFAULT NULL,
-  `gender` enum('Male','Female','Other') DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `status` tinyint(1) NOT NULL DEFAULT 1,
-  `photo` varchar(255) DEFAULT 'uploads/avatar.jpg'
-)
+  `family_id` int(11) NOT NULL,
+  `event_title` varchar(255) NOT NULL,
+  `event_description` text NOT NULL,
+  `event_date` date NOT NULL,
+  `event_time` time NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE `family` (
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `families`
+--
+
+CREATE TABLE `families` (
   `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
   `family_code` varchar(50) NOT NULL,
   `family_name` varchar(100) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE `users` (
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `members`
+--
+
+CREATE TABLE `members` (
   `id` int(11) NOT NULL,
+  `family_id` int(11) NOT NULL,
+  `family_code` varchar(9) NOT NULL,
   `first_name` varchar(100) NOT NULL,
   `last_name` varchar(100) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `phone` varchar(20) DEFAULT NULL,
-  `password` varchar(255) NOT NULL,
-  `profile_picture` varchar(255) DEFAULT NULL,
-  `gender` enum('Male','Female','Other') NOT NULL,
+  `gender` enum('Male','Female','Other') DEFAULT NULL,
+  `relationship` enum('Father','Mother','Brother','Sister','Uncle','Aunt','Nephew','Niece','Cousin') NOT NULL,
   `birth_date` date DEFAULT NULL,
-  `address` text DEFAULT NULL,
-  `role` enum('Admin','User') DEFAULT 'User',
-  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `password` varchar(100) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `address` varchar(255) NOT NULL DEFAULT 'N/A',
+  `role` enum('Admin','User') NOT NULL,
+  `profile_picture` varchar(255) DEFAULT 'uploads/user.png',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-);
+  `status` tinyint(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `relationships`
+--
+
+CREATE TABLE `relationships` (
+  `id` int(11) NOT NULL,
+  `member_id` int(11) NOT NULL,
+  `related_member_id` int(11) NOT NULL,
+  `relationship` enum('Parent','Child','Spouse') NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `children`
+-- Indexes for table `events`
 --
-ALTER TABLE `children`
+ALTER TABLE `events`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `family`
+-- Indexes for table `families`
 --
-ALTER TABLE `family`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
+ALTER TABLE `families`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`),
-  ADD UNIQUE KEY `phone` (`phone`);
+  ADD UNIQUE KEY `family_code` (`family_code`);
+
+--
+-- Indexes for table `members`
+--
+ALTER TABLE `members`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_families_1` (`family_id`);
+
+--
+-- Indexes for table `relationships`
+--
+ALTER TABLE `relationships`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `children`
+-- AUTO_INCREMENT for table `events`
 --
-ALTER TABLE `children`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+ALTER TABLE `events`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `family`
+-- AUTO_INCREMENT for table `families`
 --
-ALTER TABLE `family`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `families`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT for table `members`
 --
-ALTER TABLE `users`
+ALTER TABLE `members`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `relationships`
+--
+ALTER TABLE `relationships`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
