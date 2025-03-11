@@ -34,14 +34,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $address = $_POST['address'];
     $profilePicture = $user['profile_picture']; // Default to the current profile picture
 
-    // Handle profile picture upload
-    if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
-        $uploadDir = '../uploads/';
-        $uploadFile = $uploadDir . basename($_FILES['profile_picture']['name']);
-        if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], $uploadFile)) {
-            $profilePicture = $uploadFile;
+    // Profile Picture Upload Handling
+    if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == 0) {
+        $upload_dir = 'uploads/';
+        if (!is_dir($upload_dir)) {
+            mkdir($upload_dir, 0777, true);
+        }
+
+        $file_ext = strtolower(pathinfo($_FILES['profile_picture']['name'], PATHINFO_EXTENSION));
+        if (!in_array($file_ext, ['jpg', 'jpeg', 'png', 'gif', 'heic'])) {
+            $errors[] = "Invalid file type for profile picture. Only JPG, PNG, and GIF are allowed.";
+        } else {
+            $unique_id = uniqid();
+            $profilePicture = $upload_dir . $unique_id . "." . $file_ext; // Update the correct variable
+            if (!move_uploaded_file($_FILES['profile_picture']['tmp_name'], $profilePicture)) {
+                $errors[] = "Error uploading profile picture.";
+            }
         }
     }
+
 
     try {
         $stmt = $pdo->prepare("UPDATE members SET first_name = :first_name, last_name = :last_name, email = :email, phone = :phone, gender = :gender, relationship = :relationship, birth_date = :birth_date, address = :address, profile_picture = :profile_picture WHERE id = :user_id");

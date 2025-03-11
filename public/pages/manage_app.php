@@ -2,22 +2,22 @@
 session_start();
 require __DIR__ . '/../../config/database.php';
 
-if (!isset($_SESSION['user'])) {
+if (!isset($_SESSION['user']) && $_SESSION['role'] != 'Admin') {
     header("Location: logout.php");
+} else {
+    $user_id = $_SESSION['user']['id'];
 }
 
 $message = '';
-
 // Ensure the user is logged in and is an admin
-
 $familyId = $_SESSION['user']['family_id'];
 
 // Handle actions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['delete_members'])) {
         try {
-            $stmt = $pdo->prepare("DELETE FROM members WHERE family_id = :family_id");
-            $stmt->execute([':family_id' => $familyId]);
+            $stmt = $pdo->prepare("DELETE FROM members WHERE family_id = :family_id && id != :id");
+            $stmt->execute([':family_id' => $familyId, ':id' => $user_id]);
             $message = "All family members have been deleted successfully.";
         } catch (PDOException $e) {
             error_log("Database error: " . $e->getMessage());

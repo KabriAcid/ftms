@@ -150,7 +150,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ]);
 
             // Redirect to login page
-            header("Location: login.php");
+            header("Location: logout.php");
             exit();
         } catch (PDOException $e) {
             $errors[] = "An internal error occurred. Please try again. " . $e->getMessage();
@@ -235,6 +235,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <option value="Father">Father</option>
                             <option value="Mother">Mother</option>
                             <option value="Brother">Brother</option>
+                            <option value="Son">Son</option>
+                            <option value="Daughter">Daughter</option>
                             <option value="Sister">Sister</option>
                             <option value="Uncle">Uncle</option>
                             <option value="Aunt">Aunt</option>

@@ -25,6 +25,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $status = $_POST['status'];
     $profilePicture = "uploads/user.png";
 
+    $role = 'User';
+
     // User email is the default password
     $password = password_hash($email, PASSWORD_DEFAULT);
 
@@ -38,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     try {
-        $stmt = $pdo->prepare("INSERT INTO members (family_id, family_code, first_name, last_name, email, password, phone, gender, relationship, birth_date, address, status, profile_picture) VALUES (:family_id, :family_code, :first_name, :last_name, :email, :password, :phone, :gender, :relationship, :birth_date, :address, :status, :profile_picture)");
+        $stmt = $pdo->prepare("INSERT INTO members (family_id, family_code, first_name, last_name, email, password, phone, gender, relationship, birth_date, address, role, status, profile_picture) VALUES (:family_id, :family_code, :first_name, :last_name, :email, :password, :phone, :gender, :relationship, :birth_date, :address, :role, :status, :profile_picture)");
         $stmt->execute([
             ':family_id' => $family_id,
             ':family_code' => $family_code,
@@ -51,6 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':relationship' => $relationship,
             ':birth_date' => $birthDate,
             ':address' => $address,
+            ':role' => $role,
             ':status' => $status,
             ':profile_picture' => $profilePicture
         ]);
@@ -107,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="container mt-5 box-shadow">
                         <h2>Add Member</h2>
                         <?php if ($message): ?>
-                            <div class="alert alert-info"><?php echo $message; ?></div>
+                            <div class="alert alert-info"><?php echo "Member added successfully"; ?></div>
                         <?php endif; ?>
                         <form method="POST" action="" enctype="multipart/form-data">
                             <div class="form-group">
@@ -143,6 +146,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <option value="Father">Father</option>
                                     <option value="Mother">Mother</option>
                                     <option value="Brother">Brother</option>
+                                    <option value="Son">Son</option>
+                                    <option value="Daughter">Daughter</option>
                                     <option value="Uncle">Uncle</option>
                                     <option value="Aunt">Aunt</option>
                                     <option value="Niece">Niece</option>

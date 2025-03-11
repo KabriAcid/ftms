@@ -279,7 +279,7 @@ try {
 
         </main>
     </div>
-    <script>
+    <!-- <script>
         const searchInput = document.getElementById('search');
         const searchButton = document.getElementById('button');
         const responseMessage = document.getElementById('response');
@@ -312,7 +312,7 @@ try {
             };
             xhr.send('search=' + encodeURIComponent(searchValue));
         });
-    </script>
+    </script> -->
     <script src="../js/jquery.js"></script>
     <script src="../js/bootstrap.js"></script>
 </body>

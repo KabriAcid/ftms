@@ -15,6 +15,6 @@ return [
     "username"    => $_ENV['MAIL_USERNAME'] ?? 'your-email@example.com',
     "password"    => $_ENV['MAIL_PASSWORD'] ?? 'your-app-password',
     "encryption"  => $_ENV['MAIL_ENCRYPTION'] ?? 'tls',
-    "from_email"  => $_ENV['MAIL_FROM_ADDRESS'] ?? 'dataspeed@gmail.com',
-    "from_name"   => $_ENV['MAIL_FROM_NAME'] ?? 'DataSpeed',
+    "from_email"  => $_ENV['MAIL_FROM_ADDRESS'] ?? 'adamschecko@gmail.com',
+    "from_name"   => $_ENV['MAIL_FROM_NAME'] ?? 'FamilyTree',
 ];

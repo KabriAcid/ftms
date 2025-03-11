@@ -21,12 +21,12 @@
                 <p>A custom family code will be sent to your email.</p>
             </div>
             <form>
-                <div class="form-row">
-                    <label for="" class="input-field-label">Email address</label>
+                <div class="form-group">
+                    <label for="" class="form-label">Email address</label>
                     <input type="email" id="email" name="email" placeholder="Enter Email Address" class="input-field" required>
                 </div>
-                <div class="form-row">
-                    <label for="" class="input-field-label">Family name</label>
+                <div class="form-group">
+                    <label for="" class="form-label">Family name</label>
                     <input type="text" id="family_name" name="family_name" placeholder="Enter your family name" class="input-field" required>
                 </div>
                 <p id="error-message"></p>

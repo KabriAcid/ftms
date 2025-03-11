@@ -4,12 +4,14 @@ require __DIR__ . '/../../config/database.php';
 
 if (!isset($_SESSION['user'])) {
     header("Location: logout.php");
+} else {
+    $family_id = $_SESSION['user']['family_id'];
 }
 
 try {
     // Fetch all members
     $stmt = $pdo->prepare("SELECT * FROM members WHERE status = 1 && family_id = ?");
-    $stmt->execute();
+    $stmt->execute([$family_id]);
     $members = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     error_log("Database error: " . $e->getMessage());

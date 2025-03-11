@@ -3,6 +3,9 @@
 ## Project Overview
 The Family Tree Management project is a web application designed to help families manage their family tree, events, and member details. It provides features for adding, updating, and deleting family members and events. The application is built using PHP, MySQL, HTML, CSS, and JavaScript.
 
+## Authors
+Designed and developed by Dreamcoders.
+
 ## Features
 - **Dashboard:** Overview of family members and events.
 - **Profile Management:** Update member details and profile pictures.

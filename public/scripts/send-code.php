@@ -15,11 +15,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
 
-    // // Validate family name (letters and spaces only)
-    // if (empty($familyName) || !preg_match("/^[a-zA-Z ]+$/", $familyName)) {
-    //     echo json_encode(["success" => false, "message" => "Invalid family name."]);
-    //     exit;
-    // }
+    // Validate family name (letters and spaces only)
+    if (empty($familyName) || !preg_match("/^[a-zA-Z ]+$/", $familyName)) {
+        echo json_encode(["success" => false, "message" => "Invalid family name."]);
+        exit;
+    }
 
     // Generate Family Code
     function generateFamilyCode($familyName)

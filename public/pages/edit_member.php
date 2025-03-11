@@ -169,6 +169,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <option value="Father" <?php if ($member['relationship'] === 'Father') echo 'selected'; ?>>Father</option>
                                 <option value="Mother" <?php if ($member['relationship'] === 'Mother') echo 'selected'; ?>>Mother</option>
                                 <option value="Brother" <?php if ($member['relationship'] === 'Brother') echo 'selected'; ?>>Brother</option>
+                                <option value="Son" <?php if ($member['relationship'] === 'Son') echo 'selected'; ?>>Son</option>
+                                <option value="Daughter" <?php if ($member['relationship'] === 'Daughter') echo 'selected'; ?>>Son</option>
                                 <option value="Sister" <?php if ($member['relationship'] === 'Sister') echo 'selected'; ?>>Sister</option>
                                 <option value="Uncle" <?php if ($member['relationship'] === 'Uncle') echo 'selected'; ?>>Uncle</option>
                                 <option value="Aunt" <?php if ($member['relationship'] === 'Aunt') echo 'selected'; ?>>Aunt</option>
